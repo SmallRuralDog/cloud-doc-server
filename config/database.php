@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'cloud-doc'),
+            'database' => env('DB_DATABASE', 'cloud_doc'),
             'username' => env('DB_USERNAME', 'cloud_doc'),
             'password' => env('DB_PASSWORD', '5cb3Z2Ymzt'),
             'unix_socket' => env('DB_SOCKET', ''),
