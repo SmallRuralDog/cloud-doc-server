@@ -19,7 +19,7 @@
  */
 use Encore\Admin\Form;
 
-Admin::css('/admin/css/admin_base.css');
+Admin::css('/admin_assets/css/admin_base.css');
 Encore\Admin\Form::forget(['map']);
 
 Form::extend('editor', \App\Admin\Extensions\Editor::class);
