@@ -134,6 +134,9 @@ class DocPageController extends Controller
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
+
+                $form->content_html = str_replace("<span","<text",$form->content_html);
+                $form->content_html = str_replace("span>","text>",$form->content_html);
             });
 
             $form->saved(function ($form) {
@@ -141,6 +144,8 @@ class DocPageController extends Controller
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
+                $form->content_html = str_replace("<span","<text",$form->content_html);
+                $form->content_html = str_replace("span>","text>",$form->content_html);
                 // 跳转页面
                 return redirect(admin_url("doc-page?menu_id=" . $form->menu_id."&doc_id=".$form->doc_id));
             });
