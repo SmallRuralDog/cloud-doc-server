@@ -129,16 +129,14 @@ class DocPageController extends Controller
             $form->editor('content');
 
             $form->saving(function ($form){
-                $form->content = str_replace(PHP_EOL,"
-                ",$form->content);
+                $form->content = str_replace('\n',"\n",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
             });
 
             $form->saved(function ($form) {
-                $form->content = str_replace(PHP_EOL,"
-                ",$form->content);
+                $form->content = str_replace('\n',"\n",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
