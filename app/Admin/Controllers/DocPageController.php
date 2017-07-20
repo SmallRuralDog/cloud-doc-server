@@ -132,6 +132,7 @@ class DocPageController extends Controller
             $form->saving(function ($form){
                 $form->content = str_replace('\n',"\n",$form->content);
                 $form->content = str_replace('\t',"",$form->content);
+                $form->content = str_replace('\\',"",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
@@ -140,6 +141,7 @@ class DocPageController extends Controller
             $form->saved(function ($form) {
                 $form->content = str_replace('\n',"\n",$form->content);
                 $form->content = str_replace('\t',"",$form->content);
+                $form->content = str_replace('\\',"",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
