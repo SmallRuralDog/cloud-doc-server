@@ -11,9 +11,5 @@
                       placeholder="{{ $placeholder }}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
         </div>
         @include('admin::form.help-block')
-
-        <div>
-            <a class="btn btn-success" onclick="get_wx_app_data()">渲染微信小程序数据</a>
-        </div>
     </div>
 </div>

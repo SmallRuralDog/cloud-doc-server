@@ -127,16 +127,12 @@ class DocPageController extends Controller
             $form->select("menu_id", "所属目录")->options(DocMenu::query()->where("id", $menu_id)->pluck("title", "id"))->setWidth(2);
             $form->number("order", "排序")->default(1);
             $form->editor('content');
-            $form->textarea('content_html');
 
             $form->saving(function ($form){
                 $form->content = str_replace("<?php","",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
-
-                $form->content_html = str_replace("<span","<text",$form->content_html);
-                $form->content_html = str_replace("span>","text>",$form->content_html);
             });
 
             $form->saved(function ($form) {
@@ -144,8 +140,6 @@ class DocPageController extends Controller
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
-                $form->content_html = str_replace("<span","<text",$form->content_html);
-                $form->content_html = str_replace("span>","text>",$form->content_html);
                 // 跳转页面
                 return redirect(admin_url("doc-page?menu_id=" . $form->menu_id."&doc_id=".$form->doc_id));
             });
