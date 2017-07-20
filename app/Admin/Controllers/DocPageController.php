@@ -139,6 +139,7 @@ class DocPageController extends Controller
                 $form->content = str_replace("<?php","",$form->content);
                 $form->content = str_replace("{tip}","",$form->content);
                 $form->content = str_replace("{note}","",$form->content);
+                $form->content = preg_replace("/<a name='.+'>.+<\/a>/is", "", $form->content);
                 // 跳转页面
                 return redirect(admin_url("doc-page?menu_id=" . $form->menu_id."&doc_id=".$form->doc_id));
             });
