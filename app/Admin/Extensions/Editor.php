@@ -25,17 +25,21 @@ class Editor extends Field
     public function render()
     {
         $this->script = <<<EOT
-        var testEditor;
+    var testEditor;
+    $(function () {
 
-            $(function() {
-
-     testEditor = editormd("{$this->id}", {
-                    width   : "100%",
-                    height  : 640,
-                    syncScrolling : "single",
-                    path    : "/packages/editor/lib/"
-                });
-                });
+        testEditor = editormd("{$this->id}", {
+            width: "100%",
+            height: 640,
+            syncScrolling: "single",
+            path: "/packages/editor/lib/"
+        });
+         get_wx_app_data = function(){
+            var data = testEditor.getPreviewedHTML();
+            $("textarea[name={$this->id}_html]").val(data);
+            console.log(data)
+        }
+    });
 EOT;
         return parent::render();
 

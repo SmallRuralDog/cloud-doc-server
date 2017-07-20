@@ -127,6 +127,7 @@ class DocPageController extends Controller
             $form->select("menu_id", "所属目录")->options(DocMenu::query()->where("id", $menu_id)->pluck("title", "id"))->setWidth(2);
             $form->number("order", "排序")->default(1);
             $form->editor('content');
+            $form->textarea('content_html');
 
             $form->saving(function ($form){
                 $form->content = str_replace("<?php","",$form->content);
