@@ -78,7 +78,7 @@ class DocPageController extends Controller
             if ($menu_id > 0) {
                 $grid->model()->where("menu_id", "=", $menu_id);
             }
-            $grid->model()->orderBy("order","asc")->orderBy("id","desc");
+            $grid->model()->orderBy("order","asc")->orderBy("id","asc");
             $grid->id('ID')->sortable();
             $grid->column("title", "文档标题");
             $grid->column("menu_title", "目录标题");
