@@ -129,7 +129,7 @@ class DocPageController extends Controller
             $form->editor('content');
             $form->saved(function ($form) {
                 // 跳转页面
-                return redirect(admin_url("doc-page?menu_id=" . $form->menu_id));
+                return redirect(admin_url("doc-page?menu_id=" . $form->menu_id."&doc_id=".$form->doc_id));
             });
         });
     }
