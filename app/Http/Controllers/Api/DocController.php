@@ -47,8 +47,8 @@ class DocController extends Controller
         $page_id = $request->input("page_id");
 
         $page = DocPage::query()->find($page_id,['content','updated_at']);
-        $Parsedown = new Parsedown();
-        $page->content = $Parsedown->text($page->content);
+        //$Parsedown = new Parsedown();
+        //$page->content = $Parsedown->text($page->content);
 
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
