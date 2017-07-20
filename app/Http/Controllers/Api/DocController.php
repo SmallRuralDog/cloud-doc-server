@@ -38,7 +38,7 @@ class DocController extends Controller
         $doc_menu = DocMenu::query()->where("doc_id",$doc_id);
         $list = $doc_menu->get(['id','title']);
         foreach ($list as $k=>$v){
-            $list[$k]->page = $v->doc_page()->get(['id','menu_title','menu_id']);
+            $list[$k]->page = $v->doc_page()->orderBy("order","asc")->orderBy("id","asc")->get(['id','menu_title','menu_id']);
         }
         return response()->json(['data' => $list, 'message' => '', 'status_code' => 1]);
     }
