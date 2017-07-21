@@ -74,7 +74,7 @@ class DocController extends Controller
     {
         return Admin::grid(Doc::class, function (Grid $grid) {
             $grid->id('ID')->sortable();
-            $grid->order('排序')->sortable();
+            $grid->order('排序')->sortable()->editable();
             $grid->column('cover','封面')->image(null,50,75);
             $grid->doc_class()->title("所属分类");
             $grid->column("title","文档名称");
