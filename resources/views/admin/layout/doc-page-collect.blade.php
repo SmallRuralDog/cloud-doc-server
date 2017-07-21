@@ -2,7 +2,7 @@
     <div class="box">
         <div class="box-body">
             <div class="input-group input-group-sm col-xs-4">
-                <input type="number" id="ky_dec_id" class="form-control" placeholder="请输入看云文档ID">
+                <input type="url" id="ky_dec_id" class="form-control" placeholder="请输入看云文档URL">
                 <span class="input-group-btn"><button type="button" onclick="cj_ky(this)"
                                                       class="btn btn-success btn-flat">采集看云</button></span>
             </div>
