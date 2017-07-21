@@ -158,16 +158,17 @@ class DocPageController extends Controller
 
     public function collect_ky(Request $request)
     {
-        $id = $request->input("id");
+        $url = $request->input("id");
         $doc_id = $request->input("doc_id");
         $menu_id = $request->input("menu_id");
 
-        $url = "https://www.kancloud.cn/thinkphp/thinkphp_quickstart/" . $id;
 
         $client = new \GuzzleHttp\Client();
         $data = $client->get($url, ['headers' => ['x-requested-with' => 'XMLHttpRequest']])->getBody();
 
         $data = json_decode($data);
+
+        $id = md5($url);
 
 
         $page = DocPage::query()->firstOrCreate(['collect_id' => $id], [
