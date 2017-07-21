@@ -11,6 +11,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Illuminate\Http\Request;
 
 class DocPageController extends Controller
 {
@@ -28,6 +29,7 @@ class DocPageController extends Controller
             $content->header('文档');
             $content->description('页面');
 
+            $content->row(view('admin.layout.doc-page-collect'));
             $content->body($this->grid());
         });
     }
@@ -78,7 +80,7 @@ class DocPageController extends Controller
             if ($menu_id > 0) {
                 $grid->model()->where("menu_id", "=", $menu_id);
             }
-            $grid->model()->orderBy("order","asc")->orderBy("id","asc");
+            $grid->model()->orderBy("order", "asc")->orderBy("id", "asc");
             $grid->id('ID')->sortable();
             $grid->column("title", "文档标题");
             $grid->column("menu_title", "目录标题");
@@ -93,6 +95,8 @@ class DocPageController extends Controller
 
             $grid->tools(function (Grid\Tools $tools) use ($doc_id, $menu_id) {
                 if ($menu_id > 0) {
+
+
                     $tools->append("<a href='" . admin_url("doc-page/create?menu_id=" . $menu_id . "&doc_id=" . $doc_id) . "' class='btn btn-sm btn-success'>添加文档页面</a>");
                     $tools->append("<a href='" . admin_url("doc-menu?doc_id=" . $doc_id) . "' class='btn btn-sm btn-success'>返回目录</a>");
                 }
@@ -129,25 +133,55 @@ class DocPageController extends Controller
             $form->number("order", "排序")->default(1);
             $form->editor('content');
 
-            $form->saving(function ($form){
-                $form->content = str_replace('\n',"\n",$form->content);
-                $form->content = str_replace('\t',"",$form->content);
-                $form->content = str_replace('\"','"',$form->content);
-                $form->content = str_replace("{tip}","",$form->content);
-                $form->content = str_replace("{note}","",$form->content);
+            $form->saving(function ($form) {
+                $form->content = str_replace('\n', "\n", $form->content);
+                $form->content = str_replace('\t', "", $form->content);
+                $form->content = str_replace('\"', '"', $form->content);
+                $form->content = str_replace("{tip}", "", $form->content);
+                $form->content = str_replace("{note}", "", $form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
             });
 
             $form->saved(function ($form) {
-                $form->content = str_replace('\n',"\n",$form->content);
-                $form->content = str_replace('\t',"",$form->content);
-                $form->content = str_replace('\"','"',$form->content);
-                $form->content = str_replace("{tip}","",$form->content);
-                $form->content = str_replace("{note}","",$form->content);
+                $form->content = str_replace('\n', "\n", $form->content);
+                $form->content = str_replace('\t', "", $form->content);
+                $form->content = str_replace('\"', '"', $form->content);
+                $form->content = str_replace("{tip}", "", $form->content);
+                $form->content = str_replace("{note}", "", $form->content);
                 $form->content = preg_replace("/<a[^>]*><\/a>/is", "", $form->content);
                 // 跳转页面
-                return redirect(admin_url("doc-page?menu_id=" . $form->menu_id."&doc_id=".$form->doc_id));
+                return redirect(admin_url("doc-page?menu_id=" . $form->menu_id . "&doc_id=" . $form->doc_id));
             });
         });
+    }
+
+
+    public function collect_ky(Request $request)
+    {
+        $id = $request->input("id");
+        $doc_id = $request->input("doc_id");
+        $menu_id = $request->input("menu_id");
+
+        $url = "https://www.kancloud.cn/thinkphp/thinkphp_quickstart/" . $id;
+
+        $client = new \GuzzleHttp\Client();
+        $data = $client->get($url, ['headers' => ['x-requested-with' => 'XMLHttpRequest']])->getBody();
+
+        $data = json_decode($data);
+
+
+        $page = DocPage::query()->firstOrCreate(['collect_id' => $id], [
+            'title' => $data->title,
+            'menu_title' => $data->title,
+            'content' => $data->content,
+            'order' => 1,
+            'state' => 1,
+            'doc_id' => $doc_id,
+            'menu_id' => $menu_id,
+            'collect_id' => $id
+        ]);
+
+        return $page;
+
     }
 }

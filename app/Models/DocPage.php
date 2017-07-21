@@ -10,6 +10,7 @@ class DocPage extends Model
     use SoftDeletes;
 
     protected $table = 'doc_page';
+    protected $guarded = [];
 
     public function doc()
     {

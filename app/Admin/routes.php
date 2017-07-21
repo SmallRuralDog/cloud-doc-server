@@ -6,7 +6,7 @@ Admin::registerHelpersRoutes();
 
 Route::group([
     'prefix'        => config('admin.prefix'),
-    'namespace'     => Admin::controllerNamespace(),
+    'namespace'     => "App\Admin\Controllers",
     'middleware'    => ['web', 'admin'],
 ], function (Router $router) {
 
@@ -16,5 +16,7 @@ Route::group([
     $router->resource("doc-menu","DocMenuController");
     $router->resource("doc-page","DocPageController");
     $router->resource("doc","DocController");
+
+    $router->any("api/collect-ky","DocPageController@collect_ky")->name("collect_ky");
 
 });
