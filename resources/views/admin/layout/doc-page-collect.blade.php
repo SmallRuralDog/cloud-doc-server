@@ -11,7 +11,7 @@
     <script>
         cj_ky = function (dom) {
             var id = $("#ky_dec_id").val();
-            if (id > 0) {
+            if (id !== '') {
 
                 $(dom).html("正在采集");
                 $(dom).attr('disabled', "true");
@@ -31,7 +31,7 @@
                     }
                 });
             } else {
-                toastr.error("请输入ID")
+                toastr.error("请输入URL")
             }
         }
     </script>
