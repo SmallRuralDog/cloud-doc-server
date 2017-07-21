@@ -26,6 +26,6 @@ class Doc extends Model
 
     public function getCoverUrlAttribute()
     {
-        return Thumb::getThumb($this->cover,'250x400');
+        return Thumb::getThumb($this->cover,'225x300');
     }
 }
