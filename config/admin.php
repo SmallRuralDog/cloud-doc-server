@@ -20,7 +20,7 @@ return [
     /*
      * Laravel-admin url prefix.
      */
-    'prefix'    => 'admin',
+    'prefix'    => 'c_admin',
 
     /*
      * Laravel-admin install directory.
