@@ -20,11 +20,11 @@ class DocController extends Controller
 
     public function lists()
     {
-        $list = Cache::remember('doc_index', 10, function () {
-            $doc = Doc::query()->where("state", 1);
+        //$list = Cache::remember('doc_index', 10, function () {
+            $doc = Doc::query()->where("state", 1)->orderBy("order","asc");
             $list = $doc->paginate(50, ['id', 'title', 'desc', 'cover']);
-            return $list;
-        });
+            //return $list;
+        //});
         return response()->json($list);
     }
 
