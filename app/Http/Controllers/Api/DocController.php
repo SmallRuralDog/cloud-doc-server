@@ -20,7 +20,7 @@ class DocController extends Controller
 
     public function lists()
     {
-        $doc = Doc::query();
+        $doc = Doc::query()->where("state",1);
         $list = $doc->paginate(10, ['id', 'title', 'desc', 'cover']);
         return response()->json($list);
     }
