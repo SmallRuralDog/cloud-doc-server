@@ -17,7 +17,6 @@ class DocController extends Controller
         foreach ($doc_class_list as $v){
             $v->son = $v->son()->get(['id','title','icon']);
         }
-
-        return $doc_class_list;
+        return response()->json($doc_class_list);
     }
 }
