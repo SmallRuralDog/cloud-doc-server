@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Encore\Admin\Traits\ModelTree;
 use Illuminate\Database\Eloquent\Model;
 
 class DocMenu extends Model
 {
+
     protected $table = 'doc_menu';
 
     public function doc()

@@ -92,8 +92,8 @@ class DocClassController extends Controller
         return Admin::form(DocClass::class, function (Form $form) {
 
             $form->text("title","分类名称");
+            $form->select('parent_id','上级分类')->options(DocClass::selectOptions());
             $form->text("desc","分类描述");
-
             $form->number("order","排序")->default(1);
             $form->image("icon","图标");
 
