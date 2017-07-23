@@ -12,7 +12,7 @@ class DocPage extends Model
     protected $table = 'doc_page';
     protected $guarded = [];
 
-    //protected $appends = ['children'];
+    protected $appends = ['children'];
 
     public function doc()
     {
