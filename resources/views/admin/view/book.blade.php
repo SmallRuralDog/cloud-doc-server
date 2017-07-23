@@ -5,10 +5,13 @@
     <title>{{$doc->title}}</title>
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/bootstrap/easyui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/icon.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/packages/editor/css/editormd.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('/admin_assets/codemirror/lib/codemirror.css')}}">
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.easyui.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/layer/layer.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('/packages/editor/css/editormd.css')}}">
+    <script type="text/javascript" src="{{asset('admin_assets/codemirror/lib/codemirror.js')}}"></script>
+
     <script type="text/javascript" src="{{asset('/packages/editor/editormd.min.js')}}"></script>
 </head>
 <body>
