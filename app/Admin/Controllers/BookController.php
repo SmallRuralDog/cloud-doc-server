@@ -10,6 +10,7 @@ namespace App\Admin\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Doc;
 use App\Models\DocPage;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,10 @@ class BookController extends Controller
     {
         $doc_id = $request->input("doc_id");
 
+        $doc = Doc::query()->find($doc_id);
+
         $data['doc_id'] = $doc_id;
+        $data['doc'] = $doc;
 
         return view('admin.view.book', $data);
     }
@@ -127,5 +131,12 @@ class BookController extends Controller
         $state = $page->save();
 
         return ['state' => $state];
+    }
+
+    public function edit_content(Request $request){
+        $id = $request->input("id");
+        $page = DocPage::query()->find($id);
+
+        return view("admin.view.book-edit-content",$page);
     }
 }

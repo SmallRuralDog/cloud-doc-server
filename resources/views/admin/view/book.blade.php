@@ -2,16 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Basic Panel - jQuery EasyUI Demo</title>
+    <title>{{$doc->title}}</title>
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/bootstrap/easyui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/icon.css')}}">
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.easyui.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/layer/layer.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('/packages/editor/css/editormd.css')}}">
+    <script type="text/javascript" src="{{asset('/packages/editor/editormd.min.js')}}"></script>
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true,border:false">
-    <div data-options="region:'north'" style="height:30px"></div>
+    <!--div data-options="region:'north'" style="height:30px"></div-->
     <div data-options="region:'west',split:true,collapsible:false,border:true,tools:[{
 					iconCls:'icon-add',
 					handler:function(){add()}
@@ -19,7 +21,7 @@
         <ul id="doc-menu"></ul>
     </div>
     <div data-options="region:'center',title:false,split:true,border:true">
-
+        <div id="doc-page"></div>
     </div>
 </div>
 <div id="mm" class="easyui-menu" style="width:120px;">
@@ -48,6 +50,14 @@
         },
         onClick: function (node) {//点击节点
             //alert(node.id);
+            $("#doc-page").panel({
+                href:'{{route('book_edit_content')}}?id='+node.id,
+                loadingMessage:"加载中...",
+                fit:true,
+                border:false,
+                onLoad:function(){
+                }
+            });
         },
         onContextMenu: function (e, node) {//右键节点
             e.preventDefault();
