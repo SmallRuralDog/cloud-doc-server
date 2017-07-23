@@ -12,6 +12,8 @@ class DocPage extends Model
     protected $table = 'doc_page';
     protected $guarded = [];
 
+    //protected $appends = ['children'];
+
     public function doc()
     {
         return $this->belongsTo(Doc::class);
@@ -20,5 +22,14 @@ class DocPage extends Model
     public function doc_menu()
     {
         return $this->belongsTo(DocMenu::class,"menu_id","id");
+    }
+
+    public function son(){
+        return $this->hasMany(DocPage::class,'parent_id');
+    }
+
+    public function getChildrenAttribute()
+    {
+        return $this->son()->get(['id','title','parent_id','order']);
     }
 }

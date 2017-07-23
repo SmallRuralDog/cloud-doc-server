@@ -91,6 +91,7 @@ class DocController extends Controller
                 $actions->disableDelete();
 
                 $actions->append("<a href='".admin_url("doc-menu?doc_id=".$actions->getKey())."' class='btn btn-xs'>文档目录</a>");
+                $actions->append("<a href='".admin_url("book-edit?doc_id=".$actions->getKey())."' class='btn btn-xs'>文档编辑</a>");
                 $actions->append("<a href='".admin_url("doc/".$actions->getKey()."/edit")."' class='btn btn-xs'>编辑</a>");
             });
         });
