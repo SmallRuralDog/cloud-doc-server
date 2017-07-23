@@ -33,7 +33,7 @@ class BookController extends Controller
         $page = DocPage::query()->where("doc_id", $doc_id)
             ->where("parent_id", 0)
             ->orderBy("order", "desc")
-            ->orderBy("id", "asc")
+            //->orderBy("id", "asc")
             ->select([
                 'id',
                 'title',
@@ -57,15 +57,24 @@ class BookController extends Controller
             case 'top':
                 $s_page->order = $t_page->order + 1;
                 $s_page->parent_id = $t_page->parent_id;
+
+                DocPage::query()->where("doc_id",$t_page->doc_id)
+                    ->where("parent_id",$t_page->parent_id)
+                    ->where("order","<=",$t_page->order)->decrement("order");
+
+
                 $state = $s_page->save();
                 break;
             case 'bottom':
                 $s_page->order = $t_page->order - 1;
                 $s_page->parent_id = $t_page->parent_id;
+                DocPage::query()->where("doc_id",$t_page->doc_id)
+                    ->where("parent_id",$t_page->parent_id)
+                    ->where("order","<",$t_page->order)->decrement("order");
                 $state = $s_page->save();
                 break;
             case 'append':
-                $s_page->order = $t_page->order - 1;
+                $s_page->order = 99999;
                 $s_page->parent_id = $t_page->id;
                 $state = $s_page->save();
                 break;
@@ -82,10 +91,10 @@ class BookController extends Controller
 
         $s_order = DocPage::query()->where("doc_id", $doc_id)
             ->where("parent_id", $parent_id)->orderBy("order", "asc")->first(['id', 'order']);
-        if ($s_order->order <= 1) {
-            $order = 1;
-        } elseif (empty($s_order)) {
+        if (empty($s_order)) {
             $order = 99999;
+        } elseif ($s_order->order <= 1) {
+            $order = 1;
         } else {
             $order = $s_order->order - 1;
         }

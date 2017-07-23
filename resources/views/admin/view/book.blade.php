@@ -79,23 +79,15 @@
     append = function () {
         console.log(123)
         var nodes = $('#doc-menu').tree('getSelected');
-        $('#add_win').window({
-            width: 300,
-            height: 200,
-            title: '添加' + nodes.title + '子章节',
-            modal: true,
-            resizable: false,
-            collapsible: false,
-            minimizable: false,
-            maximizable: false
+        layer.prompt({title: '请输入章节名称', formType: 2}, function (pass, index) {
+            layer.close(index);
+            add_page(nodes.id, pass)
         });
     };
     edit = function () {
         var node = $('#doc-menu').tree('getSelected');
         //DocMenu.tree('beginEdit',node.target);
     };
-
-
     add_page = function (parent_id, title) {
         $.post("{{route('book_add_page')}}", {
             doc_id: "{{$doc_id}}",
@@ -104,14 +96,25 @@
             title: title
         }, function (res) {
             if (res.page.id > 0) {
-                var node = DocMenu.tree('find', res.s_page.id);
-                DocMenu.tree('append', {//append  insert
-                    after: node.target,
-                    data: {
-                        id: res.page.id,
-                        title: res.page.title
-                    }
-                });
+                if(parent_id > 0){
+                    var node = DocMenu.tree('find', res.s_page.id);
+                    DocMenu.tree('insert', {
+                        after: node.target,
+                        data: {
+                            id: res.page.id,
+                            title: res.page.title
+                        }
+                    });
+                }else{
+                    var node = DocMenu.tree('find',parent_id);
+                    DocMenu.tree('append', {
+                        parent: node.target,
+                        data: {
+                            id: res.page.id,
+                            title: res.page.title
+                        }
+                    });
+                }
             }
         })
     }

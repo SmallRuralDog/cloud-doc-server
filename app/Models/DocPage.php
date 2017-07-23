@@ -30,6 +30,6 @@ class DocPage extends Model
 
     public function getChildrenAttribute()
     {
-        return $this->son()->get(['id','title','parent_id','order']);
+        return $this->son()->orderBy("order","desc")->get(['id','title','parent_id','order']);
     }
 }
