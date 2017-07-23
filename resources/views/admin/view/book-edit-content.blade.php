@@ -24,7 +24,7 @@
         var currKey=0, e=e||event||window.event;
         currKey = e.keyCode||e.which||e.charCode;
         if(currKey == 83 && (e.ctrlKey||e.metaKey)){
-            alert("保存");
+            layer.msg("保存成功");
             return false;
         }
     }
