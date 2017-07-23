@@ -18,13 +18,12 @@
 				}]" title="目录" style="width:300px;">
         <ul id="doc-menu"></ul>
     </div>
-    <div data-options="region:'center',title:false,split:true,border:false">
+    <div data-options="region:'center',title:false,split:true,border:true">
 
     </div>
 </div>
 <div id="mm" class="easyui-menu" style="width:120px;">
     <div onclick="append()" data-options="iconCls:'icon-add'">添加子章节</div>
-    <div onclick="edit()" data-options="iconCls:'icon-edit'">修改</div>
     <div onclick="remove()" data-options="iconCls:'icon-remove'">删除</div>
 </div>
 
@@ -68,6 +67,24 @@
                 console.log(res)
             });
 
+        },
+        onDblClick: function (node) {//双击编辑
+            $(this).tree('beginEdit', node.target);
+        },
+        onBeforeEdit: function (node) {//编辑前
+            node.text = node.title
+        },
+        onAfterEdit: function (node) {//编辑后
+            if( node.text === node.title){
+                return false;
+            }
+            edit_title(node.id, node.text, function () {
+                layer.msg("修改成功");
+                DocMenu.tree('update', {
+                    target: node.target,
+                    title: node.text
+                });
+            })
         }
     });
     add = function () {
@@ -77,16 +94,29 @@
         });
     };
     append = function () {
-        console.log(123)
-        var nodes = $('#doc-menu').tree('getSelected');
+        var nodes = DocMenu.tree('getSelected');
         layer.prompt({title: '请输入章节名称', formType: 2}, function (pass, index) {
             layer.close(index);
             add_page(nodes.id, pass)
         });
     };
+    remove = function () {
+        var nodes = DocMenu.tree('getSelected');
+        var msg = "确定要删除吗？";
+        if (nodes.children.length > 0) {
+            var msg = "当前会将子节点也删除，确定要删除吗？";
+        }
+        layer.confirm(msg, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+
+        });
+
+        console.log(nodes)
+    };
     edit = function () {
         var node = $('#doc-menu').tree('getSelected');
-        //DocMenu.tree('beginEdit',node.target);
+        DocMenu.tree('beginEdit', node.target);
     };
     add_page = function (parent_id, title) {
         $.post("{{route('book_add_page')}}", {
@@ -96,7 +126,7 @@
             title: title
         }, function (res) {
             if (res.page.id > 0) {
-                if(parent_id > 0){
+                if (parent_id <= 0) {
                     var node = DocMenu.tree('find', res.s_page.id);
                     DocMenu.tree('insert', {
                         after: node.target,
@@ -105,8 +135,8 @@
                             title: res.page.title
                         }
                     });
-                }else{
-                    var node = DocMenu.tree('find',parent_id);
+                } else {
+                    var node = DocMenu.tree('find', parent_id);
                     DocMenu.tree('append', {
                         parent: node.target,
                         data: {
@@ -117,6 +147,17 @@
                 }
             }
         })
+    };
+    edit_title = function (id, title, node) {
+        $.post("{{route('book_edit_title')}}", {
+            id: id,
+            _token: "{{csrf_token()}}",
+            title: title
+        }, function (res) {
+            if (res.state) {
+                node()
+            }
+        });
     }
 </script>
 </body>

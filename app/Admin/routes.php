@@ -24,5 +24,6 @@ Route::group([
     $router->any("book-get-tree","BookController@get_tree")->name("book_get_tree");
     $router->any("book-set-order","BookController@set_order")->name("book_set_order");
     $router->any("book-add-page","BookController@add_page")->name("book_add_page");
+    $router->any("book-add-edit-title","BookController@edit_title")->name("book_edit_title");
 
 });

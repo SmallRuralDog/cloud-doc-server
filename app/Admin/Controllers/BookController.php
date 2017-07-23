@@ -58,9 +58,9 @@ class BookController extends Controller
                 $s_page->order = $t_page->order + 1;
                 $s_page->parent_id = $t_page->parent_id;
 
-                DocPage::query()->where("doc_id",$t_page->doc_id)
-                    ->where("parent_id",$t_page->parent_id)
-                    ->where("order","<=",$t_page->order)->decrement("order");
+                DocPage::query()->where("doc_id", $t_page->doc_id)
+                    ->where("parent_id", $t_page->parent_id)
+                    ->where("order", "<=", $t_page->order)->decrement("order");
 
 
                 $state = $s_page->save();
@@ -68,9 +68,9 @@ class BookController extends Controller
             case 'bottom':
                 $s_page->order = $t_page->order - 1;
                 $s_page->parent_id = $t_page->parent_id;
-                DocPage::query()->where("doc_id",$t_page->doc_id)
-                    ->where("parent_id",$t_page->parent_id)
-                    ->where("order","<",$t_page->order)->decrement("order");
+                DocPage::query()->where("doc_id", $t_page->doc_id)
+                    ->where("parent_id", $t_page->parent_id)
+                    ->where("order", "<", $t_page->order)->decrement("order");
                 $state = $s_page->save();
                 break;
             case 'append':
@@ -113,5 +113,19 @@ class BookController extends Controller
         $page = DocPage::query()->create($data);
 
         return ['page' => $page, 's_page' => $s_order];
+    }
+
+    public function edit_title(Request $request)
+    {
+        $id = $request->input("id");
+        $title = $request->input("title");
+
+        $page = DocPage::query()->find($id);
+
+        $page->title = $title;
+
+        $state = $page->save();
+
+        return ['state' => $state];
     }
 }
