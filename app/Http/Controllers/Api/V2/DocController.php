@@ -29,7 +29,7 @@ class DocController extends Controller
         $class_id = $request->input("class_id");
         $doc = Doc::query()->where("state", 1)->orderBy("order", "desc")->orderBy("id");
         $doc->where("doc_class_id", $class_id);
-        $list = $doc->paginate(50, ['id', 'title', 'desc', 'cover']);
+        $list = $doc->paginate(20, ['id', 'title', 'desc', 'cover','doc_class_id']);
 
         return response()->json($list);
     }
