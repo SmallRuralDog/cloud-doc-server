@@ -50,6 +50,7 @@ class DocController extends Controller
             ->select([
                 'id',
                 'title',
+                'menu_title',
                 'order',
                 'parent_id'
             ])->get();
