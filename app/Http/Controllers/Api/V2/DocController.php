@@ -56,4 +56,15 @@ class DocController extends Controller
             ])->get();
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
+
+    public function page(Request $request)
+    {
+        $page_id = $request->input("page_id");
+
+        $page = DocPage::query()->find($page_id, ['content', 'updated_at']);
+
+        $page->increment("view_count");
+
+        return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
+    }
 }
