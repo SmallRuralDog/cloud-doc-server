@@ -73,6 +73,9 @@ class DocController extends Controller
     protected function grid()
     {
         return Admin::grid(Doc::class, function (Grid $grid) {
+
+            $grid->model()->orderBy("order","desc");
+
             $grid->id('ID')->sortable();
             $grid->order('排序')->sortable()->editable();
             $grid->column('cover','封面')->image(null,50,75);
