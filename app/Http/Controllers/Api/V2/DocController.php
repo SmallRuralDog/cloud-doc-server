@@ -27,10 +27,12 @@ class DocController extends Controller
 
     public function class_list()
     {
-        $doc_class_list = DocClass::query()->where("parent_id", 1)->get(['id', 'title']);
+        $doc_class_list = DocClass::query()
+            ->where("state",1)
+            ->where("parent_id", 1)->get(['id', 'title']);
 
         foreach ($doc_class_list as $v) {
-            $v->son = $v->son()->get(['id', 'title', 'icon']);
+            $v->son = $v->son()->where("state",1)->get(['id', 'title', 'icon']);
         }
         return response()->json($doc_class_list);
     }
