@@ -17,5 +17,6 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         'prefix' => 'v2'
     ], function (Dingo\Api\Routing\Router $api) {
         $api->get("class-list", "DocController@class_list");
+        $api->get("list", "DocController@class_list");
     });
 });
