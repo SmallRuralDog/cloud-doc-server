@@ -76,7 +76,7 @@ class DocClassController extends Controller
             $grid->id('ID')->sortable();
             $grid->column("title","分类名称");
             $grid->column("desc","分类描述");
-
+            $grid->column("state","状态")->switch();
             $grid->created_at('添加时间');
             $grid->updated_at("更新时间");
         });
@@ -96,6 +96,8 @@ class DocClassController extends Controller
             $form->text("desc","分类描述");
             $form->number("order","排序")->default(1);
             $form->image("icon","图标");
+
+            $form->switch("state","状态");
 
         });
     }
