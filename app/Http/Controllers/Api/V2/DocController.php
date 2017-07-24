@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\V2;
 use App\Http\Controllers\Controller;
 use App\Models\Doc;
 use App\Models\DocClass;
+use App\Models\DocPage;
 use Illuminate\Http\Request;
 
 class DocController extends Controller
@@ -31,12 +32,27 @@ class DocController extends Controller
         $doc->where("state", ">=", 0);
         $doc->orderBy("order", "desc")->orderBy("id");
         $doc->where("doc_class_id", $class_id);
-        $list = $doc->paginate(5, ['id', 'title', 'desc', 'cover', 'is_end','is_hot','doc_class_id']);
+        $list = $doc->paginate(5, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
-        foreach ($list as $k=>$v){
+        foreach ($list as $k => $v) {
             $list[$k]->view_count = $v->doc_page()->sum("view_count");
         }
 
         return response()->json($list);
+    }
+
+    public function doc_page(Request $request)
+    {
+        $doc_id = $request->input("doc_id");
+        $page = DocPage::query()->where("doc_id", $doc_id)
+            ->where("parent_id", 0)
+            ->orderBy("order", "desc")
+            ->select([
+                'id',
+                'title',
+                'order',
+                'parent_id'
+            ])->get();
+        return $page;
     }
 }
