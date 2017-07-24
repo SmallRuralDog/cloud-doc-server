@@ -94,6 +94,10 @@ class DocController extends Controller
                 $actions->append("<a target='_blank' href='".admin_url("book-edit?doc_id=".$actions->getKey())."' class='btn btn-xs'>文档编辑</a>");
                 $actions->append("<a  href='".admin_url("doc/".$actions->getKey()."/edit")."' class='btn btn-xs'>编辑</a>");
             });
+
+            $grid->filter(function (Grid\Filter $filter){
+                $filter->is("doc_class_id","分类")->select(DocClass::selectOptions());
+            });
         });
     }
 
