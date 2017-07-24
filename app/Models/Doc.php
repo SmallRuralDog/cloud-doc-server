@@ -19,13 +19,18 @@ class Doc extends Model
         return $this->belongsTo(DocClass::class);
     }
 
-    public function doc_menu(){
+    public function doc_menu()
+    {
         return $this->hasMany(DocMenu::class);
     }
 
+    public function doc_page()
+    {
+        return $this->hasMany(DocMenu::class);
+    }
 
     public function getCoverUrlAttribute()
     {
-        return Thumb::getThumb($this->cover,'225x300');
+        return Thumb::getThumb($this->cover, '225x300');
     }
 }
