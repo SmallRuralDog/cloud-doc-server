@@ -96,6 +96,7 @@ class DocController extends Controller
             });
 
             $grid->filter(function (Grid\Filter $filter){
+                $filter->like("title","名称");
                 $filter->is("doc_class_id","分类")->select(DocClass::selectOptions());
             });
         });
