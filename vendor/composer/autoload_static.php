@@ -13,12 +13,12 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
         'f4e9c7747917193061b46ee142399603' => __DIR__ . '/..' . '/dingo/api/src/helpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -117,6 +117,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Inflector\\' => 26,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Dingo\\Blueprint\\' => 16,
             'Dingo\\Api\\' => 10,
@@ -304,6 +305,10 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Common/Inflector',
+        ),
         'Doctrine\\Common\\Annotations\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
@@ -370,14 +375,11 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
             array (
                 0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
             ),
-            'Doctrine\\Common\\Inflector\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
-            ),
         ),
     );
 
     public static $classMap = array (
+        'App\\Admin\\Controllers\\BookController' => __DIR__ . '/../..' . '/app/Admin/Controllers/BookController.php',
         'App\\Admin\\Controllers\\DocClassController' => __DIR__ . '/../..' . '/app/Admin/Controllers/DocClassController.php',
         'App\\Admin\\Controllers\\DocController' => __DIR__ . '/../..' . '/app/Admin/Controllers/DocController.php',
         'App\\Admin\\Controllers\\DocMenuController' => __DIR__ . '/../..' . '/app/Admin/Controllers/DocMenuController.php',
@@ -390,6 +392,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'App\\Extend\\Parsedown' => __DIR__ . '/../..' . '/app/Extend/Parsedown.php',
         'App\\Extend\\Thumb' => __DIR__ . '/../..' . '/app/Extend/Thumb.php',
         'App\\Http\\Controllers\\Api\\DocController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/DocController.php',
+        'App\\Http\\Controllers\\Api\\V2\\DocController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V2/DocController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -2937,6 +2940,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'Psy\\CodeCleaner\\CodeCleanerPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/CodeCleanerPass.php',
         'Psy\\CodeCleaner\\ExitPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/ExitPass.php',
         'Psy\\CodeCleaner\\FinalClassPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/FinalClassPass.php',
+        'Psy\\CodeCleaner\\FunctionContextPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/FunctionContextPass.php',
         'Psy\\CodeCleaner\\FunctionReturnInWriteContextPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/FunctionReturnInWriteContextPass.php',
         'Psy\\CodeCleaner\\ImplicitReturnPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/ImplicitReturnPass.php',
         'Psy\\CodeCleaner\\InstanceOfPass' => __DIR__ . '/..' . '/psy/psysh/src/Psy/CodeCleaner/InstanceOfPass.php',

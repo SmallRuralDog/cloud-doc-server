@@ -239,33 +239,33 @@
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae"
+                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/doctrine/inflector/90b2128806bfde671b6952ab8bea493942c1fdae.zip",
-                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
+                "url": "https://files.phpcomposer.com/files/doctrine/inflector/e11d84c6e018beedd929cff5220969a3c6d1d462.zip",
+                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": "^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.*"
+                "phpunit/phpunit": "^6.2"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "1.2.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Common\\Inflector\\": "lib/"
+                "psr-4": {
+                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -302,7 +302,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2015-11-06T14:35:42+00:00"
+            "time": "2017-07-22T12:18:28+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1650,16 +1650,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.9",
+            "version": "v0.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "58a31cc4404c8f632d8c557bc72056af2d3a83db"
+                "reference": "7ab97e5a32202585309f3ee35a0c08d2a8e588b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/bobthecow/psysh/58a31cc4404c8f632d8c557bc72056af2d3a83db.zip",
-                "reference": "58a31cc4404c8f632d8c557bc72056af2d3a83db",
+                "url": "https://files.phpcomposer.com/files/bobthecow/psysh/7ab97e5a32202585309f3ee35a0c08d2a8e588b1.zip",
+                "reference": "7ab97e5a32202585309f3ee35a0c08d2a8e588b1",
                 "shasum": ""
             },
             "require": {
@@ -1719,7 +1719,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-07-06T14:53:52+00:00"
+            "time": "2017-07-22T15:14:19+00:00"
         },
         {
             "name": "qiniu/php-sdk",

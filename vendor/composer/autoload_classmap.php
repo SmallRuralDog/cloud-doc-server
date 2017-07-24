@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Admin\\Controllers\\BookController' => $baseDir . '/app/Admin/Controllers/BookController.php',
     'App\\Admin\\Controllers\\DocClassController' => $baseDir . '/app/Admin/Controllers/DocClassController.php',
     'App\\Admin\\Controllers\\DocController' => $baseDir . '/app/Admin/Controllers/DocController.php',
     'App\\Admin\\Controllers\\DocMenuController' => $baseDir . '/app/Admin/Controllers/DocMenuController.php',
@@ -18,6 +19,7 @@ return array(
     'App\\Extend\\Parsedown' => $baseDir . '/app/Extend/Parsedown.php',
     'App\\Extend\\Thumb' => $baseDir . '/app/Extend/Thumb.php',
     'App\\Http\\Controllers\\Api\\DocController' => $baseDir . '/app/Http/Controllers/Api/DocController.php',
+    'App\\Http\\Controllers\\Api\\V2\\DocController' => $baseDir . '/app/Http/Controllers/Api/V2/DocController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
@@ -2565,6 +2567,7 @@ return array(
     'Psy\\CodeCleaner\\CodeCleanerPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/CodeCleanerPass.php',
     'Psy\\CodeCleaner\\ExitPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/ExitPass.php',
     'Psy\\CodeCleaner\\FinalClassPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/FinalClassPass.php',
+    'Psy\\CodeCleaner\\FunctionContextPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/FunctionContextPass.php',
     'Psy\\CodeCleaner\\FunctionReturnInWriteContextPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/FunctionReturnInWriteContextPass.php',
     'Psy\\CodeCleaner\\ImplicitReturnPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/ImplicitReturnPass.php',
     'Psy\\CodeCleaner\\InstanceOfPass' => $vendorDir . '/psy/psysh/src/Psy/CodeCleaner/InstanceOfPass.php',
