@@ -33,8 +33,8 @@ class DocController extends Controller
         $doc->where("doc_class_id", $class_id);
         $list = $doc->paginate(5, ['id', 'title', 'desc', 'cover', 'is_end','is_hot','doc_class_id']);
 
-        foreach ($list as $v){
-            $v->view_count = $v->doc_page()->sum("view_count");
+        foreach ($list as $k=>$v){
+            $list[$k]->view_count = $v->doc_page()->sum("view_count");
         }
 
         return response()->json($list);
