@@ -67,4 +67,10 @@ class DocController extends Controller
 
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
+
+    public function get_my_doc(Request $request){
+        $ids = $request->input("ids");
+
+        return $ids;
+    }
 }

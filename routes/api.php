@@ -20,5 +20,6 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("list", "DocController@doc_class_list");
         $api->get("doc-page", "DocController@doc_page");
         $api->get("page", "DocController@page");
+        $api->get("get-my-doc", "DocController@get_my_doc");
     });
 });
