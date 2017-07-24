@@ -99,8 +99,10 @@ class DocController extends Controller
             });
 
             $grid->filter(function (Grid\Filter $filter){
+                $filter->disableIdFilter();
                 $filter->like("title","名称");
                 $filter->is("doc_class_id","分类")->select(DocClass::selectOptions());
+                $filter->is("state","状态")->select(['all'=>"全部",0=>"禁用",1=>"正常"]);
             });
         });
     }
