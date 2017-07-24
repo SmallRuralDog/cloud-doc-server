@@ -15,7 +15,7 @@ class DocController extends Controller
 
     public function index(){
         $doc = Doc::query();
-        $doc->where("state", "=", 1);
+        $doc->where("state", "=", 1)->where("is_hot",1);
         $doc->orderBy("order", "desc")->orderBy("id");
         $list = $doc->paginate(10, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
