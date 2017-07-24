@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 class DocController extends Controller
 {
 
+    public function index(){
+        $doc = Doc::query();
+        $doc->where("state", "=", 1);
+        $doc->orderBy("order", "desc")->orderBy("id");
+        $list = $doc->paginate(5, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+
+        foreach ($list as $k => $v) {
+            $list[$k]->view_count = $v->doc_page()->sum("view_count");
+        }
+        $data['list'] = $list;
+
+        return response()->json($data);
+    }
+
     public function class_list()
     {
         $doc_class_list = DocClass::query()->where("parent_id", 1)->get(['id', 'title']);
