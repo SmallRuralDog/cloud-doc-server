@@ -26,7 +26,7 @@ class Doc extends Model
 
     public function doc_page()
     {
-        return $this->hasMany(DocMenu::class);
+        return $this->hasMany(DocPage::class);
     }
 
     public function getCoverUrlAttribute()
