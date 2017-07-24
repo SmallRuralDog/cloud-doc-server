@@ -71,6 +71,8 @@ class DocController extends Controller
     public function get_my_doc(Request $request){
         $ids = $request->input("ids");
 
-        return $ids;
+        $doc =Doc::query()->whereIn("id",$ids)->where("state",1)->get();
+
+        return response()->json($doc);
     }
 }
