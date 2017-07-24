@@ -53,6 +53,6 @@ class DocController extends Controller
                 'order',
                 'parent_id'
             ])->get();
-        return $page;
+        return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
 }
