@@ -23,7 +23,7 @@
 </div>
 <div id="save_msg">保存中..</div>
 <script>
-    var testEditor, w = $("#doc-page").width(), h = $("#doc-page").height();
+    var testEditor, w = $("#doc-page").width(), h = $("#doc-page").height(),edit_id = "{{$id}}";
     testEditor = editormd("content", {
         width: '100%',
         height: '100%',

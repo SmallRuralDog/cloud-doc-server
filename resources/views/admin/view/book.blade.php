@@ -26,13 +26,14 @@
 <div id="menu_tools">
     <a href="javascript:void(0)" title="刷新" class="icon-reload" onclick=" DocMenu.tree('reload')"></a>
     <a href="javascript:void(0)" title="添加章节" class="icon-add" onclick="add()"></a>
-    <a href="javascript:void(0)" title="采集" class="icon-print" onclick="collect(0)"></a>
+    <a href="javascript:void(0)" title="采集" class="icon-print" onclick="collect(0,0)"></a>
 
 </div>
 <div id="mm" class="easyui-menu" style="width:120px;">
     <div onclick="append()" data-options="iconCls:'icon-add'">添加章节</div>
     <div onclick="edit()" data-options="iconCls:'icon-edit'">编辑</div>
     <div onclick="remove()" data-options="iconCls:'icon-remove'">删除</div>
+    <div onclick="append_collect()" data-options="iconCls:'icon-add'">采集看云</div>
 </div>
 
 <div id="add_win">
@@ -53,6 +54,14 @@
         dnd: true,
         formatter: function (node) {//数据显示
             return node.title;
+        },
+        onLoadSuccess: function (node, data) {
+            try {
+                var edit_node = DocMenu.tree('find', edit_id);
+                DocMenu.tree('select', edit_node.target);
+            } catch (error) {
+
+            }
         },
         onClick: function (node) {//点击节点
             //alert(node.id);
@@ -116,6 +125,10 @@
             layer.close(index);
             add_page(nodes.id, pass)
         });
+    };
+    append_collect = function () {
+        var nodes = DocMenu.tree('getSelected');
+        collect(0, nodes.id);
     };
     remove = function () {
         var nodes = DocMenu.tree('getSelected');
@@ -181,9 +194,9 @@
             }
         });
     };
-    collect = function (id) {
+    collect = function (id, parent_id) {
         var nodes = DocMenu.tree('getSelected');
-        var parent_id = (nodes === null) ? 0 : nodes.id;
+        //var parent_id = (nodes === null) ? 0 : nodes.id;
         layer.prompt({title: '请输入看云链接', formType: 2}, function (pass, index) {
             layer.close(index);
             $.post("{{route("book_collect_ky")}}", {
