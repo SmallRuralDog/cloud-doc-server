@@ -22,9 +22,7 @@ class DocController extends Controller
         foreach ($list as $k => $v) {
             $list[$k]->view_count = $v->doc_page()->sum("view_count");
         }
-        $data['list'] = $list;
-
-        return response()->json($data);
+        return response()->json($list);
     }
 
     public function class_list()
