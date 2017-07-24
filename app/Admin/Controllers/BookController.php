@@ -133,10 +133,92 @@ class BookController extends Controller
         return ['state' => $state];
     }
 
-    public function edit_content(Request $request){
+    public function del_page(Request $request)
+    {
         $id = $request->input("id");
         $page = DocPage::query()->find($id);
 
-        return view("admin.view.book-edit-content",$page);
+        $this->_del($page);
+
+        return ['state' => true];
+    }
+
+
+    protected function _del($page)
+    {
+        $page->delete();
+        $son = $page->son;
+        if (!empty($son)) {
+            foreach ($son as $v) {
+                $this->_del($v);
+            }
+        }
+
+    }
+
+    public function edit_content(Request $request)
+    {
+        $id = $request->input("id");
+        $page = DocPage::query()->find($id);
+
+        return view("admin.view.book-edit-content", $page);
+    }
+
+    public function save_content(Request $request)
+    {
+        $id = $request->input("id");
+        $content = $request->input("content");
+        $page = DocPage::query()->find($id);
+        $page->content = $content;
+        $state = $page->save();
+        return ['state' => $state];
+    }
+
+    public function collect_ky(Request $request)
+    {
+        $id = $request->input("id", 0);
+        $doc_id = $request->input("doc_id", 0);
+        $parent_id = $request->input("parent_id", 0);
+        $url = $request->input("url");
+
+        $client = new \GuzzleHttp\Client();
+        $data = $client->get($url, ['headers' => ['x-requested-with' => 'XMLHttpRequest']])->getBody();
+
+        $data = json_decode($data);
+
+        $collect_id = md5($url);
+
+        $s_order = DocPage::query()->where("doc_id", $doc_id)
+            ->where("parent_id", $parent_id)->orderBy("order", "asc")->first(['id', 'order']);
+        if (empty($s_order)) {
+            $order = 99999;
+        } elseif ($s_order->order <= 1) {
+            $order = 1;
+        } else {
+            $order = $s_order->order - 1;
+        }
+
+        if ($id > 0) {
+            $page = DocPage::query()->find($id);
+            $page->content = $data->content;
+            $page->title = $data->title;
+            $page->menu_title = $data->title;
+            $page->save();
+        } else {
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'parent_id' => $parent_id,
+                'title' => $data->title,
+                'menu_title' => $data->title,
+                'content' => $data->content,
+                'order' => $order,
+                'state' => 1,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_id' => $collect_id
+            ]);
+        }
+
+        return $page;
+
     }
 }

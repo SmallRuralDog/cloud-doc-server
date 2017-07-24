@@ -6,29 +6,32 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/bootstrap/easyui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin_assets/jquery-easyui/themes/icon.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('/packages/editor/css/editormd.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('/admin_assets/codemirror/lib/codemirror.css')}}">
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/jquery-easyui/jquery.easyui.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin_assets/layer/layer.js')}}"></script>
-    <script type="text/javascript" src="{{asset('admin_assets/codemirror/lib/codemirror.js')}}"></script>
 
     <script type="text/javascript" src="{{asset('/packages/editor/editormd.min.js')}}"></script>
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true,border:false">
     <!--div data-options="region:'north'" style="height:30px"></div-->
-    <div data-options="region:'west',split:true,collapsible:false,border:true,tools:[{
-					iconCls:'icon-add',
-					handler:function(){add()}
-				}]" title="目录" style="width:300px;">
+    <div data-options="region:'west',split:true,collapsible:false,border:true,tools:'#menu_tools'" title="目录"
+         style="width:300px;">
         <ul id="doc-menu"></ul>
     </div>
     <div data-options="region:'center',title:false,split:true,border:true">
         <div id="doc-page"></div>
     </div>
 </div>
+<div id="menu_tools">
+    <a href="javascript:void(0)" title="刷新" class="icon-reload" onclick=" DocMenu.tree('reload')"></a>
+    <a href="javascript:void(0)" title="添加章节" class="icon-add" onclick="add()"></a>
+    <a href="javascript:void(0)" title="采集" class="icon-print" onclick="collect(0)"></a>
+
+</div>
 <div id="mm" class="easyui-menu" style="width:120px;">
-    <div onclick="append()" data-options="iconCls:'icon-add'">添加子章节</div>
+    <div onclick="append()" data-options="iconCls:'icon-add'">添加章节</div>
+    <div onclick="edit()" data-options="iconCls:'icon-edit'">编辑</div>
     <div onclick="remove()" data-options="iconCls:'icon-remove'">删除</div>
 </div>
 
@@ -54,11 +57,12 @@
         onClick: function (node) {//点击节点
             //alert(node.id);
             $("#doc-page").panel({
-                href:'{{route('book_edit_content')}}?id='+node.id,
-                loadingMessage:"加载中...",
-                fit:true,
-                border:false,
-                onLoad:function(){
+                href: '{{route('book_edit_content')}}?id=' + node.id,
+                loadingMessage: "加载中...",
+                fit: true,
+                border: false,
+                cache: false,
+                onLoad: function () {
                 }
             });
         },
@@ -81,14 +85,14 @@
             });
 
         },
-        onDblClick: function (node) {//双击编辑
+        /*onDblClick: function (node) {//双击编辑
             $(this).tree('beginEdit', node.target);
-        },
+        },*/
         onBeforeEdit: function (node) {//编辑前
             node.text = node.title
         },
         onAfterEdit: function (node) {//编辑后
-            if( node.text === node.title){
+            if (node.text === node.title) {
                 return false;
             }
             edit_title(node.id, node.text, function () {
@@ -122,10 +126,15 @@
         layer.confirm(msg, {
             btn: ['确定', '取消'] //按钮
         }, function () {
+            layer.closeAll();
+            $.get("{{route('book_del_page')}}", {id: nodes.id}, function (res) {
+                if (res.state) {
+                    layer.msg("删除成功");
 
+                    DocMenu.tree("remove", nodes.target);
+                }
+            })
         });
-
-        console.log(nodes)
     };
     edit = function () {
         var node = $('#doc-menu').tree('getSelected');
@@ -170,6 +179,33 @@
             if (res.state) {
                 node()
             }
+        });
+    };
+    collect = function (id) {
+        var nodes = DocMenu.tree('getSelected');
+        var parent_id = (nodes === null) ? 0 : nodes.id;
+        layer.prompt({title: '请输入看云链接', formType: 2}, function (pass, index) {
+            layer.close(index);
+            $.post("{{route("book_collect_ky")}}", {
+                id: id,
+                parent_id: parent_id,
+                doc_id: "{{$doc->id}}",
+                _token: "{{csrf_token()}}",
+                url: pass
+            }, function (res) {
+                if (res.id > 0) {
+                    if (id <= 0) {
+                        DocMenu.tree('reload');
+                    } else {
+                        var node = DocMenu.tree('find', id);
+                        DocMenu.tree('update', {
+                            target: node.target,
+                            title: res.title
+                        });
+                        $("#doc-page").panel('open').panel('refresh');
+                    }
+                }
+            })
         });
     }
 </script>
