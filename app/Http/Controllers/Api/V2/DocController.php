@@ -103,7 +103,7 @@ class DocController extends Controller
         $data =  DocSearch::query()->select([
             'name',
             \DB::raw("count(*) as num")
-        ])->groupBy("name")->orderBy("num","desc")->get();
+        ])->groupBy("name")->orderBy("num","desc")->limit(20)->get();
 
         return response()->json($data);
     }
