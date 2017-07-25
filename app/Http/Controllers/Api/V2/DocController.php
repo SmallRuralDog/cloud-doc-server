@@ -79,9 +79,11 @@ class DocController extends Controller
     {
         $page_id = $request->input("page_id");
 
-        $page = DocPage::query()->find($page_id, ['content', 'updated_at']);
-
+        $page = DocPage::query()->find($page_id, ['id','doc_id','title','content', 'updated_at']);
+        $page->doc_title = $page->doc()->first()->title;
         $page->increment("view_count");
+
+
 
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }

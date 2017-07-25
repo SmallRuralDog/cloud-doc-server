@@ -16,7 +16,7 @@ class DocPage extends Model
 
     public function doc()
     {
-        return $this->belongsTo(Doc::class);
+        return $this->belongsTo(Doc::class,"doc_id","id");
     }
 
     public function doc_menu()
@@ -32,4 +32,7 @@ class DocPage extends Model
     {
         return $this->son()->orderBy("order","desc")->get(['id','title','menu_title','parent_id','order']);
     }
+
+
+
 }
