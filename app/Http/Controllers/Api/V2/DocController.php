@@ -130,7 +130,12 @@ class DocController extends Controller
                 $result['items'][$k]['cover']= Thumb::getThumb($v['cover'],'120x120.jpg');
             }
         }
-        $data['doc'] = [];
+        if(!empty($key)){
+            $data['doc'] = Doc::query()->where("state",1)->where("title","like","%{$key}%")->orderBy("order","desc")->get(['id','title','cover']);
+        }else{
+            $data['doc'] = [];
+        }
+
         $data['result'] = $result;
 
         return $data;
