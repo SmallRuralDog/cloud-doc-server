@@ -96,8 +96,11 @@ class DocController extends Controller
     }
 
 
-    public function search()
+    public function search(Request $request)
     {
+
+        $key = $request->input("key");
+
         $access_key = "GOkscSXVTLkhIenG";
         $secret = "OnumvS4eeijYaMlEZLok48ISMvStc9";
         $host = "http://opensearch-cn-hangzhou.aliyuncs.com";//根据自己的应用区域选择API
@@ -111,7 +114,7 @@ class DocController extends Controller
         // 指定一个应用用于搜索
         $search_obj->addIndex($app_name);
         // 指定搜索关键词
-        $search_obj->setQueryString("content:Composer ");
+        $search_obj->setQueryString("content:".$key);
         // 指定返回的搜索结果的格式为json
         $search_obj->setFormat("json");
         // 执行搜索，获取搜索结果
