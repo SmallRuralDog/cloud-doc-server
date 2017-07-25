@@ -6,11 +6,13 @@ namespace App\Http\Controllers\Api\V2;
 
 use App\Extend\OpenSearch\CloudsearchClient;
 use App\Extend\OpenSearch\CloudsearchSearch;
+use App\Extend\OpenSearch\CloudsearchSuggest;
 use App\Extend\Thumb;
 use App\Http\Controllers\Controller;
 use App\Models\Doc;
 use App\Models\DocClass;
 use App\Models\DocPage;
+use App\Models\DocSearch;
 use Illuminate\Http\Request;
 
 class DocController extends Controller
@@ -146,6 +148,12 @@ class DocController extends Controller
         }
         if (!empty($key) && $page == 1) {
             $data['doc'] = Doc::query()->where("state", 1)->where("title", "like", "%{$key}%")->orderBy("order", "desc")->get(['id', 'title', 'cover']);
+
+            DocSearch::query()->create([
+                'name'=>$key,
+                'ip'=>$request->ip()
+            ]);
+
         } else {
             $data['doc'] = [];
         }
@@ -154,6 +162,30 @@ class DocController extends Controller
         $data['result'] = $result;
 
         return $data;
+    }
+
+    public function title_tip(Request $request){
+
+        $key = $request->input("key");
+
+        $access_key = "GOkscSXVTLkhIenG";
+        $secret = "OnumvS4eeijYaMlEZLok48ISMvStc9";
+        $host = "http://opensearch-cn-hangzhou.aliyuncs.com";//根据自己的应用区域选择API
+        $key_type = "aliyun";  //固定值，不必修改
+        $opts = array('host' => $host);
+        $app_name = "cloud_doc";
+        $client = new CloudsearchClient($access_key, $secret, $opts, $key_type);
+
+        $suggest = new CloudsearchSuggest($client);
+
+        $suggest->setIndexName($app_name);
+        $suggest->setSuggestName("name");
+        $suggest->setHits(8);
+        $suggest->setQuery($key);
+
+        $result = json_decode($suggest->search(), true);
+
+        return $result;
     }
 
     protected function set_key($str)
