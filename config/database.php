@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => env('DB_HOST', 'rm-bp11t8nq9r2m0it5gi.mysql.rds.aliyuncs.com'),
             'port' => env('DB_PORT', '3306'),
             'database' => env('DB_DATABASE', 'cloud_doc'),
             'username' => env('DB_USERNAME', 'cloud_doc'),
