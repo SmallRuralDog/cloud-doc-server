@@ -4,6 +4,9 @@
 namespace App\Http\Controllers\Api\V2;
 
 
+use App\Extend\OpenSearch\CloudsearchClient;
+use App\Extend\OpenSearch\CloudsearchSearch;
+use App\Extend\Thumb;
 use App\Http\Controllers\Controller;
 use App\Models\Doc;
 use App\Models\DocClass;
@@ -13,9 +16,10 @@ use Illuminate\Http\Request;
 class DocController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $doc = Doc::query();
-        $doc->where("state", "=", 1)->where("is_hot",1);
+        $doc->where("state", "=", 1)->where("is_hot", 1);
         $doc->orderBy("order", "desc")->orderBy("id");
         $list = $doc->paginate(10, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
@@ -28,11 +32,11 @@ class DocController extends Controller
     public function class_list()
     {
         $doc_class_list = DocClass::query()
-            ->where("state",1)
+            ->where("state", 1)
             ->where("parent_id", 1)->get(['id', 'title']);
 
         foreach ($doc_class_list as $v) {
-            $v->son = $v->son()->where("state",1)->get(['id', 'title', 'icon']);
+            $v->son = $v->son()->where("state", 1)->get(['id', 'title', 'icon']);
         }
         return response()->json($doc_class_list);
     }
@@ -82,11 +86,57 @@ class DocController extends Controller
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
 
-    public function get_my_doc(Request $request){
+    public function get_my_doc(Request $request)
+    {
         $ids = $request->input("ids");
 
-        $doc =Doc::query()->whereIn("id",$ids)->where("state",1)->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+        $doc = Doc::query()->whereIn("id", $ids)->where("state", 1)->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
         return response()->json($doc);
+    }
+
+
+    public function search()
+    {
+        $access_key = "GOkscSXVTLkhIenG";
+        $secret = "OnumvS4eeijYaMlEZLok48ISMvStc9";
+        $host = "http://opensearch-cn-hangzhou.aliyuncs.com";//根据自己的应用区域选择API
+        $key_type = "aliyun";  //固定值，不必修改
+        $opts = array('host' => $host);
+        $app_name = "cloud_doc";
+        $client = new CloudsearchClient($access_key, $secret, $opts, $key_type);
+
+        // 实例化一个搜索类
+        $search_obj = new CloudsearchSearch($client);
+        // 指定一个应用用于搜索
+        $search_obj->addIndex($app_name);
+        // 指定搜索关键词
+        $search_obj->setQueryString("content:Composer ");
+        // 指定返回的搜索结果的格式为json
+        $search_obj->setFormat("json");
+        // 执行搜索，获取搜索结果
+        $json = $search_obj->search();
+        // 将json类型字符串解码
+        $result_data = json_decode($json, true);
+        $result = [];
+        if (strtolower($result_data['status']) === 'ok') {
+            $result = $result_data['result'];
+            foreach ($result['items'] as $k => $v) {
+                $result['items'][$k]['title'] = $this->set_key($v['title']);
+                $result['items'][$k]['content'] = $this->set_key($v['content']);
+                $result['items'][$k]['cover']= Thumb::getThumb($v['cover'],'120x120.jpg');
+            }
+        }
+        $data['doc'] = [];
+        $data['result'] = $result;
+
+        return $data;
+    }
+
+    protected function set_key($str)
+    {
+        $str = str_replace("<text>", "<text style='color: #ff0000'>", $str);
+
+        return $str;
     }
 }
