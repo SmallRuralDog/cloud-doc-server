@@ -100,6 +100,12 @@ class DocController extends Controller
     {
 
         $key = $request->input("key");
+        $page = $request->input("page");
+
+        $rows = 20;
+
+        $start = ($page - 1) * 20;
+
 
         $access_key = "GOkscSXVTLkhIenG";
         $secret = "OnumvS4eeijYaMlEZLok48ISMvStc9";
@@ -114,9 +120,15 @@ class DocController extends Controller
         // 指定一个应用用于搜索
         $search_obj->addIndex($app_name);
         // 指定搜索关键词
-        $search_obj->setQueryString("content:".$key);
+        $search_obj->setQueryString("content:" . $key);
         // 指定返回的搜索结果的格式为json
         $search_obj->setFormat("json");
+
+
+        $search_obj->setStartHit($start);
+
+        $search_obj->setHits($rows);
+
         // 执行搜索，获取搜索结果
         $json = $search_obj->search();
         // 将json类型字符串解码
@@ -127,12 +139,12 @@ class DocController extends Controller
             foreach ($result['items'] as $k => $v) {
                 $result['items'][$k]['title'] = $this->set_key($v['title']);
                 $result['items'][$k]['content'] = $this->set_key($v['content']);
-                $result['items'][$k]['cover']= Thumb::getThumb($v['cover'],'120x120.jpg');
+                $result['items'][$k]['cover'] = Thumb::getThumb($v['cover'], '120x120.jpg');
             }
         }
-        if(!empty($key)){
-            $data['doc'] = Doc::query()->where("state",1)->where("title","like","%{$key}%")->orderBy("order","desc")->get(['id','title','cover']);
-        }else{
+        if (!empty($key) && $page == 1) {
+            $data['doc'] = Doc::query()->where("state", 1)->where("title", "like", "%{$key}%")->orderBy("order", "desc")->get(['id', 'title', 'cover']);
+        } else {
             $data['doc'] = [];
         }
 
