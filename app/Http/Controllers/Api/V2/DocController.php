@@ -135,7 +135,7 @@ class DocController extends Controller
 
     protected function set_key($str)
     {
-        $str = str_replace("<text>", "<text style='color: #ff0000'>", $str);
+        $str = str_replace("<span>", "<span style='color: #ff0000'>", $str);
 
         return $str;
     }
