@@ -147,6 +147,7 @@ class DocController extends Controller
         } else {
             $data['doc'] = [];
         }
+        $data['rows'] = $rows;
 
         $data['result'] = $result;
 
