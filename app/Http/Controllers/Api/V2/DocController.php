@@ -99,6 +99,14 @@ class DocController extends Controller
         return response()->json($doc);
     }
 
+    public function search_index(){
+        $data =  DocSearch::query()->select([
+            'name',
+            \DB::raw("count(*) as num")
+        ])->groupBy("name")->orderBy("num","desc")->get();
+
+        return response()->json($data);
+    }
 
     public function search(Request $request)
     {

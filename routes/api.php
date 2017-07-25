@@ -23,6 +23,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("page", "DocController@page");
         $api->post("get-my-doc", "DocController@get_my_doc");
         $api->any("search", "DocController@search");
-        $api->any("title_tip", "DocController@title_tip");
+        $api->any("search-index", "DocController@search_index");
+        $api->any("title-tip", "DocController@title_tip");
     });
 });
