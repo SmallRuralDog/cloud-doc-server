@@ -43,6 +43,17 @@ class JiKeController extends Controller
         $content = $data[0]['content'];
 
         $content = $this->formaturl($content, $url);
+        $content = preg_replace("/<\/pre>/is","</pre>\n\n",$content);
+        $content = preg_replace("/<\/code>/is","</code>\n\n",$content);
+        $content = preg_replace("/&lt;(.*?)&gt;/is","<c-code>&lt;$1&gt;</c-code>",$content);
+        preg_match_all("/<code.*?>(.*?)<\/code>/is", $content, $h_arg);
+        foreach ($h_arg[0] as $v){
+            if ($v != null) {
+                $content = str_replace($v, $this->_setCode($v), $content);
+            }
+        }
+        $content = preg_replace("/<c-code>/is","<code>",$content);
+        $content = preg_replace("/<\/c-code>/is","</code>",$content);
         $converter = new HtmlConverter();
         $markdown = $converter->convert($content);
 
@@ -65,12 +76,62 @@ class JiKeController extends Controller
 
     }
 
+    public function test()
+    {
+        error_reporting(0);
+
+        $url = "http://wiki.jikexueyuan.com/project/html5/forms.html";
+
+        $client = new \GuzzleHttp\Client();
+        $html = $client->get($url)->getBody();
+        $rules = array(
+            'content' => array('.markdown-body', 'html'),
+        );
+        $data = QueryList::Query($html, $rules, '.detail-main')->data;
+        $content = $data[0]['content'];
+        $content = $this->formaturl($content, $url);
+        $content = preg_replace("/<\/pre>/is","</pre>\n\n",$content);
+        $content = preg_replace("/<\/code>/is","</code>\n\n",$content);
+        $content = preg_replace("/&lt;(.*?)&gt;/is","<c-code>&lt;$1&gt;</c-code>",$content);
+        preg_match_all("/<code.*?>(.*?)<\/code>/is", $content, $h_arg);
+        foreach ($h_arg[0] as $v){
+            if ($v != null) {
+                $content = str_replace($v, $this->_setCode($v), $content);
+            }
+        }
+        $content = preg_replace("/<c-code>/is","<code>",$content);
+        $content = preg_replace("/<\/c-code>/is","</code>",$content);
+        $converter = new HtmlConverter();
+        $markdown = $converter->convert($content);
+        preg_match_all("/<table.*?>(.*?)<\/table>/is", $markdown, $arg);
+        foreach ($arg as $v) {
+            if ($v[0] != null) {
+                $markdown = preg_replace("/<table.*?>(.*?)<\/table>/is", $this->_setTable($v[0]), $markdown);
+            }
+        }
+
+
+        return $markdown;
+    }
+
+    private function _setCode($code){
+
+        $code = preg_replace("/<c-code>/is","",$code);
+        $code = preg_replace("/<\/c-code>/is","",$code);
+        return $code;
+    }
+
     private function _setTable($table)
     {
 
         $th = QueryList::Query($table, array(
             'th' => array('thead>tr>th', 'text'),
         ))->data;
+        if (empty($th)) {
+            $th = QueryList::Query($table, array(
+                'th' => array('tr:eq(0)>th', 'text'),
+            ))->data;
+        }
         if (empty($th)) {
             $th = QueryList::Query($table, array(
                 'th' => array('tr:eq(0)>td', 'text'),
@@ -106,14 +167,18 @@ class JiKeController extends Controller
         }
         $a = "";
         foreach ($tr as $k => $v) {
-            $a .= "|";
+            if(!empty($v['tr'])){
+                $a .= "|";
+            }
             foreach ($v['tr'] as $vv) {
                 $a .= $vv['td'] . "|";
             }
+            if(!empty($v['tr'])){
             $a .= "\n";
+            }
         }
 
-        $table_markdown = $t . "\n" . $b . "\n" . $a;
+        $table_markdown = "\n\n".$t . "\n" . $b . "\n" . $a. "\n\n";
         return $table_markdown;
     }
 

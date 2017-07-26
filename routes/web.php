@@ -6,6 +6,7 @@ Route::get('/', function () {
 });
 
 Route::any("/collect/jike","JiKeController@content");
+Route::any("/test","JiKeController@test");
 
 //Auth::routes();
 
