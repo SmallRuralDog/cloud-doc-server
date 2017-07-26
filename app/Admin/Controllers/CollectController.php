@@ -3,18 +3,19 @@
  * Created by PhpStorm.
  * User: ZhangWei
  * Date: 2017/7/26
- * Time: 9:36
+ * Time: 11:13
  */
 
-namespace App\Http\Controllers;
+namespace App\Admin\Controllers;
 
 
+use App\Http\Controllers\Controller;
 use QL\QueryList;
 
-class JiKeController extends Controller
+class CollectController extends Controller
 {
 
-    public function index()
+    public function jk()
     {
         error_reporting(0);
         $url = "http://wiki.jikexueyuan.com/project/html5/";
@@ -46,5 +47,4 @@ class JiKeController extends Controller
 
         return $data;
     }
-
 }

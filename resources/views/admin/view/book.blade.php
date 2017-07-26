@@ -14,7 +14,9 @@
 </head>
 <body>
 <div class="easyui-layout" data-options="fit:true,border:false">
-    <!--div data-options="region:'north'" style="height:30px"></div-->
+    <div data-options="region:'north'" style="padding: 5px; height: 38px;">
+        <a href="javascript:void(0)" onclick="collect_jkxy()" class="easyui-linkbutton">采集极客学院</a>
+    </div>
     <div data-options="region:'west',split:true,collapsible:false,border:true,tools:'#menu_tools'" title="目录"
          style="width:300px;">
         <ul id="doc-menu"></ul>
@@ -218,6 +220,19 @@
                         $("#doc-page").panel('open').panel('refresh');
                     }
                 }
+            })
+        });
+    }
+
+    collect_jkxy = function () {
+        layer.prompt({title: '请输入采集链接', formType: 2}, function (pass, index) {
+            layer.close(index);
+            $.post("{{route('collect_jk')}}", {
+                doc_id: "{{$doc->id}}",
+                _token: "{{csrf_token()}}",
+                url: pass
+            }, function (res) {
+
             })
         });
     }
