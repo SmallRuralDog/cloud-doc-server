@@ -10,15 +10,21 @@ namespace App\Admin\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\DocPage;
+use Illuminate\Http\Request;
 use QL\QueryList;
 
 class CollectController extends Controller
 {
 
-    public function jk()
+    public function jk(Request $request)
     {
         error_reporting(0);
-        $url = "http://wiki.jikexueyuan.com/project/html5/";
+        $url = $request->input("url");
+        $doc_id = $request->input("doc_id", 0);
+        if ($doc_id <= 0) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
 
         $client = new \GuzzleHttp\Client();
 
@@ -44,6 +50,74 @@ class CollectController extends Controller
             });
             return $item;
         });
+
+        foreach ($data as $k => $v) {
+            if ($v['href'] == "#") {
+                $collect_id = md5($doc_id . $v['title'] . $v['href']);
+                $collect_state = 1;
+            } else {
+                $collect_id = md5($v['href']);
+                $collect_state = 0;
+            }
+            $page_1 = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => 0,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['href'],
+                'collect_state' => $collect_state
+            ]);
+            if (!empty($v['list']) && $page_1->id > 0) {
+                foreach ($v['list'] as $kk => $vv) {
+                    if ($vv['href'] == "#") {
+                        $collect_id = md5($doc_id . $vv['title'] . $vv['href']);
+                        $collect_state = 1;
+                    } else {
+                        $collect_id = md5($vv['href']);
+                        $collect_state = 0;
+                    }
+                    $page_2 = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                        'title' => $vv['title'],
+                        'parent_id' => 0,
+                        'menu_title' => $vv['title'],
+                        'content' => "#" . $vv['title'],
+                        'order' => 99999 - $kk,
+                        'state' => 0,
+                        'doc_id' => $doc_id,
+                        'menu_id' => 0,
+                        'collect_url' => $vv['href'],
+                        'collect_state' => $collect_state
+                    ]);
+                    if (!empty($vv['list']) && $page_2->id > 0) {
+                        foreach ($v['list'] as $kkk => $vvv) {
+                            if ($vvv['href'] == "#") {
+                                $collect_id = md5($doc_id . $vvv['title'] . $vvv['href']);
+                                $collect_state = 1;
+                            } else {
+                                $collect_id = md5($vvv['href']);
+                                $collect_state = 0;
+                            }
+                            $page_3 = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                                'title' => $vvv['title'],
+                                'parent_id' => 0,
+                                'menu_title' => $vvv['title'],
+                                'content' => "#" . $vvv['title'],
+                                'order' => 99999 - $kkk,
+                                'state' => 0,
+                                'doc_id' => $doc_id,
+                                'menu_id' => 0,
+                                'collect_url' => $vvv['href'],
+                                'collect_state' => $collect_state
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
 
         return $data;
     }
