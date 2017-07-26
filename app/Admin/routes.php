@@ -34,5 +34,6 @@ Route::group([
     $router->any("book-collect-ky","BookController@collect_ky")->name("book_collect_ky");
 
     $router->any("collect-jk","CollectController@jk")->name("collect_jk");
+    $router->any("collect-sc","CollectController@sc")->name("collect_sc");
 
 });

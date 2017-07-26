@@ -120,8 +120,6 @@ class JiKeController extends Controller
                 $markdown = preg_replace("/<table.*?>(.*?)<\/table>/is", $this->_setTable($v[0]), $markdown);
             }
         }
-
-
         return $markdown;
     }
 
@@ -130,8 +128,6 @@ class JiKeController extends Controller
 
         $code = preg_replace("/<c-code>/is", "", $code);
         $code = preg_replace("/<\/c-code>/is", "", $code);
-        //$code = preg_replace("/<code(.*?)>(.*?)<\/code>/is", "<code$1>$2\n</code>", $code);
-        //dd($code);
         return $code;
     }
 
@@ -230,7 +226,6 @@ class JiKeController extends Controller
             return $l1;
         }
 
-        //$path = dirname($url_parsed["path"]);
 
         $path = pathinfo($url_parsed["path"]);
 

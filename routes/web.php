@@ -6,7 +6,12 @@ Route::get('/', function () {
 });
 
 Route::any("/collect/jike","JiKeController@content");
+Route::any("/collect/sc","ShouCeController@collect");
 Route::any("/test","JiKeController@test");
+Route::any("/sc","ShouCeController@index");
+
+Route::any("/sc_t","ShouCeController@collect");
+
 
 //Auth::routes();
 
