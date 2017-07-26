@@ -6,6 +6,7 @@ Route::get('/', function () {
 });
 
 Route::get("/jike","JiKeController@index");
+Route::get("/jike-content","JiKeController@content");
 
 //Auth::routes();
 
