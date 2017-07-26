@@ -23,7 +23,7 @@ class DocController extends Controller
         $doc = Doc::query();
         $doc->where("state", "=", 1)->where("is_hot", 1);
         $doc->orderBy("order", "desc")->orderBy("id");
-        $list = $doc->paginate(10, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+        $list = $doc->paginate(20, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
         foreach ($list as $k => $v) {
             $list[$k]->view_count = $v->doc_page()->sum("view_count");
