@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Extend\AliMNS;
 use League\HTMLToMarkdown\HtmlConverter;
 use QL\QueryList;
 
@@ -16,6 +17,13 @@ class JiKeController extends Controller
 
     public function content()
     {
+
+        $msn = new AliMNS();
+
+        $s = $msn->create("cloud-doc","cloud-doc","https://cloud-doc.leyix.com/jike");
+
+        dd($s);
+
         error_reporting(0);
         $url = "http://wiki.jikexueyuan.com/project/html5/";
         $url = "http://wiki.jikexueyuan.com/project/chrome-devtools/console-api-reference.html";
