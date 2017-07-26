@@ -82,7 +82,7 @@ class CollectController extends Controller
                     }
                     $page_2 = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
                         'title' => $vv['title'],
-                        'parent_id' => 0,
+                        'parent_id' => $page_1->id,
                         'menu_title' => $vv['title'],
                         'content' => "#" . $vv['title'],
                         'order' => 99999 - $kk,
@@ -103,7 +103,7 @@ class CollectController extends Controller
                             }
                             $page_3 = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
                                 'title' => $vvv['title'],
-                                'parent_id' => 0,
+                                'parent_id' => $page_2->id,
                                 'menu_title' => $vvv['title'],
                                 'content' => "#" . $vvv['title'],
                                 'order' => 99999 - $kkk,
