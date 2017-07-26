@@ -9,6 +9,7 @@
 namespace App\Admin\Controllers;
 
 
+use App\Extend\AliMNS;
 use App\Http\Controllers\Controller;
 use App\Models\DocPage;
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ class CollectController extends Controller
             });
             return $item;
         });
-
+        $msn = new AliMNS();
+        $msn->create("cloud-doc-collect", "cloud-doc-collect", "https://cloud-doc.leyix.com/collect/jike");
         foreach ($data as $k => $v) {
             if ($v['href'] == "#") {
                 $collect_id = md5($doc_id . $v['title'] . $v['href']);
@@ -71,6 +73,7 @@ class CollectController extends Controller
                 'collect_url' => $v['href'],
                 'collect_state' => $collect_state
             ]);
+            $msn->send_message("cloud-doc-collect", $page_1->id);
             if (!empty($v['list']) && $page_1->id > 0) {
                 foreach ($v['list'] as $kk => $vv) {
                     if ($vv['href'] == "#") {
@@ -92,6 +95,7 @@ class CollectController extends Controller
                         'collect_url' => $vv['href'],
                         'collect_state' => $collect_state
                     ]);
+                    $msn->send_message("cloud-doc-collect", $page_2->id);
                     if (!empty($vv['list']) && $page_2->id > 0) {
                         foreach ($v['list'] as $kkk => $vvv) {
                             if ($vvv['href'] == "#") {
@@ -113,6 +117,7 @@ class CollectController extends Controller
                                 'collect_url' => $vvv['href'],
                                 'collect_state' => $collect_state
                             ]);
+                            $msn->send_message("cloud-doc-collect", $page_3->id);
                         }
                     }
                 }

@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Extend\AliMNS;
+use App\Models\DocPage;
 use League\HTMLToMarkdown\HtmlConverter;
 use QL\QueryList;
 
@@ -17,16 +18,19 @@ class JiKeController extends Controller
 
     public function content()
     {
-
-        $msn = new AliMNS();
-
-        $s = $msn->create("cloud-doc","cloud-doc","https://cloud-doc.leyix.com/jike");
-
-        dd($s);
-
         error_reporting(0);
-        $url = "http://wiki.jikexueyuan.com/project/html5/";
-        $url = "http://wiki.jikexueyuan.com/project/chrome-devtools/console-api-reference.html";
+        $mns = new AliMNS();
+        $id = $mns->get_message()->Message;
+        $page = DocPage::query()->find($id);
+        if (empty($page)) {
+            http_response_code(200);
+            return "文章不存在";
+        }
+        $url = $page->collect_url;
+        if ($page->collect_state != 0) {
+            http_response_code(200);
+            return "文章已采集";
+        }
 
         $client = new \GuzzleHttp\Client();
 
@@ -51,7 +55,13 @@ class JiKeController extends Controller
             }
         }
 
-        return $markdown;
+        $page->content = $markdown;
+        $page->collect_state = 1;
+        $page->state = 1;
+
+        $page->save();
+        http_response_code(200);
+        return "采集成功";
 
     }
 
@@ -66,8 +76,6 @@ class JiKeController extends Controller
                 'th' => array('tr:eq(0)>td', 'text'),
             ))->data;
         }
-
-
 
 
         $tr = QueryList::Query($table, array(
