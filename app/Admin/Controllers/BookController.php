@@ -133,6 +133,14 @@ class BookController extends Controller
         return ['state' => $state];
     }
 
+    public function del_all(Request $request){
+        $doc_id = $request->input("doc_id");
+
+        $state = DocPage::query()->where("doc_id",$doc_id)->delete();
+
+        return ['state' => $state];
+    }
+
     public function del_page(Request $request)
     {
         $id = $request->input("id");

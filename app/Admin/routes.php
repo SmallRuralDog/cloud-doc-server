@@ -21,6 +21,8 @@ Route::group([
 
 
     $router->get("book-edit","BookController@edit")->name("book_edit");
+    $router->get("book-del-all","BookController@del_all")->name("book_del_all");
+
     $router->any("book-get-tree","BookController@get_tree")->name("book_get_tree");
     $router->any("book-set-order","BookController@set_order")->name("book_set_order");
     $router->any("book-add-page","BookController@add_page")->name("book_add_page");

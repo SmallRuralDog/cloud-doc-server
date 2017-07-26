@@ -16,6 +16,7 @@
 <div class="easyui-layout" data-options="fit:true,border:false">
     <div data-options="region:'north'" style="padding: 5px; height: 38px;">
         <a href="javascript:void(0)" onclick="collect_jkxy()" class="easyui-linkbutton">采集极客学院</a>
+        <a href="javascript:void(0)" onclick="del_all()" class="easyui-linkbutton">一键删除</a>
     </div>
     <div data-options="region:'west',split:true,collapsible:false,border:true,tools:'#menu_tools'" title="目录"
          style="width:300px;">
@@ -233,6 +234,21 @@
                 url: pass
             }, function (res) {
 
+            })
+        });
+    }
+
+    del_all = function () {
+        layer.confirm('确定要删除所有文章吗？', {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+            layer.closeAll();
+            $.get("{{route('book_del_all')}}", {doc_id: "{{$doc->id}}"}, function (res) {
+                if (res.state) {
+                    layer.msg("删除成功");
+
+                    DocMenu.tree("reload");
+                }
             })
         });
     }
