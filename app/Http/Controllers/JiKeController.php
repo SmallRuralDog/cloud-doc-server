@@ -81,7 +81,7 @@ class JiKeController extends Controller
     {
         error_reporting(0);
 
-        $url = "http://wiki.jikexueyuan.com/project/html5/sql.html";
+        $url = "http://wiki.jikexueyuan.com/project/html5/tags-reference.html";
 
         $client = new \GuzzleHttp\Client();
         $html = $client->get($url)->getBody();
@@ -95,6 +95,7 @@ class JiKeController extends Controller
         $content = preg_replace("/<\/code>/is", "</code>\n\n", $content);
         $content = preg_replace("/&lt;(.*?)&gt;/is", "<c-code>&lt;$1&gt;</c-code>", $content);
         preg_match_all("/<code.*?>(.*?)<\/code>/is", $content, $h_arg);
+        preg_match_all("/<table.*?>(.*?)<\/table>/is", $content, $t_arg);
         foreach ($h_arg[0] as $v) {
             if ($v != null) {
                 $content = str_replace($v, $this->_setCode($v), $content);
@@ -105,6 +106,7 @@ class JiKeController extends Controller
 
 
 
+        //dd($content);
 
         $converter = new HtmlConverter();
 
@@ -128,7 +130,7 @@ class JiKeController extends Controller
 
         $code = preg_replace("/<c-code>/is", "", $code);
         $code = preg_replace("/<\/c-code>/is", "", $code);
-        $code = preg_replace("/<code(.*?)>(.*?)<\/code>/is", "<code$1>$2\n</code>", $code);
+        //$code = preg_replace("/<code(.*?)>(.*?)<\/code>/is", "<code$1>$2\n</code>", $code);
         //dd($code);
         return $code;
     }
@@ -155,7 +157,7 @@ class JiKeController extends Controller
             'tr' => array('tbody>tr', 'html'),
         ))->getData(function ($item) {
             $item['tr'] = QueryList::Query($item['tr'], array(
-                'td' => array('td', 'text')
+                'td' => array('td', 'html')
             ))->data;
 
             return $item;
@@ -165,7 +167,7 @@ class JiKeController extends Controller
                 'tr' => array('tr:gt(0)', 'html'),
             ))->getData(function ($item) {
                 $item['tr'] = QueryList::Query($item['tr'], array(
-                    'td' => array('td', 'text')
+                    'td' => array('td', 'html')
                 ))->data;
 
                 return $item;
