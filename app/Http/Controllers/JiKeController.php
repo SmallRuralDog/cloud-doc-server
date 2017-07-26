@@ -174,7 +174,7 @@ class JiKeController extends Controller
         $t = "|";
         $b = "|";
         foreach ($th as $k => $v) {
-            $t .= $v['th'] . "|";
+            $t .= trim($v['th']) . "|";
             $b .= " -------- " . "|";
         }
         $a = "";
@@ -183,7 +183,7 @@ class JiKeController extends Controller
                 $a .= "|";
             }
             foreach ($v['tr'] as $vv) {
-                $a .= $vv['td'] . "|";
+                $a .= trim($vv['td']) . "|";
             }
             if (!empty($v['tr'])) {
                 $a .= "\n";
