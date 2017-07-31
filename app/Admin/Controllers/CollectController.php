@@ -18,6 +18,87 @@ use QL\QueryList;
 class CollectController extends Controller
 {
 
+    public function ky(Request $request)
+    {
+        error_reporting(0);
+        $url = $request->input("url");
+        $doc_id = $request->input("doc_id", 0);
+        if ($doc_id <= 0) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
+        $client = new \GuzzleHttp\Client();
+        $html = $client->get($url)->getBody();
+        preg_match_all("/<script type=\"application\/payload\+json\">(.*?)<\/script>/is", $html, $json);
+
+        $data = $json[1][0];
+
+        $data = json_decode($data, true);
+
+        $data = $data['catalog'];
+
+        $info = pathinfo($url);
+
+        $host = $info['dirname'];
+        $msn = new AliMNS();
+        $msn->create("cloud-doc-collect-ky", "cloud-doc-collect-ky", "https://cloud-doc.leyix.com/collect/ky");
+        foreach ($data as $k => $v) {
+            if ($v['id'] == "#" || empty($v['id'])) {
+                $collect_id = md5($doc_id . $v['title'] . $v['id']);
+                $collect_state = 1;
+            } else {
+                $v['id'] = $host . '/' . $v['id'];
+                $collect_id = md5($v['id']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => 0,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['id'],
+                'collect_state' => $collect_state
+            ]);
+            $msn->send_message("cloud-doc-collect-ky", $page->id);
+            if (!empty($v['children']) && $page->id > 0) {
+                $this->ky_children($v['children'], $page->id, $msn, $doc_id, $host);
+            }
+        }
+    }
+
+    private function ky_children($data, $parent_id, $msn, $doc_id, $host)
+    {
+        foreach ($data as $k => $v) {
+            if ($v['id'] == "#" || empty($v['id'])) {
+                $collect_id = md5($doc_id . $v['title'] . $v['id']);
+                $collect_state = 1;
+            } else {
+                $v['id'] = $host . '/' . $v['id'];
+                $collect_id = md5($v['id']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => $parent_id,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['id'],
+                'collect_state' => $collect_state
+            ]);
+            $msn->send_message("cloud-doc-collect-ky", $page->id);
+            if (!empty($v['children']) && $page->id > 0) {
+                $this->ky_children($v['children'], $page->id, $msn, $doc_id, $host);
+            }
+        }
+    }
+
     public function sc(Request $request)
     {
         error_reporting(0);
