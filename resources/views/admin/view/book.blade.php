@@ -254,7 +254,7 @@
     };
 
     collect_ky = function () {
-        layer.prompt({title: '请输入看云采集链接', formType: 2}, function (pass, index) {
+        layer.prompt({title: '请输入看云文档采集链接', formType: 2}, function (pass, index) {
             layer.close(index);
             $.post("{{route('collect_ky')}}", {
                 doc_id: "{{$doc->id}}",
