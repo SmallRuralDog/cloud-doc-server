@@ -18,4 +18,9 @@ class DocClass extends Model
     public function getIconUrlAttribute(){
         return Thumb::getThumb($this->icon,"120x120.jpg");
     }
+
+
+    public function doc(){
+        return $this->hasManyThrough(Doc::class,DocClass::class,'parent_id','doc_class_id','id');
+    }
 }

@@ -65,9 +65,9 @@ return [
         'qiniu' => [
             'driver'  => 'qiniu',
             'domains' => [
-                'default'   => 'http://otbx7z2z0.bkt.clouddn.com', //你的七牛域名
+                'default'   => 'http://cloud-doc-img.leyix.com', //你的七牛域名
                 'https'     => '',         //你的HTTPS域名
-                'custom'    => 'http://otbx7z2z0.bkt.clouddn.com',                //你的自定义域名
+                'custom'    => 'http://cloud-doc-img.leyix.com',                //你的自定义域名
             ],
             'access_key'=> 'p_WdmX27Az885e58l2JjtxtN5lw0o6GiDh0fRzPy',  //AccessKey
             'secret_key'=> 'PRZbqLs5YXQ3lt2U4LgleWM3PIOQodVv220RGeFc',  //SecretKey

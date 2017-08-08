@@ -37,4 +37,8 @@ Route::group([
     $router->any("collect-sc","CollectController@sc")->name("collect_sc");
     $router->any("collect-ky","CollectController@ky")->name("collect_ky");
 
+    //广告
+    $router->resource('ad_loca','AdLocaController');
+    $router->resource('ad','AdController');
+
 });

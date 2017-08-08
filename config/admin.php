@@ -53,7 +53,7 @@ return [
             'file'   => 'file',
         ],
 
-        'host' => 'http://otbx7z2z0.bkt.clouddn.com/',
+        'host' => 'http://cloud-doc-img.leyix.com/',
     ],
 
     /*
