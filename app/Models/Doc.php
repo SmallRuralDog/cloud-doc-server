@@ -12,7 +12,7 @@ class Doc extends Model
 
     protected $table = 'doc';
 
-    protected $appends = ['cover_url'];
+    protected $appends = ['cover_url','h_cover_url'];
 
     public function doc_class()
     {
@@ -32,5 +32,9 @@ class Doc extends Model
     public function getCoverUrlAttribute()
     {
         return Thumb::getThumb($this->cover, '225x300');
+    }
+    public function getHCoverUrlAttribute()
+    {
+        return Thumb::getThumb($this->h_cover, '540x300');
     }
 }

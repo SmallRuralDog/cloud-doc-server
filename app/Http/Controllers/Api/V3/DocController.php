@@ -32,7 +32,7 @@ class DocController extends Controller
 
         $doc = DocClass::query()->where('parent_id',1)->where('state',1)->get(['id','title','desc']);
         foreach ($doc as $v){
-            $v->doc = $v->doc()->orderBy("doc.order", "desc")->orderBy("doc.id")->where("doc.state", "=", 1)->where("doc.is_hot", 1)->limit(4)->get( ['doc.id', 'doc.title', 'doc.desc', 'doc.cover', 'doc.is_end', 'doc.is_hot', 'doc.doc_class_id']);
+            $v->doc = $v->doc()->orderBy("doc.order", "desc")->orderBy("doc.id")->where("doc.state", "=", 1)->where("doc.is_hot", 1)->limit(4)->get( ['doc.id', 'doc.title', 'doc.desc','doc.cover', 'doc.h_cover', 'doc.is_end', 'doc.is_hot', 'doc.doc_class_id']);
             foreach ($v->doc as $vv){
                 $vv->view_count = $vv->doc_page()->sum("view_count");
             }
