@@ -18,13 +18,13 @@ class DocController extends Controller
     public function index()
     {
         $swiper = Ad::query()->where('loca_id',1)
-            ->where('state',1)->orderBy('order','desc')->limit(5)->get(['id','title','page','cover','loca_id']);
+            ->where('state',1)->orderBy('order','desc')->limit(5)->get(['id','title','page','cover','loca_id','open_type']);
 
         $res['swiper'] = $swiper;
 
 
         $grid = Ad::query()->where('loca_id',2)
-            ->where('state',1)->orderBy('order','desc')->limit(5)->get(['id','title','page','cover','loca_id']);
+            ->where('state',1)->orderBy('order','desc')->limit(5)->get(['id','title','page','cover','loca_id','open_type']);
 
         $res['grid'] = $grid;
 

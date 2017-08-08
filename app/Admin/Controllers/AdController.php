@@ -75,7 +75,12 @@ class AdController extends Controller
         return Admin::grid(Ad::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-
+            $grid->order('排序')->sortable()->editable();
+            $grid->column('name','名称');
+            $grid->column('title','标题');
+            $grid->column('cover','图片');
+            $grid->column('page','页面');
+            $grid->column("state","状态")->switch();
             $grid->created_at();
             $grid->updated_at();
         });
