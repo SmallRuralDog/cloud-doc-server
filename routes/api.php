@@ -34,6 +34,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
     ], function (Dingo\Api\Routing\Router $api) {
         $api->get("index", "DocController@index");
         $api->get("article-index", "ArticleController@index");
+        $api->get("article-page", "ArticleController@page");
     });
 
 });

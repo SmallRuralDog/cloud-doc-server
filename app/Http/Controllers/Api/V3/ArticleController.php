@@ -41,4 +41,16 @@ class ArticleController extends Controller
         return response()->json($list);
     }
 
+    public function page(Request $request)
+    {
+        $id = $request->input("id");
+
+        $page = Article::query()->find($id, ['id','title','content', 'updated_at']);
+        $page->increment("view_count");
+
+
+
+        return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
+    }
+
 }
