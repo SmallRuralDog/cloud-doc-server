@@ -40,6 +40,7 @@ return [
     | Supported Drivers: "local", "ftp", "s3", "rackspace"
     |
     */
+    'default_thumb'=>'default_thumb.jpg',
 
     'disks' => [
 
