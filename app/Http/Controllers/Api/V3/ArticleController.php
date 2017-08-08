@@ -26,7 +26,7 @@ class ArticleController extends Controller
         foreach ($list as $v) {
             $v->tags = $v->tags()->get(['tag.id', 'tag.name']);
         }
-        $swiper = Ad::query()->where('loca_id', 1)
+        $swiper = Ad::query()->where('loca_id', 3)
             ->where('state', 1)->orderBy('order', 'desc')->limit(5)->get(['id', 'title', 'page', 'cover', 'loca_id', 'open_type']);
 
         if ($page == 1) {
