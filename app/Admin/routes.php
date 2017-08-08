@@ -40,5 +40,8 @@ Route::group([
     //广告
     $router->resource('ad_loca','AdLocaController');
     $router->resource('ad','AdController');
+    //文章
+    $router->resource('article','ArticleController');
+    $router->resource('tag','TagController');
 
 });
