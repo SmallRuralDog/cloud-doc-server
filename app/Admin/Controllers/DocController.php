@@ -120,7 +120,7 @@ class DocController extends Controller
             $form->text("desc","文档描述");
             $form->select("doc_class_id","所属分类")->options(DocClass::selectOptions());
             $form->image("cover","文档封面")->help("封面规格 500x800");
-            $form->image("h_cover","文档封面")->help("封面规格 540x300");
+            $form->image("h_cover","文档封面-横向")->help("封面规格 540x300");
             $form->hidden("user_id")->default("0");
             $form->text("source","文档来源");
             $form->switch("is_end","是否完结")->default(0);
