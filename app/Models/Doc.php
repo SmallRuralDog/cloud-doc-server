@@ -35,6 +35,6 @@ class Doc extends Model
     }
     public function getHCoverUrlAttribute()
     {
-        return Thumb::getThumb($this->h_cover, '540x300');
+        return Thumb::getThumb($this->h_cover, '540x300.jpg');
     }
 }
