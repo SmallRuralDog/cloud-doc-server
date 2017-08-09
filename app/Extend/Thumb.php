@@ -5,6 +5,11 @@ class Thumb
 {
     public static function getThumb($imgPath, $style='',$def='')
     {
+
+        if(strstr($imgPath,'http')){
+            return $imgPath;
+        }
+
         $def = empty($def)?config('filesystems.default_thumb'):$def;
         $style = empty($style)?"":"!".$style;
         $imgPath = empty($imgPath)?$def:$imgPath;
