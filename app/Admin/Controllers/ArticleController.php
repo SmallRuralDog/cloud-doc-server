@@ -89,6 +89,13 @@ class ArticleController extends Controller
             $grid->column('view_count','浏览数');
 
             $grid->created_at('创建时间');
+
+
+            $grid->filter(function (Grid\Filter $filter){
+                $filter->disableIdFilter();
+                $filter->like("title","名称");
+                $filter->is("state","状态")->select([0=>"禁用",1=>"正常"]);
+            });
         });
     }
 
