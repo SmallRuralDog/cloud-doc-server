@@ -76,8 +76,7 @@ class ArticleController extends Controller
         $source_time = $request->input("source_time");
         $tags = $request->input("tags");
 
-
-
+        return $request->input();
 
         $article = Article::query()->firstOrCreate(['source_hash' => $source_hash], [
             'title' => $title,
@@ -91,14 +90,16 @@ class ArticleController extends Controller
         ]);
         if ($article->id > 0) {
             $tags = json_decode($tags, true);
-            foreach ($tags as $v) {
-                $tag = Tag::query()->firstOrCreate(['name' => $v], ['name' => $v]);
-                $ck = ArticleTag::query()->where('article_id', $article->id)->where('tag_id', $tag->id)->first();
-                if (empty($ck)) {
-                    ArticleTag::query()->insert([
-                        'article_id' => $article->id,
-                        'tag_id' => $tag->id
-                    ]);
+            if (is_array($tags)) {
+                foreach ($tags as $v) {
+                    $tag = Tag::query()->firstOrCreate(['name' => $v], ['name' => $v]);
+                    $ck = ArticleTag::query()->where('article_id', $article->id)->where('tag_id', $tag->id)->first();
+                    if (empty($ck)) {
+                        ArticleTag::query()->insert([
+                            'article_id' => $article->id,
+                            'tag_id' => $tag->id
+                        ]);
+                    }
                 }
             }
         }
