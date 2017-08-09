@@ -80,7 +80,7 @@ class ArticleController extends Controller
         $tags = $request->input("tags");
 
 
-        $article = Article::query()->updateOrCreate(['source_hash' => $source_hash], [
+        $article = Article::query()->firstOrCreate(['source_hash' => $source_hash], [
             'title' => $title,
             'desc' => $desc,
             'content' => $content,
