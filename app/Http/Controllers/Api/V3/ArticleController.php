@@ -105,6 +105,6 @@ class ArticleController extends Controller
             }
         }
 
-        return response()->json($article);
+        return response()->json(['state'=>true]);
     }
 }
