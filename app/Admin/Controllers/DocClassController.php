@@ -86,6 +86,7 @@ class DocClassController extends Controller
                 return join('&nbsp;', $tags);
             });
             $grid->column("state","状态")->switch();
+            $grid->column("index_show","首页显示")->switch();
             $grid->created_at('添加时间');
             $grid->updated_at("更新时间");
         });
@@ -108,6 +109,7 @@ class DocClassController extends Controller
             $form->image("icon","图标");
 
             $form->switch("state","状态");
+            $form->switch("index_show","首页显示");
 
         });
     }
