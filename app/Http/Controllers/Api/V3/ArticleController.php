@@ -87,7 +87,7 @@ class ArticleController extends Controller
             'source_url' => $source_url,
             'user_nick' => $user_nick,
             'user_avatar' => $user_avatar,
-            'source_time' => $source_time
+            'source_time' => date("Y-m-d H:i:s",strtotime($source_time))
         ]);
         if ($article->id > 0) {
             $tags = json_decode($tags, true);
