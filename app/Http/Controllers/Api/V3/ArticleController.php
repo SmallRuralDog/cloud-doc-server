@@ -30,6 +30,8 @@ class ArticleController extends Controller
             }
         }
 
+        $article->orderBy('source_time','desc');
+
 
         $list = $article->paginate(20, ['id', 'title', 'desc', 'cover', 'view_count']);
 
