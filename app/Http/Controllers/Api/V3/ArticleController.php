@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ad;
 use App\Models\Article;
 use App\Models\ArticleTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -61,4 +62,47 @@ class ArticleController extends Controller
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
 
+
+    public function collect(Request $request)
+    {
+        $title = $request->input("title");
+        $desc = $request->input("desc");
+        $cover = $request->input("cover");
+        $source = $request->input("source");
+        $source_url = $request->input("source_url");
+        $source_hash = $request->input("source_hash");
+        $user_nick = $request->input("user_nick");
+        $user_avatar = $request->input("user_avatar");
+        $source_time = $request->input("source_time");
+        $tags = $request->input("tags");
+
+
+
+
+        $article = Article::query()->firstOrCreate(['source_hash' => $source_hash], [
+            'title' => $title,
+            'desc' => $desc,
+            'cover' => $cover,
+            'source' => $source,
+            'source_url' => $source_url,
+            'user_nick' => $user_nick,
+            'user_avatar' => $user_avatar,
+            'source_time' => $source_time
+        ]);
+        if ($article->id > 0) {
+            $tags = json_decode($tags, true);
+            foreach ($tags as $v) {
+                $tag = Tag::query()->firstOrCreate(['name' => $v], ['name' => $v]);
+                $ck = ArticleTag::query()->where('article_id', $article->id)->where('tag_id', $tag->id)->first();
+                if (empty($ck)) {
+                    ArticleTag::query()->insert([
+                        'article_id' => $article->id,
+                        'tag_id' => $tag->id
+                    ]);
+                }
+            }
+        }
+
+        return response()->json($article);
+    }
 }
