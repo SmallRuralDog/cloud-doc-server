@@ -11,6 +11,8 @@ class Article extends Model
 
     protected $appends = ['cover_url'];
 
+    protected $guarded = [];
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
