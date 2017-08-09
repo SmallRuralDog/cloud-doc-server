@@ -77,6 +77,14 @@ class DocClassController extends Controller
             $grid->id('ID')->sortable();
             $grid->column("title","分类名称");
             $grid->column("desc","分类描述");
+            $grid->tags('关联标签')->display(function ($tags) {
+
+                $tags = array_map(function ($tags) {
+                    return "<span class='label label-success'>{$tags['name']}</span>";
+                }, $tags);
+
+                return join('&nbsp;', $tags);
+            });
             $grid->column("state","状态")->switch();
             $grid->created_at('添加时间');
             $grid->updated_at("更新时间");
