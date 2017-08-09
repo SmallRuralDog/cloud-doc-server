@@ -23,4 +23,9 @@ class DocClass extends Model
     public function doc(){
         return $this->hasManyThrough(Doc::class,DocClass::class,'parent_id','doc_class_id','id');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

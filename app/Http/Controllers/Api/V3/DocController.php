@@ -10,7 +10,9 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ad;
+use App\Models\Doc;
 use App\Models\DocClass;
+use Illuminate\Http\Request;
 
 class DocController extends Controller
 {
@@ -40,5 +42,22 @@ class DocController extends Controller
 
         $res['doc'] = $doc;
         return response()->json($res);
+    }
+
+    public function doc_class_list(Request $request)
+    {
+
+        $class_id = $request->input("class_id");
+        $doc = Doc::query();
+        $doc->where("state", "=", 1);
+        $doc->orderBy("order", "desc")->orderBy("id");
+        $doc->where("doc_class_id", $class_id);
+        $list = $doc->paginate(5, ['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+
+        foreach ($list as $k => $v) {
+            $list[$k]->view_count = $v->doc_page()->sum("view_count");
+        }
+
+        return response()->json($list);
     }
 }
