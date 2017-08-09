@@ -67,6 +67,7 @@ class ArticleController extends Controller
     {
         $title = $request->input("title");
         $desc = $request->input("desc");
+        $content = $request->input("content");
         $cover = $request->input("cover");
         $source = $request->input("source");
         $source_url = $request->input("source_url");
@@ -76,11 +77,11 @@ class ArticleController extends Controller
         $source_time = $request->input("source_time");
         $tags = $request->input("tags");
 
-        return $request->input();
 
         $article = Article::query()->firstOrCreate(['source_hash' => $source_hash], [
             'title' => $title,
             'desc' => $desc,
+            'content' => $content,
             'cover' => $cover,
             'source' => $source,
             'source_url' => $source_url,
