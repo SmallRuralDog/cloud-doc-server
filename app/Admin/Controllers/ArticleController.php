@@ -94,6 +94,7 @@ class ArticleController extends Controller
             $grid->filter(function (Grid\Filter $filter){
                 $filter->disableIdFilter();
                 $filter->like("title","名称");
+                $filter->like("source_hash","source_hash");
                 $filter->is("state","状态")->select([0=>"禁用",1=>"正常"]);
             });
         });
