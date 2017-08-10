@@ -70,10 +70,12 @@ class UserController extends BaseController
 
             $token = JWTAuth::fromUser($user);
 
-            $user['token'] = $token;
-            $user['ttl'] = config('jwt.ttl');
+            $wx_user = $user->wx_user;
 
-            return $this->response->array(['status_code' => 200, 'message' => '登录成功', 'data' => $user]);
+            $wx_user['token'] = $token;
+            $wx_user['ttl'] = config('jwt.ttl');
+
+            return $this->response->array(['status_code' => 200, 'message' => '登录成功', 'data' => $wx_user]);
 
         } else {
             return $this->response->array(['status_code' => $errCode, 'message' => '登录失败']);

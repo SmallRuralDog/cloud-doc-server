@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\WxUser;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +27,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function wx_user(){
+        return $this->hasOne(WxUser::class,'user_id');
+    }
+
 }
