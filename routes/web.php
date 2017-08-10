@@ -1,6 +1,8 @@
 <?php
 
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return "微信搜索 “云档” 进入小程序";
 });
@@ -8,6 +10,12 @@ Route::get('/', function () {
 Route::any("/collect/jike","JiKeController@content");
 Route::any("/collect/sc","ShouCeController@collect");
 Route::any("/collect/ky","KanYunController@collect");
+
+
+//w3c
+Route::any("/w3c-list","W3cSchoolController@get_list");
+Route::any("/collect/w3c","W3cSchoolController@get_list");
+
 Route::any("/test","JiKeController@test");
 Route::any("/sc","ShouCeController@index");
 

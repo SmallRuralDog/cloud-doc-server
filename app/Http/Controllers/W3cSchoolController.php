@@ -9,12 +9,35 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\DocPage;
+use Illuminate\Http\Request;
 use QL\QueryList;
 
 class W3cSchoolController extends Controller
 {
+    public function collect(Request $request)
+    {
+        $id = $request->input('id');
+        $content = $request->input("content");
+        $page = DocPage::query()->findOrFail($id);
+        $page->content = $content;
+        $page->collect_state = 1;
+        $page->state = 1;
+        $page->save();
+        http_response_code(200);
+        return "采集成功";
+    }
 
 
+    public function get_list(Request $request)
+    {
+        $doc_id = $request->input("id");
+
+        $list = \DB::table('doc_page')->where('doc_id', $doc_id)
+            ->where('collect_state', 0)->get(['id', 'collect_url']);
+
+        return $list;
+    }
 
 
     public function index()
@@ -42,12 +65,12 @@ class W3cSchoolController extends Controller
                     'title' => array('>.dd-content>a', 'text'),
                     'href' => array('>.dd-content>a', 'href'),
                     'list' => array('>.dd-list', 'html')
-                ),'>.dd-item')->getData(function ($item3){
+                ), '>.dd-item')->getData(function ($item3) {
                     $item3['list'] = QueryList::Query($item3['list'], array(
                         'title' => array('>.dd-content>a', 'text'),
                         'href' => array('>.dd-content>a', 'href'),
                         'list' => array('>.dd-list', 'html')
-                    ),'>.dd-item')->data;
+                    ), '>.dd-item')->data;
                     return $item3;
                 });
                 return $item2;
