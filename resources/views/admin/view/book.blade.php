@@ -18,6 +18,7 @@
         <a href="javascript:void(0)" onclick="collect_jkxy()" class="easyui-linkbutton">采集极客学院</a>
         <a href="javascript:void(0)" onclick="collect_sc()" class="easyui-linkbutton">采集手册网</a>
         <a href="javascript:void(0)" onclick="collect_ky()" class="easyui-linkbutton">采集看云</a>
+        <a href="javascript:void(0)" onclick="collect_w3c()" class="easyui-linkbutton">采集W3C</a>
         <a href="javascript:void(0)" onclick="del_all()" class="easyui-linkbutton">一键删除</a>
     </div>
     <div data-options="region:'west',split:true,collapsible:false,border:true,tools:'#menu_tools'" title="目录"
@@ -257,6 +258,19 @@
         layer.prompt({title: '请输入看云文档123采集链接', formType: 2}, function (pass, index) {
             layer.close(index);
             $.post("{{route('collect_ky')}}", {
+                doc_id: "{{$doc->id}}",
+                _token: "{{csrf_token()}}",
+                url: pass
+            }, function (res) {
+                DocMenu.tree("reload");
+            })
+        });
+    };
+
+    collect_w3c = function () {
+        layer.prompt({title: '请输入w3c采集链接', formType: 2}, function (pass, index) {
+            layer.close(index);
+            $.post("{{route('collect_w3c')}}", {
                 doc_id: "{{$doc->id}}",
                 _token: "{{csrf_token()}}",
                 url: pass

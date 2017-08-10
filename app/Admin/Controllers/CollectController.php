@@ -18,6 +18,102 @@ use QL\QueryList;
 class CollectController extends Controller
 {
 
+    public function w3c(Request $request)
+    {
+        $url = $request->input("url");
+        $doc_id = $request->input("doc_id", 0);
+        if ($doc_id <= 0) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
+        $client = new \GuzzleHttp\Client();
+        $html = $client->get($url)->getBody();
+        $rules = array(
+            'title' => array('>.dd-content>a', 'text'),
+            'href' => array('>.dd-content>a', 'href'),
+            'list' => array('>.dd-list', 'html')
+        );
+
+        $data = QueryList::Query($html, $rules, ".dd>.dd-list>.dd-item")->getData(function ($item) {
+            $item['list'] = QueryList::Query($item['list'], array(
+                'title' => array('>.dd-content>a', 'text'),
+                'href' => array('>.dd-content>a', 'href'),
+                'list' => array('>.dd-list', 'html')
+            ), '>.dd-item')->getData(function ($item2) {
+                $item2['list'] = QueryList::Query($item2['list'], array(
+                    'title' => array('>.dd-content>a', 'text'),
+                    'href' => array('>.dd-content>a', 'href'),
+                    'list' => array('>.dd-list', 'html')
+                ), '>.dd-item')->getData(function ($item3) {
+                    $item3['list'] = QueryList::Query($item3['list'], array(
+                        'title' => array('>.dd-content>a', 'text'),
+                        'href' => array('>.dd-content>a', 'href'),
+                        'list' => array('>.dd-list', 'html')
+                    ), '>.dd-item')->data;
+                    return $item3;
+                });
+                return $item2;
+            });
+            return $item;
+        });
+
+        $host = "https://www.w3cschool.cn";
+        foreach ($data as $k => $v) {
+            if ($v['href'] == "#" || empty($v['href'])) {
+                $collect_id = md5($doc_id . $v['title'] . "#");
+                $collect_state = 1;
+            } else {
+                $v['href'] = $host . $v['href'];
+                $collect_id = md5($v['href']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => 0,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['id'],
+                'collect_state' => $collect_state
+            ]);
+            if (!empty($v['list']) && $page->id > 0) {
+                $this->w3c_children($v['children'], $page->id, $doc_id, $host);
+            }
+        }
+    }
+
+    private function w3c_children($data, $parent_id, $doc_id, $host)
+    {
+        foreach ($data as $k => $v) {
+            if ($v['href'] == "#" || empty($v['href'])) {
+                $collect_id = md5($doc_id . $v['title'] . "#");
+                $collect_state = 1;
+            } else {
+                $v['href'] = $host . $v['href'];
+                $collect_id = md5($v['href']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => $parent_id,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['id'],
+                'collect_state' => $collect_state
+            ]);
+            if (!empty($v['list']) && $page->id > 0) {
+                $this->w3c_children($v['children'], $page->id, $doc_id, $host);
+            }
+        }
+    }
+
+
     public function ky(Request $request)
     {
         error_reporting(0);
