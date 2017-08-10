@@ -28,7 +28,7 @@ class UserController extends BaseController
         $encryptedData = $request->input("encryptedData");
         $iv = $request->input("iv");
         if (empty($code) || empty($encryptedData) || empty($iv)) {
-            return $this->response->array(['states_code' => 0, 'message' => '登录失败']);
+            return $this->response->array(['status_code' => 0, 'message' => '登录失败']);
         }
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid=" . config('wx.xcx_AppID') . "&secret=" . config('wx.xcx_AppSecret') . "&js_code=" . $code . "&grant_type=authorization_code";
         $http = new \GuzzleHttp\Client();
@@ -59,7 +59,7 @@ class UserController extends BaseController
                     'avatar' => $wx_user->avatar_url,
                 ]);
                 if ($user->id <= 0) {
-                    return $this->response->array(['states_code' => $errCode, 'message' => '用户创建失败']);
+                    return $this->response->array(['status_code' => $errCode, 'message' => '用户创建失败']);
                 } else {
                     $wx_user->user_id = $user->id;
                     $wx_user->save();
@@ -73,10 +73,10 @@ class UserController extends BaseController
             $user['token'] = $token;
             $user['ttl'] = config('jwt.ttl');
 
-            return $this->response->array(['states_code' => 200, 'message' => '登录成功', 'data' => $user]);
+            return $this->response->array(['status_code' => 200, 'message' => '登录成功', 'data' => $user]);
 
         } else {
-            return $this->response->array(['states_code' => $errCode, 'message' => '登录失败']);
+            return $this->response->array(['status_code' => $errCode, 'message' => '登录失败']);
         }
 
 
