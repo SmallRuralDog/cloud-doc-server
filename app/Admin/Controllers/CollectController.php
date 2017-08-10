@@ -20,6 +20,7 @@ class CollectController extends Controller
 
     public function w3c(Request $request)
     {
+        error_reporting(0);
         $url = $request->input("url");
         $doc_id = $request->input("doc_id", 0);
         if ($doc_id <= 0) {
@@ -27,6 +28,8 @@ class CollectController extends Controller
         }
         $client = new \GuzzleHttp\Client();
         $html = $client->get($url)->getBody();
+
+
         $rules = array(
             'title' => array('>.dd-content>a', 'text'),
             'href' => array('>.dd-content>a', 'href'),
@@ -55,6 +58,10 @@ class CollectController extends Controller
             });
             return $item;
         });
+
+        if (empty($data)) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
 
         $host = "https://www.w3cschool.cn";
         foreach ($data as $k => $v) {
