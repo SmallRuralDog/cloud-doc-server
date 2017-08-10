@@ -75,11 +75,11 @@ class CollectController extends Controller
                 'state' => 0,
                 'doc_id' => $doc_id,
                 'menu_id' => 0,
-                'collect_url' => $v['id'],
+                'collect_url' => $v['href'],
                 'collect_state' => $collect_state
             ]);
             if (!empty($v['list']) && $page->id > 0) {
-                $this->w3c_children($v['children'], $page->id, $doc_id, $host);
+                $this->w3c_children($v['list'], $page->id, $doc_id, $host);
             }
         }
     }
@@ -104,11 +104,11 @@ class CollectController extends Controller
                 'state' => 0,
                 'doc_id' => $doc_id,
                 'menu_id' => 0,
-                'collect_url' => $v['id'],
+                'collect_url' => $v['href'],
                 'collect_state' => $collect_state
             ]);
             if (!empty($v['list']) && $page->id > 0) {
-                $this->w3c_children($v['children'], $page->id, $doc_id, $host);
+                $this->w3c_children($v['list'], $page->id, $doc_id, $host);
             }
         }
     }
