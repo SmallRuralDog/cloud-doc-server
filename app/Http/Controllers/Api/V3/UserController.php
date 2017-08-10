@@ -23,6 +23,7 @@ class UserController extends BaseController
     public function login(Request $request)
     {
 
+        error_reporting(0);
         $code = $request->input("code");
         $encryptedData = $request->input("encryptedData");
         $iv = $request->input("iv");
