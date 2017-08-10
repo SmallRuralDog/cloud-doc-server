@@ -14,7 +14,7 @@ Route::any("/collect/ky","KanYunController@collect");
 
 //w3c
 Route::any("/w3c-list","W3cSchoolController@get_list");
-Route::any("/collect/w3c","W3cSchoolController@get_list");
+Route::any("/collect/w3c","W3cSchoolController@collect");
 
 Route::any("/test","JiKeController@test");
 Route::any("/sc","ShouCeController@index");
