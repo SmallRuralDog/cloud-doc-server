@@ -22,6 +22,10 @@ class W3cSchoolController extends Controller
         if (empty($id) || empty($content)) {
             return "数据错误";
         }
+
+
+        $content = str_replace("(//", "(http://", $content);
+
         $page = DocPage::query()->findOrFail($id);
         $page->content = $content;
         $page->collect_state = 1;
