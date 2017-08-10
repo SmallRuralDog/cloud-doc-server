@@ -103,7 +103,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY','base64:cAEWbHX4Y6bfnTtmyOJX3nlfmNjn2hZPzC7lwcrFo2M='),
+    'key' => env('APP_KEY', 'base64:cAEWbHX4Y6bfnTtmyOJX3nlfmNjn2hZPzC7lwcrFo2M='),
 
     'cipher' => 'AES-256-CBC',
 
@@ -179,7 +179,9 @@ return [
 
         Encore\Admin\Providers\AdminServiceProvider::class,
         zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
-        Dingo\Api\Provider\LaravelServiceProvider::class
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
 
     ],
 
@@ -229,6 +231,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class
 
     ],
 
