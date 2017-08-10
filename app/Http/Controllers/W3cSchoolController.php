@@ -19,12 +19,14 @@ class W3cSchoolController extends Controller
     {
         $id = $request->input('id');
         $content = $request->input("content");
+        if (empty($id) || empty($content)) {
+            return "数据错误";
+        }
         $page = DocPage::query()->findOrFail($id);
         $page->content = $content;
         $page->collect_state = 1;
         $page->state = 1;
         $page->save();
-        http_response_code(200);
         return "采集成功";
     }
 
