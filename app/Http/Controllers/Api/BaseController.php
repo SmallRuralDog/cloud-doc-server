@@ -17,4 +17,13 @@ class BaseController extends Controller
 {
     use Helpers, ValidatesRequests;
 
+    protected function get_user()
+    {
+        return JWTAuth::parseToken()->authenticate();
+    }
+
+    protected function api_return($status_code, $message = '', $data = [])
+    {
+        return response()->json(['status_code' => $status_code, 'message' => $message, 'data' => $data]);
+    }
 }

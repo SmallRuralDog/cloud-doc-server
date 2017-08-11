@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Extend\WxApp\WXBizDataCrypt;
 use App\Http\Controllers\Api\BaseController;
+use App\Models\UserFollow;
 use App\Models\WxUser;
 use App\User;
 use Illuminate\Http\Request;
@@ -21,16 +22,40 @@ class UserController extends BaseController
 
     public function index()
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $user = $this->get_user();
         $wx_user = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
         $re['user'] = $wx_user;
         $re['user_data'] = [
-            'follow'=>0,
-            'fans'=>0
+            'follow' => 0,
+            'fans' => 0
         ];
 
-        return $this->response->array(['status_code' => 200, 'message' => '','data'=>$re]);
+        return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
+    }
+
+
+    public function user_follow(Request $request)
+    {
+        $user = $this->get_user();
+        $data_id = $request->input("key");
+        $type = $request->input("type");
+        if ($data_id <= 0 || !in_array($type, ['doc', 'doc_page', 'article', 'user'])) {
+            $this->api_return(0, '数据异常');
+        }
+
+        $uf = UserFollow::query()->updateOrCreate([
+            'user_id' => $user->id,
+            'data_id' => $data_id,
+            'type' => $type
+        ], [
+            'user_id' => $user->id,
+            'data_id' => $data_id,
+            'type' => $type
+        ]);
+
+        $this->api_return(200, '操作成功', $uf);
+
     }
 
 
