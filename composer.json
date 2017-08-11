@@ -14,7 +14,8 @@
         "laravel/tinker": "~1.0",
         "league/html-to-markdown": "^4.4",
         "tymon/jwt-auth": "0.5.*",
-        "zgldh/qiniu-laravel-storage": "^0.6.7"
+        "zgldh/qiniu-laravel-storage": "^0.6.7",
+        "simplesoftwareio/simple-qrcode": "~1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

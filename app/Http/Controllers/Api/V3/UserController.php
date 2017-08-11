@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Extend\WxApp\WXBizDataCrypt;
 use App\Http\Controllers\Api\BaseController;
+use App\Models\ScanCode;
 use App\Models\UserFollow;
 use App\Models\WxUser;
 use App\User;
@@ -29,7 +30,7 @@ class UserController extends BaseController
         $re['user_data'] = [
             'follow' => 0,
             'fans' => 0,
-            'scan_code_title'=>'扫一扫，登录网页版创建文档'
+            'scan_code_title' => '扫一扫，登录网页版创建文档'
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
@@ -59,6 +60,22 @@ class UserController extends BaseController
 
     }
 
+    public function scan_login(Request $request)
+    {
+        $key = $request->input("key");
+        $user = $this->get_user();
+        $info = ScanCode::query()->where('key', $key)->first();
+        if ($info->user_id <= 0 && $info->add_time > time() - 5 * 60) {
+            $info->user_id = $user->id;
+            if($info->save()){
+                return $this->api_return(200, '登录成功');
+            }else{
+                return $this->api_return(0, '登录失败');
+            }
+        } else {
+            return $this->api_return(0, '二维码已过期');
+        }
+    }
 
     public function login(Request $request)
     {
