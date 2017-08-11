@@ -29,7 +29,7 @@ class UserController extends BaseController
         $re['user_data'] = [
             'follow' => 0,
             'fans' => 0,
-            'scan_code_title'=>'扫一扫'
+            'scan_code_title'=>'扫一扫，登录网页版创建文档'
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
