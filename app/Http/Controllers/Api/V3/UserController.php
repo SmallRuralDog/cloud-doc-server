@@ -25,6 +25,10 @@ class UserController extends BaseController
         $wx_user = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
         $re['user'] = $wx_user;
+        $re['user_data'] = [
+            'follow'=>0,
+            'fans'=>0
+        ];
 
         return $this->response->array(['status_code' => 200, 'message' => '','data'=>$re]);
     }
