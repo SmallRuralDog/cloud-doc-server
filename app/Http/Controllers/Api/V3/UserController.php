@@ -41,7 +41,7 @@ class UserController extends BaseController
         $data_id = $request->input("key");
         $type = $request->input("type");
         if ($data_id <= 0 || !in_array($type, ['doc', 'doc_page', 'article', 'user'])) {
-            $this->api_return(0, '数据异常');
+            return $this->api_return(0, '数据异常');
         }
 
         $uf = UserFollow::query()->updateOrCreate([
@@ -54,7 +54,7 @@ class UserController extends BaseController
             'type' => $type
         ]);
 
-        $this->api_return(200, '操作成功', $uf);
+        return $this->api_return(200, '操作成功', $uf);
 
     }
 
