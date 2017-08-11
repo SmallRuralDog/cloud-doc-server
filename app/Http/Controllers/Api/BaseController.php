@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BaseController extends Controller
 {
