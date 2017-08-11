@@ -19,6 +19,16 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class UserController extends BaseController
 {
 
+    public function index()
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $wx_user = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
+
+        $re['user'] = $wx_user;
+
+        return $this->response->array(['status_code' => 200, 'message' => '','data'=>$re]);
+    }
+
 
     public function login(Request $request)
     {
@@ -70,7 +80,7 @@ class UserController extends BaseController
 
             $token = JWTAuth::fromUser($user);
 
-            $wxuser = $user->wx_user()->first(['user_id','nick_name','avatar_url','city','country','gender','language','province']);
+            $wxuser = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
             $wxuser['token'] = $token;
             $wxuser['ttl'] = config('jwt.ttl');
