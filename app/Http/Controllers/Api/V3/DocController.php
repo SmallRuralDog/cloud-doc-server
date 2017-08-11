@@ -8,16 +8,17 @@
 
 namespace App\Http\Controllers\Api\V3;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\BaseController;
 use App\Models\Ad;
 use App\Models\Article;
 use App\Models\ArticleTag;
 use App\Models\Doc;
 use App\Models\DocClass;
 use App\Models\DocClassTag;
+use App\Models\UserFollow;
 use Illuminate\Http\Request;
 
-class DocController extends Controller
+class DocController extends BaseController
 {
 
     public function index()
@@ -60,13 +61,13 @@ class DocController extends Controller
         foreach ($doc_list as $k => $v) {
             $doc_list[$k]->view_count = $v->doc_page()->sum("view_count");
         }
-        $tag_ids = DocClassTag::query()->where('doc_class_id',$class_id)->get(['tag_id'])->pluck('tag_id')->toArray();
+        $tag_ids = DocClassTag::query()->where('doc_class_id', $class_id)->get(['tag_id'])->pluck('tag_id')->toArray();
         $article_ids = ArticleTag::query()->whereIn('tag_id', $tag_ids)->get(['article_id'])->pluck('article_id')->toArray();
         $article = Article::query();
         if (is_array($article_ids)) {
             $article->whereIn('id', $article_ids);
         }
-        $article->orderBy('source_time','desc');
+        $article->orderBy('source_time', 'desc');
 
         $list = $article->paginate(20, ['id', 'title', 'desc', 'cover', 'view_count']);
         foreach ($list as $v) {
@@ -82,7 +83,28 @@ class DocController extends Controller
         }
 
 
-
         return response()->json($list);
+    }
+
+    public function info(Request $request)
+    {
+        $doc_id = $request->input("doc_id");
+        $doc = Doc::query()->find($doc_id);
+        $doc->doc_class;
+        $user = $this->get_user();
+        if ($user) {
+            $ck = UserFollow::query()->where([
+                'user_id' => $user->id,
+                'data_id' => $doc_id,
+                'type' => 'doc'
+            ])->first();
+
+            $doc->is_follow = empty($ck) ? false : true;
+
+        } else {
+            $doc->is_follow = false;
+        }
+
+        return $this->api_return(200, '', $doc);
     }
 }

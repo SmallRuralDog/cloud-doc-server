@@ -20,7 +20,12 @@ class BaseController extends Controller
 
     protected function get_user()
     {
-        return JWTAuth::parseToken()->authenticate();
+        try{
+            return JWTAuth::parseToken()->authenticate();
+        }catch (\Exception $exception){
+            return false;
+        }
+
     }
 
     protected function api_return($status_code, $message = '', $data = [])
