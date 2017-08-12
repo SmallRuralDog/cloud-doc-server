@@ -29,8 +29,8 @@ class UserController extends BaseController
         $user_doc = UserFollow::query()->where('user_id',$user->id)->where('type','doc')
             ->orderBy('updated_at','desc')->get(['data_id']);
 
-        foreach ($user_doc as $v){
-            $v->doc = $v->doc()->get();
+        foreach ($user_doc as $k=>$v){
+            $user_doc[$k] = $v->doc()->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
         }
 
         $re['user'] = $wx_user;
