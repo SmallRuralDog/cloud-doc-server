@@ -91,6 +91,10 @@ class DocController extends BaseController
         $doc_id = $request->input("doc_id");
         $doc = Doc::query()->find($doc_id);
         $doc->doc_class;
+
+        $doc->user = [
+            'nick_name'=>'云档'
+        ];
         $user = $this->get_user();
         if ($user) {
             $ck = UserFollow::query()->where([
