@@ -26,10 +26,10 @@ class UserController extends BaseController
         $user = $this->get_user();
         $wx_user = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
-        $user_doc = UserFollow::query()->where('user_id',$user->id)->where('type','doc')
-            ->orderBy('updated_at','desc')->get(['data_id']);
+        $user_doc = UserFollow::query()->where('user_id', $user->id)->where('type', 'doc')
+            ->orderBy('updated_at', 'desc')->get(['data_id']);
 
-        foreach ($user_doc as $k=>$v){
+        foreach ($user_doc as $k => $v) {
             $user_doc[$k] = $v->doc()->first(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
         }
 
@@ -38,12 +38,36 @@ class UserController extends BaseController
             'follow' => 0,
             'fans' => 0,
             'scan_code_title' => '扫一扫，登录网页版创建文档',
-            'doc'=>$user_doc
+            'doc' => $user_doc
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
     }
 
+    public function user_follow_cancel(Request $request)
+    {
+        $user = $this->get_user();
+        $data_id = $request->input("key");
+        $type = $request->input("type");
+        if ($data_id <= 0 || !in_array($type, ['doc', 'doc_page', 'article', 'user'])) {
+            return $this->api_return(0, '数据异常');
+        }
+
+        $uf = UserFollow::query()->updateOrCreate([
+            'user_id' => $user->id,
+            'data_id' => $data_id,
+            'type' => $type
+        ])->first();
+        if (empty($uf)) {
+            return $this->api_return(0, '数据异常');
+        } else {
+            if ($uf->delete()) {
+                return $this->api_return(200, '取消成功');
+            } else {
+                return $this->api_return(0, '取消失败');
+            }
+        }
+    }
 
     public function user_follow(Request $request)
     {
@@ -75,9 +99,9 @@ class UserController extends BaseController
         $info = ScanCode::query()->where('key', $key)->first();
         if ($info->user_id <= 0 && $info->add_time > time() - 5 * 60) {
             $info->user_id = $user->id;
-            if($info->save()){
+            if ($info->save()) {
                 return $this->api_return(200, '登录成功');
-            }else{
+            } else {
                 return $this->api_return(0, '登录失败');
             }
         } else {

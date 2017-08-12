@@ -46,6 +46,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
             $api->get('user-index','UserController@index');
             $api->any('user-follow','UserController@user_follow');
+            $api->any('user-follow-cancel','UserController@user_follow_cancel');
         });
     });
 
