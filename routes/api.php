@@ -41,6 +41,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("info", "DocController@info");
 
         $api->any('login', 'UserController@login');
+        $api->any('scan-login', 'UserController@scan_login');
 
         $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
             $api->get('user-index','UserController@index');
