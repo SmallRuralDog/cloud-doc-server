@@ -53,7 +53,7 @@ class UserController extends BaseController
             return $this->api_return(0, '数据异常');
         }
 
-        $uf = UserFollow::query()->updateOrCreate([
+        $uf = UserFollow::query()->where([
             'user_id' => $user->id,
             'data_id' => $data_id,
             'type' => $type
