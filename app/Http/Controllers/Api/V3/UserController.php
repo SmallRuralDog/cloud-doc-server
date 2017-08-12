@@ -26,11 +26,19 @@ class UserController extends BaseController
         $user = $this->get_user();
         $wx_user = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
+        $user_doc = UserFollow::query()->where('user_id',$user->id)->where('type','doc')
+            ->orderBy('update_at','desc')->get(['data_id']);
+
+        foreach ($user_doc as $v){
+            $v->doc = $v->doc()->get();
+        }
+
         $re['user'] = $wx_user;
         $re['user_data'] = [
             'follow' => 0,
             'fans' => 0,
-            'scan_code_title' => '扫一扫，登录网页版创建文档'
+            'scan_code_title' => '扫一扫，登录网页版创建文档',
+            'doc'=>$user_doc
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
