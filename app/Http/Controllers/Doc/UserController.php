@@ -40,6 +40,7 @@ class UserController extends Controller
         if ($info->user_id > 0 && $info->add_time > time() - 5 * 60) {
             $user = User::query()->findOrFail($info->user_id);
             Auth::login($user);
+            $info->delete();
             return response()->json(['state' => true]);
         } else {
             return response()->json(['state' => false]);
