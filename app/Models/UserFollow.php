@@ -12,6 +12,6 @@ class UserFollow extends Model
 
 
     public function doc(){
-        return $this->hasOne(Doc::class,'data_id');
+        return $this->hasOne(Doc::class,'id','data_id');
     }
 }
