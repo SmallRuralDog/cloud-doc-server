@@ -28,11 +28,13 @@ $(function () {
             _token:"{{csrf_token()}}",
             key:"{{$key}}"
         },function(res){
-
+            if(res.state){
+                window.location.href = '/'
+            }
         });
     }
 
-    setInterval(ck_login,10000)
+    setInterval(ck_login,5000)
 })
 </script>
 </body>

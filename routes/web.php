@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,6 +29,7 @@ Route::group([
 ], function (Router $router) {
     $router->any('/', 'HomeController@index');
     $router->any('/login', 'Doc\UserController@login')->name('login');
+    $router->post('logout', 'Auth\LoginController@logout')->name('logout');
     $router->any('/check_login', 'Doc\UserController@check_login')->name('check_login');
 });
 

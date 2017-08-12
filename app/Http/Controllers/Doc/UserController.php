@@ -20,6 +20,10 @@ class UserController extends Controller
 
     public function login()
     {
+        if(\auth()->check()){
+            return redirect('/');
+        }
+
         $scan_code = ScanCode::query()->create([
             'key' => str_random(32),
             'user_id' => 0,
