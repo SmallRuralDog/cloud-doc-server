@@ -8,7 +8,7 @@
     <title>云档登录</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <style>
         .text-center {
             text-align: center;
