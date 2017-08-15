@@ -183,7 +183,9 @@ return [
 
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
 
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 

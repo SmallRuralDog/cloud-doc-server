@@ -45,4 +45,8 @@ Route::group([
     $router->resource('article','ArticleController');
     $router->resource('tag','TagController');
 
+    $router->resource('question','QuestionController');
+
+    $router->resource('user','UserController');
+
 });

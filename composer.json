@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "barryvdh/laravel-ide-helper": "^2.4",
         "dingo/api": "1.0.x@dev",
         "encore/laravel-admin": "1.4.x-dev",
         "guzzlehttp/guzzle": "^6.2",
@@ -13,9 +14,9 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "league/html-to-markdown": "^4.4",
+        "simplesoftwareio/simple-qrcode": "~1",
         "tymon/jwt-auth": "0.5.*",
-        "zgldh/qiniu-laravel-storage": "^0.6.7",
-        "simplesoftwareio/simple-qrcode": "~1"
+        "zgldh/qiniu-laravel-storage": "^0.6.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
