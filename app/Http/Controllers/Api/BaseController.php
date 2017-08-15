@@ -36,7 +36,7 @@ class BaseController extends Controller
     }
 
     /**
-     * @param UploadedFile $file
+     * @param $file
      * @param $path
      * @return bool
      */
