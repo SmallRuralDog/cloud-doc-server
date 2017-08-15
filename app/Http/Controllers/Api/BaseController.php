@@ -40,11 +40,11 @@ class BaseController extends Controller
      * @param $path
      * @return bool
      */
-    protected function upload(UploadedFile $file, $path)
+    protected function upload($file, $path)
     {
         if ($file->isValid()) {
             $disk = Storage::disk('qiniu');
-            $result = $disk->put("goods_image", $file);
+            $result = $disk->put($path, $file);
             if (!$result) {
                 return false;
             } else {
