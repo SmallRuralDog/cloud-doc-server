@@ -40,9 +40,9 @@ class QuestionController extends BaseController
                 'data_id' => $data_id,
                 'state' => 0
             ]);
-            $this->api_return(200, '上传成功', $upload);
+            return $this->api_return(200, '上传成功', $upload);
         } else {
-            $this->api_return(0, '上传失败');
+            return $this->api_return(0, '上传失败');
         }
     }
 }
