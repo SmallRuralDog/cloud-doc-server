@@ -12,6 +12,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BaseController extends Controller
@@ -20,9 +22,9 @@ class BaseController extends Controller
 
     protected function get_user()
     {
-        try{
+        try {
             return JWTAuth::parseToken()->authenticate();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return false;
         }
 
@@ -31,5 +33,25 @@ class BaseController extends Controller
     protected function api_return($status_code, $message = '', $data = [])
     {
         return response()->json(['status_code' => $status_code, 'message' => $message, 'data' => $data]);
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @param $path
+     * @return bool
+     */
+    protected function upload(UploadedFile $file, $path)
+    {
+        if ($file->isValid()) {
+            $disk = Storage::disk('qiniu');
+            $result = $disk->put("goods_image", $file);
+            if (!$result) {
+                return false;
+            } else {
+                return $result;
+            }
+        } else {
+            return false;
+        }
     }
 }
