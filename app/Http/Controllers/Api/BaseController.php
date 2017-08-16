@@ -54,4 +54,12 @@ class BaseController extends Controller
             return false;
         }
     }
+
+    protected function del_img($upload_temp)
+    {
+        $disk = Storage::disk('qiniu');
+        $re = $disk->delete($upload_temp->path);
+        $upload_temp->delete();
+
+    }
 }

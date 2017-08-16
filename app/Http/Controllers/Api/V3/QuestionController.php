@@ -39,7 +39,9 @@ class QuestionController extends BaseController
                 'user_id' => $user->id,
                 'path' => $res,
                 'data_id' => $data_id,
-                'state' => 0
+                'state' => 0,
+                'index'=>$index,
+                'key'=>md5($res)
             ]);
             return $this->api_return(200, '上传成功', $upload);
         } else {
