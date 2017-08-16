@@ -20,22 +20,37 @@ class QuestionController extends BaseController
 
     public function index()
     {
-        $question = Question::query()->where('state',1);
+        $question = Question::query()->where('state', 1);
 
 
-        $question->orderBy('created_at','desc');
+        $question->orderBy('created_at', 'desc');
 
-        $page = $question->paginate(20,['id','user_id','title','pics','created_at','view_count']);
+        $page = $question->paginate(20, ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
 
-        foreach ($page as $v){
-            $v->user = $v->user()->first(['id','name','avatar']);
+        foreach ($page as $v) {
+            $v->user = $v->user()->first(['id', 'name', 'avatar']);
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
 
-            $v->pics_type = count($v->pics_arr)%3==0?3:count($v->pics_arr)%3;
+            $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
         }
 
         return $page;
+    }
+
+    public function page(Request $request)
+    {
+        $id = $request->input("id");
+        $page = $request->input("page");
+
+        $v = Question::query()->find($id,['id', 'user_id', 'title','desc', 'pics', 'created_at', 'view_count']);
+        $v->user = $v->user()->first(['id', 'name', 'avatar']);
+
+        $v->created = Carbon::parse($v->created_at)->diffForHumans();
+
+        $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
+
+        return ['wenda'=>$v];
     }
 
     public function question_post(Request $request)

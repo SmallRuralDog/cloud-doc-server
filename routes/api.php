@@ -45,6 +45,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
 
 
         $api->get('wenda-index','QuestionController@index');
+        $api->get('wenda-page','QuestionController@page');
 
         $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
             $api->get('user-index','UserController@index');
