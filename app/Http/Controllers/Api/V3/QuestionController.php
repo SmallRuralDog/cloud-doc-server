@@ -23,10 +23,11 @@ class QuestionController extends BaseController
     {
         $question = Question::query()->where('state', 1);
 
+        $question->select( ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
 
         $question->orderBy('created_at', 'desc');
 
-        $page = $question->paginate(20, ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
+        $page = $question->paginate(20);
 
         foreach ($page as $v) {
             $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
@@ -34,6 +35,7 @@ class QuestionController extends BaseController
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
             $v->pics_arr = $v->pics_arr;
             $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
+            $v->reply_count = $v->reply()->count();
         }
 
         return $page;
