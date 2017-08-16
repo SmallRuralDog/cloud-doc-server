@@ -43,6 +43,9 @@ class QuestionController extends BaseController
             'source_id' => $source_id,
             'pics' => json_encode($img),
         ]);
+        if ($question->id > 0) {
+            UploadTemp::query()->whereIn('key', $pics)->delete();
+        }
 
         return $this->api_return(200, '发布成功', $question);
     }
