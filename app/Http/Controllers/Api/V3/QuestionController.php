@@ -42,6 +42,7 @@ class QuestionController extends BaseController
             'source' => $source,
             'source_id' => $source_id,
             'pics' => json_encode($img),
+            'state'=>1
         ]);
         if ($question->id > 0) {
             UploadTemp::query()->whereIn('key', $pics)->delete();
