@@ -23,14 +23,14 @@ class QuestionController extends BaseController
     {
         $question = Question::query()->where('state', 1);
 
-        $question->select( ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
+        $question->select(['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
 
         $question->orderBy('created_at', 'desc');
 
         $page = $question->paginate(10);
 
         foreach ($page as $v) {
-            $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
+            $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
             $v->pics_arr = $v->pics_arr;
@@ -44,23 +44,23 @@ class QuestionController extends BaseController
     public function page(Request $request)
     {
         $id = $request->input("id");
-        $page = $request->input("page",1);
+        $page = $request->input("page", 1);
 
-        $v = Question::query()->find($id,['id', 'user_id', 'title','desc', 'pics', 'created_at', 'view_count']);
-        $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
+        $v = Question::query()->find($id, ['id', 'user_id', 'title', 'desc', 'pics', 'created_at', 'view_count']);
+        $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
 
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
         $v->pics_arr = $v->pics_arr;
         $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
 
 
-        $reply = QuestionReply::query()->where('question_id',$v->id)->where('state',1);
+        $reply = QuestionReply::query()->where('question_id', $v->id)->where('state', 1);
         $list = $reply->paginate(10);
         foreach ($list as $item) {
-            $item->user = $item->user()->first(['id', 'name', 'title','avatar']);
+            $item->user = $item->user()->first(['id', 'name', 'title', 'avatar']);
         }
 
-        if ($page == 1 ) {
+        if ($page == 1) {
             $json = json_encode($list);
 
             $list = json_decode($json);
@@ -106,6 +106,24 @@ class QuestionController extends BaseController
         return $this->api_return(200, '发布成功', $question);
     }
 
+    public function question_reply(Request $request)
+    {
+        $user = $this->get_user();
+        $id = $request->input("id");
+        $content = $request->input("content");
+
+
+        $reply = QuestionReply::query()->create([
+            'user_id' => $user->id,
+            'question_id' => $id,
+            'content' => $content,
+            'state' => 1,
+            'is_accept' => 0,
+
+        ]);
+
+        return $this->api_return(200, '回答成功', $reply->id);
+    }
 
     public function upload_img(Request $request)
     {
