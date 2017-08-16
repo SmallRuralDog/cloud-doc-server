@@ -32,7 +32,7 @@ class QuestionController extends BaseController
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
 
-            $v->pics_type = count($v->pics_arr)%3;
+            $v->pics_type = count($v->pics_arr)%3==0?3:count($v->pics_arr)%3;
         }
 
         return $page;
