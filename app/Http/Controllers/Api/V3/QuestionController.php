@@ -55,6 +55,9 @@ class QuestionController extends BaseController
 
 
         $reply = QuestionReply::query()->where('question_id', $v->id)->where('state', 1);
+
+        $reply->orderBy('created_at','desc');
+
         $list = $reply->paginate(10);
         foreach ($list as $item) {
             $item->user = $item->user()->first(['id', 'name', 'title', 'avatar']);
