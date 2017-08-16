@@ -30,6 +30,7 @@ class QuestionController extends BaseController
     {
         $user = $this->get_user();
         $data_id = $request->input("data_id");
+        $index = $request->input("index");
         $name = $request->input("name");
         $file = $request->file($name);
         $res = $this->upload($file, "question");
