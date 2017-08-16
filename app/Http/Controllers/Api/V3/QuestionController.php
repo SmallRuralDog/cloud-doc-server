@@ -30,7 +30,7 @@ class QuestionController extends BaseController
 
         $img = [];
         if (is_array($pics)) {
-            $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->get('path')->pluck('path');
+            $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->get(['path'])->pluck('path');
         }
 
         return $img;
