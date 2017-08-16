@@ -51,7 +51,6 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
             $api->get('user-index','UserController@index');
             $api->any('user-follow','UserController@user_follow');
             $api->any('user-follow-cancel','UserController@user_follow_cancel');
-
             //问答
             $api->post('wenda-upload-image','QuestionController@upload_img');
             $api->post('wenda-post','QuestionController@question_post');
