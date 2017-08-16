@@ -58,6 +58,7 @@ class QuestionController extends BaseController
         $list = $reply->paginate(10);
         foreach ($list as $item) {
             $item->user = $item->user()->first(['id', 'name', 'title', 'avatar']);
+            $item->created = Carbon::parse($item->created_at)->diffForHumans();
         }
 
         if ($page == 1) {
