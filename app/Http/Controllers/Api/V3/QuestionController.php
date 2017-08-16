@@ -53,7 +53,7 @@ class QuestionController extends BaseController
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
         $v->pics_arr = $v->pics_arr;
         $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
-
+        $v->source_info = $v->source_info;
 
         $reply = QuestionReply::query()->where('question_id', $v->id)->where('state', 1);
 
