@@ -31,6 +31,8 @@ class QuestionController extends BaseController
             $v->user = $v->user()->first(['id','name','avatar']);
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
+
+            $v->pics_type = count($v->pics_arr)%3;
         }
 
         return $page;
