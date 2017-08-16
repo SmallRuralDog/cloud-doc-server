@@ -32,11 +32,11 @@ class Question extends Model
         $doc = [];
         switch ($source) {
             case 'doc':
-                $doc = Doc::query()->find($this->source_id,['id','title','cover','h_cover']);
+                $doc = Doc::query()->find($this->source_id,['id','title','desc','cover','h_cover']);
                 break;
             case 'doc-page':
                 $doc_page = DocPage::query()->find($this->source_id);
-                $doc = $doc_page->doc()->first(['id','title','cover','h_cover']);
+                $doc = $doc_page->doc()->first(['id','title','desc','cover','h_cover']);
                 break;
         }
 
