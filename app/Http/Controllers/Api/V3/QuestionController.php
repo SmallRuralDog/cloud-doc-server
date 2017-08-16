@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api\V3;
 
 
 use App\Http\Controllers\Api\BaseController;
+use App\Models\Question;
 use App\Models\UploadTemp;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,23 @@ class QuestionController extends BaseController
         $source_id = $request->input("source_id");
         $pics = $request->input("pics");
 
-        return $request->input();
+        $img = [];
+        if (is_array($pics)) {
+            $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->get('path')->pluck('path');
+        }
+
+        $question = Question::query()->create([
+            'user_id' => $user->id,
+            'parent_id' => $parent_id,
+            'res_id' => $res_id,
+            'title' => $title,
+            'desc' => $desc,
+            'source' => $source,
+            'source_id' => $source_id,
+            'pics' => json_encode($img),
+        ]);
+
+        return $this->api_return(200, '发布成功', $question);
     }
 
 
@@ -45,8 +62,8 @@ class QuestionController extends BaseController
                 'path' => $res,
                 'data_id' => $data_id,
                 'state' => 0,
-                'index'=>$index,
-                'key'=>md5($res)
+                'index' => $index,
+                'key' => md5($res)
             ]);
             return $this->api_return(200, '上传成功', $upload->key);
         } else {
