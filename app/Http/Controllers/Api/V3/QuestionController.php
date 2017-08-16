@@ -27,7 +27,7 @@ class QuestionController extends BaseController
 
         $question->orderBy('created_at', 'desc');
 
-        $page = $question->paginate(20);
+        $page = $question->paginate(10);
 
         foreach ($page as $v) {
             $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
