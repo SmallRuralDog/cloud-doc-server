@@ -12,15 +12,16 @@ class Question extends Model
 
     protected $guarded = [];
 
-    protected $appends = ['pics_arr'];
+    //protected $appends = ['pics_arr'];
 
 
     public function getPicsArrAttribute()
     {
          $pics = json_decode($this->pics);
          $arr = [];
-         foreach ($pics as $path){
-             $arr[] = Thumb::getThumb($path,"200x200");
+         foreach ($pics as $k=>$path){
+             $arr[$k]['thumb'] = Thumb::getThumb($path,"200x200");
+             $arr[$k]['path'] = Thumb::getThumb($path);
          }
          return $arr;
     }

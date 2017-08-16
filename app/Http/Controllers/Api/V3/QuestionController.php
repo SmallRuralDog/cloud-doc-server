@@ -32,7 +32,7 @@ class QuestionController extends BaseController
             $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
-
+            $v->pics_arr = $v->pics_arr;
             $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
         }
 
@@ -48,7 +48,7 @@ class QuestionController extends BaseController
         $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
 
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
-
+        $v->pics_arr = $v->pics_arr;
         $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
 
 
