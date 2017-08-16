@@ -12,10 +12,29 @@ namespace App\Http\Controllers\Api\V3;
 use App\Http\Controllers\Api\BaseController;
 use App\Models\Question;
 use App\Models\UploadTemp;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class QuestionController extends BaseController
 {
+
+    public function index()
+    {
+        $question = Question::query()->where('state',1);
+
+
+        $question->orderBy('created_at','desc');
+
+        $page = $question->paginate(20,['id','user_id','title','pics','created_at','view_count']);
+
+        foreach ($page as $v){
+            $v->user = $v->user()->first(['id','name','avatar']);
+
+            $v->created = Carbon::parse($v->created_at)->diffForHumans();
+        }
+
+        return $page;
+    }
 
     public function question_post(Request $request)
     {
@@ -30,7 +49,7 @@ class QuestionController extends BaseController
 
         $img = [];
         if (is_array($pics)) {
-            $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->get(['path'])->pluck('path');
+            $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->limit(9)->get(['path'])->pluck('path');
         }
 
         $question = Question::query()->create([
@@ -42,7 +61,7 @@ class QuestionController extends BaseController
             'source' => $source,
             'source_id' => $source_id,
             'pics' => json_encode($img),
-            'state'=>1
+            'state' => 1
         ]);
         if ($question->id > 0) {
             UploadTemp::query()->whereIn('key', $pics)->delete();

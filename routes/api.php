@@ -43,6 +43,9 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->any('login', 'UserController@login');
         $api->any('scan-login', 'UserController@scan_login');
 
+
+        $api->get('wenda-index','QuestionController@index');
+
         $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
             $api->get('user-index','UserController@index');
             $api->any('user-follow','UserController@user_follow');
