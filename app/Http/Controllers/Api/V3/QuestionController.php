@@ -16,13 +16,18 @@ use Illuminate\Http\Request;
 class QuestionController extends BaseController
 {
 
-    public function quiz(Request $request)
+    public function question_post(Request $request)
     {
         $user = $this->get_user();
+        $parent_id = $request->input("parent_id");
+        $res_id = $request->input("res_id");
         $title = $request->input("title");
         $desc = $request->input("desc");
         $source = $request->input("source");
         $source_id = $request->input("source_id");
+        $pics = $request->input("pics");
+
+        return $request->input();
     }
 
 

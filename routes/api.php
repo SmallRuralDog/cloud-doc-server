@@ -50,6 +50,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
 
             //问答
             $api->post('wenda-upload-image','QuestionController@upload_img');
+            $api->post('wenda-post','QuestionController@question_post');
         });
     });
 
