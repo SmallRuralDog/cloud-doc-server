@@ -12,33 +12,55 @@ class Question extends Model
 
     protected $guarded = [];
 
-    //protected $appends = ['pics_arr'];
+    //protected $appends = ['source_info'];
 
 
     public function getPicsArrAttribute()
     {
-         $pics = json_decode($this->pics);
-         $arr = [];
-         foreach ($pics as $k=>$path){
-             $arr[$k]['thumb'] = Thumb::getThumb($path,"200x200");
-             $arr[$k]['path'] = Thumb::getThumb($path);
-         }
-         return $arr;
+        $pics = json_decode($this->pics);
+        $arr = [];
+        foreach ($pics as $k => $path) {
+            $arr[$k]['thumb'] = Thumb::getThumb($path, "200x200");
+            $arr[$k]['path'] = Thumb::getThumb($path);
+        }
+        return $arr;
+    }
+
+    public function getSourceInfoAttribute()
+    {
+        $source = $this->source;
+        $doc = [];
+        switch ($source) {
+            case 'doc':
+                $doc = Doc::query()->find($this->source_id,['id','title','cover','h_cover']);
+                break;
+            case 'doc-page':
+                $doc_page = DocPage::query()->find($this->source_id);
+                $doc = $doc_page->doc()->first(['id','title','cover','h_cover']);
+                break;
+        }
+
+
+        return $doc;
+
     }
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function reply(){
+    public function reply()
+    {
         return $this->hasMany(QuestionReply::class);
     }
+
     public function getDescAttribute($key)
     {
-        if(empty($key)){
+        if (empty($key)) {
             return "如题";
-        }else{
+        } else {
             return $key;
         }
     }

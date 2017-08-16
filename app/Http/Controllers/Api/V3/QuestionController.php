@@ -23,7 +23,7 @@ class QuestionController extends BaseController
     {
         $question = Question::query()->where('state', 1);
 
-        $question->select(['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
+        $question->select(['id', 'user_id', 'title', 'pics', 'created_at', 'view_count','source','source_id']);
 
         $question->orderBy('created_at', 'desc');
 
@@ -36,6 +36,7 @@ class QuestionController extends BaseController
             $v->pics_arr = $v->pics_arr;
             $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
             $v->reply_count = $v->reply()->count();
+            $v->source_info = $v->source_info;
         }
 
         return $page;
