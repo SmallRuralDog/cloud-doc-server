@@ -43,7 +43,7 @@ class QuestionController extends BaseController
                 'index'=>$index,
                 'key'=>md5($res)
             ]);
-            return $this->api_return(200, '上传成功', $upload);
+            return $this->api_return(200, '上传成功', $upload->key);
         } else {
             return $this->api_return(0, '上传失败');
         }
