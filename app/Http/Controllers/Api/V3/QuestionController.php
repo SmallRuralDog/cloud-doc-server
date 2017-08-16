@@ -29,7 +29,7 @@ class QuestionController extends BaseController
         $page = $question->paginate(20, ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count']);
 
         foreach ($page as $v) {
-            $v->user = $v->user()->first(['id', 'name', 'avatar']);
+            $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
 
             $v->created = Carbon::parse($v->created_at)->diffForHumans();
 
@@ -45,7 +45,7 @@ class QuestionController extends BaseController
         $page = $request->input("page",1);
 
         $v = Question::query()->find($id,['id', 'user_id', 'title','desc', 'pics', 'created_at', 'view_count']);
-        $v->user = $v->user()->first(['id', 'name', 'avatar']);
+        $v->user = $v->user()->first(['id', 'name','title', 'avatar']);
 
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
 
@@ -55,7 +55,7 @@ class QuestionController extends BaseController
         $reply = QuestionReply::query()->where('question_id',$v->id)->where('state',1);
         $list = $reply->paginate(10);
         foreach ($list as $item) {
-            $item->user = $item->user()->first(['id', 'name', 'avatar']);
+            $item->user = $item->user()->first(['id', 'name', 'title','avatar']);
         }
 
         if ($page == 1 ) {
