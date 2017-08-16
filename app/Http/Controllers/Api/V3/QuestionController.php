@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Http\Controllers\Api\BaseController;
 use App\Models\Question;
+use App\Models\QuestionReply;
 use App\Models\UploadTemp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class QuestionController extends BaseController
     public function page(Request $request)
     {
         $id = $request->input("id");
-        $page = $request->input("page");
+        $page = $request->input("page",1);
 
         $v = Question::query()->find($id,['id', 'user_id', 'title','desc', 'pics', 'created_at', 'view_count']);
         $v->user = $v->user()->first(['id', 'name', 'avatar']);
@@ -50,7 +51,23 @@ class QuestionController extends BaseController
 
         $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
 
-        return ['wenda'=>$v];
+
+        $reply = QuestionReply::query()->where('question_id',$v->id)->where('state',1);
+        $list = $reply->paginate(10);
+        foreach ($list as $item) {
+            $item->user = $item->user()->first(['id', 'name', 'avatar']);
+        }
+
+        if ($page == 1 ) {
+            $json = json_encode($list);
+
+            $list = json_decode($json);
+
+            $list->wenda = $v;
+        }
+
+
+        return response()->json($list);
     }
 
     public function question_post(Request $request)
