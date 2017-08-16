@@ -33,6 +33,8 @@ class QuestionController extends BaseController
             $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->get('path')->pluck('path');
         }
 
+        return $img;
+
         $question = Question::query()->create([
             'user_id' => $user->id,
             'parent_id' => $parent_id,
