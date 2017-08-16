@@ -34,4 +34,12 @@ class Question extends Model
     public function reply(){
         return $this->hasMany(QuestionReply::class);
     }
+    public function getDescAttribute($key)
+    {
+        if(empty($key)){
+            return "如题";
+        }else{
+            return $key;
+        }
+    }
 }
