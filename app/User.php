@@ -31,4 +31,13 @@ class User extends Authenticatable
         return $this->hasOne(WxUser::class,'user_id');
     }
 
+    public function getTitleAttribute($key)
+    {
+        if(empty($key)){
+            return "知识达人";
+        }else{
+            return $key;
+        }
+    }
+
 }
