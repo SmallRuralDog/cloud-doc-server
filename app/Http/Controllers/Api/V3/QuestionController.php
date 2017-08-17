@@ -53,16 +53,15 @@ class QuestionController extends BaseController
         $v = Question::query()->find($id, ['id', 'user_id', 'title', 'desc', 'pics', 'created_at', 'view_count', 'source', 'source_id']);
 
 
-        try {
+        if ($user) {
             $v->is_like = $user->hasLiked($v);
-        } catch (\Exception $e) {
+        } else {
             $v->is_like = false;
         }
 
         $v->like_count = $v->likers()->count();
 
         $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
-
 
 
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
