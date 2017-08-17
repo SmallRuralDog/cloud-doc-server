@@ -141,8 +141,8 @@ class DocController extends BaseController
             $doc->is_like = false;
 
         }
-        $doc->like_count = $doc->likes()->count();
-        $doc->likes = $doc->likes()->get(['id', 'name', 'avatar']);
+        $doc->like_count = $doc->likers()->count();
+        $doc->likes = $doc->likers()->get(['id', 'name', 'avatar']);
 
         $son_ids = DocPage::query()->where('doc_id', $doc_id)->where('state', 1)->get(['id'])->pluck('id');
 
