@@ -78,6 +78,8 @@ class QuestionController extends BaseController
         foreach ($list as $item) {
             $item->user = $item->user()->first(['id', 'name', 'title', 'avatar']);
             $item->created = Carbon::parse($item->created_at)->diffForHumans();
+
+            $item->like_count = $item->likers()->count();
         }
 
         if ($page == 1) {
