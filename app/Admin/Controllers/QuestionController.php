@@ -72,8 +72,10 @@ class QuestionController extends Controller
     protected function grid()
     {
         return Admin::grid(Question::class, function (Grid $grid) {
-
+            $grid->model()->orderBy("created_at","desc");
             $grid->id('ID')->sortable();
+            $grid->user()->avatar()->image(null,40,40);
+            $grid->user()->name();
             $grid->column('title')->limit(50);
             $grid->column('source');
             $grid->column('state')->switch();
