@@ -187,6 +187,8 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        Overtrue\LaravelFollow\FollowServiceProvider::class
+
     ],
 
     /*

@@ -15,7 +15,10 @@ use App\Models\ArticleTag;
 use App\Models\Doc;
 use App\Models\DocClass;
 use App\Models\DocClassTag;
+use App\Models\DocPage;
+use App\Models\Question;
 use App\Models\UserFollow;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DocController extends BaseController
@@ -54,7 +57,7 @@ class DocController extends BaseController
         $class_id = $request->input("class_id");
         $doc = Doc::query();
         $doc->where("state", "=", 1);
-        $doc->orderBy("order", "desc")->orderBy("id","desc");
+        $doc->orderBy("order", "desc")->orderBy("id", "desc");
         $doc->where("doc_class_id", $class_id);
         $doc_list = $doc->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
@@ -93,7 +96,7 @@ class DocController extends BaseController
         $doc->doc_class;
 
         $doc->user = [
-            'nick_name'=>'云档'
+            'nick_name' => '云档'
         ];
         $user = $this->get_user();
         if ($user) {
@@ -110,5 +113,57 @@ class DocController extends BaseController
         }
 
         return $this->api_return(200, '', $doc);
+    }
+
+    public function info_2(Request $request)
+    {
+        $doc_id = $request->input("doc_id");
+        $page = $request->input("page",1);
+        $doc = Doc::query()->find($doc_id);
+        $doc->doc_class;
+
+        $doc->user = [
+            'nick_name' => '云档'
+        ];
+        $user = $this->get_user();
+        if ($user) {
+            $ck = UserFollow::query()->where([
+                'user_id' => $user->id,
+                'data_id' => $doc_id,
+                'type' => 'doc'
+            ])->first();
+
+            $doc->is_follow = empty($ck) ? false : true;
+
+        } else {
+            $doc->is_follow = false;
+        }
+
+        $son_ids = DocPage::query()->where('doc_id', $doc_id)->where('state', 1)->get(['id'])->pluck('id');
+
+        $question = Question::query()->where(function ($query) use ($doc_id) {
+            $query->where('source', 'doc')->where('source_id', $doc_id);
+        })->orWhere(function ($query) use ($son_ids) {
+            $query->where('source', 'doc-page')->whereIn('source_id', $son_ids);
+        });
+
+        $question_page = $question->paginate(15, Question::list_filed);
+
+        foreach ($question_page as $v) {
+            $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
+
+            $v->created = Carbon::parse($v->created_at)->diffForHumans();
+            $v->pics_arr = $v->pics_arr;
+            $v->pics_type = count($v->pics_arr) % 3 == 0 ? 3 : count($v->pics_arr) % 3;
+            $v->reply_count = $v->reply()->count();
+        }
+
+        if ($page == 1) {
+            $json = json_encode($question_page);
+            $question_page = json_decode($json);
+            $question_page->doc = $doc;
+        }
+
+        return response()->json($question_page);
     }
 }

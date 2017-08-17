@@ -83,6 +83,10 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
             'Psr\\Http\\Message\\' => 17,
             'PhpParser\\' => 10,
         ),
+        'O' => 
+        array (
+            'Overtrue\\LaravelFollow\\' => 23,
+        ),
         'N' => 
         array (
             'Namshi\\JOSE\\' => 12,
@@ -266,6 +270,10 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Overtrue\\LaravelFollow\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/overtrue/laravel-follow/src',
         ),
         'Namshi\\JOSE\\' => 
         array (
@@ -530,6 +538,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\QuestionController' => __DIR__ . '/../..' . '/app/Admin/Controllers/QuestionController.php',
+        'App\\Admin\\Controllers\\QuestionReplyController' => __DIR__ . '/../..' . '/app/Admin/Controllers/QuestionReplyController.php',
         'App\\Admin\\Controllers\\TagController' => __DIR__ . '/../..' . '/app/Admin/Controllers/TagController.php',
         'App\\Admin\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Admin/Controllers/UserController.php',
         'App\\Admin\\Extensions\\Editor' => __DIR__ . '/../..' . '/app/Admin/Extensions/Editor.php',
@@ -552,6 +561,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'App\\Http\\Controllers\\Api\\V2\\DocController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V2/DocController.php',
         'App\\Http\\Controllers\\Api\\V3\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V3/ArticleController.php',
         'App\\Http\\Controllers\\Api\\V3\\DocController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V3/DocController.php',
+        'App\\Http\\Controllers\\Api\\V3\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V3/QuestionController.php',
         'App\\Http\\Controllers\\Api\\V3\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/V3/UserController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -582,8 +592,10 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'App\\Models\\DocPage' => __DIR__ . '/../..' . '/app/Models/DocPage.php',
         'App\\Models\\DocSearch' => __DIR__ . '/../..' . '/app/Models/DocSearch.php',
         'App\\Models\\Question' => __DIR__ . '/../..' . '/app/Models/Question.php',
+        'App\\Models\\QuestionReply' => __DIR__ . '/../..' . '/app/Models/QuestionReply.php',
         'App\\Models\\ScanCode' => __DIR__ . '/../..' . '/app/Models/ScanCode.php',
         'App\\Models\\Tag' => __DIR__ . '/../..' . '/app/Models/Tag.php',
+        'App\\Models\\UploadTemp' => __DIR__ . '/../..' . '/app/Models/UploadTemp.php',
         'App\\Models\\UserFollow' => __DIR__ . '/../..' . '/app/Models/UserFollow.php',
         'App\\Models\\WxUser' => __DIR__ . '/../..' . '/app/Models/WxUser.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -683,6 +695,7 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'CreateDocSearchTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_25_161552_create_doc_search_table.php',
         'CreateDocTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_19_083448_create_doc_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateQuestionReplyTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_16_161427_create_question_reply_table.php',
         'CreateQuestionTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_15_093215_create_question_table.php',
         'CreateScanCodeTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_11_175754_create_scan_code_table.php',
         'CreateTagTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_08_144505_create_tag_table.php',
@@ -2532,6 +2545,17 @@ class ComposerStaticInitc491358eaf88eea3ddab7333a0fa31c8
         'Namshi\\JOSE\\Signer\\SecLib\\RSA' => __DIR__ . '/..' . '/namshi/jose/src/Namshi/JOSE/Signer/SecLib/RSA.php',
         'Namshi\\JOSE\\Signer\\SignerInterface' => __DIR__ . '/..' . '/namshi/jose/src/Namshi/JOSE/Signer/SignerInterface.php',
         'Namshi\\JOSE\\SimpleJWS' => __DIR__ . '/..' . '/namshi/jose/src/Namshi/JOSE/SimpleJWS.php',
+        'Overtrue\\LaravelFollow\\Follow' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Follow.php',
+        'Overtrue\\LaravelFollow\\FollowRelation' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/FollowRelation.php',
+        'Overtrue\\LaravelFollow\\FollowServiceProvider' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/FollowServiceProvider.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanBeFavorited' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanBeFavorited.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanBeFollowed' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanBeFollowed.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanBeLiked' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanBeLiked.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanBeSubscribed' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanBeSubscribed.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanFavorite' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanFavorite.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanFollow' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanFollow.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanLike' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanLike.php',
+        'Overtrue\\LaravelFollow\\Traits\\CanSubscribe' => __DIR__ . '/..' . '/overtrue/laravel-follow/src/Traits/CanSubscribe.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/AssertionFailedError.php',
         'PHPUnit\\Framework\\BaseTestListener' => __DIR__ . '/..' . '/phpunit/phpunit/src/ForwardCompatibility/BaseTestListener.php',

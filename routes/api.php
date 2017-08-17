@@ -39,6 +39,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("class-list", "DocController@doc_class_list");
 
         $api->get("info", "DocController@info");
+        $api->get("doc-info-2", "DocController@info_2");
 
         $api->any('login', 'UserController@login');
         $api->any('scan-login', 'UserController@scan_login');

@@ -4941,5 +4941,55 @@
             "phpstorm",
             "sublime"
         ]
+    },
+    {
+        "name": "overtrue/laravel-follow",
+        "version": "1.1.3",
+        "version_normalized": "1.1.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/overtrue/laravel-follow.git",
+            "reference": "60cb96edf08758cee5d30fb670eb3f9c1577cfd7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://files.phpcomposer.com/files/overtrue/laravel-follow/60cb96edf08758cee5d30fb670eb3f9c1577cfd7.zip",
+            "reference": "60cb96edf08758cee5d30fb670eb3f9c1577cfd7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "require-dev": {
+            "laravel/laravel": "5.*",
+            "mockery/mockery": "1.0.x-dev",
+            "phpunit/phpunit": "~5.0"
+        },
+        "time": "2017-07-02T22:09:22+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Overtrue\\LaravelFollow\\FollowServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Overtrue\\LaravelFollow\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "overtrue",
+                "email": "i@overtrue.me"
+            }
+        ],
+        "description": "Laravel 5 User Based System"
     }
 ]
