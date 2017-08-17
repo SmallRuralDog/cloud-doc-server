@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\UploadedFile;
@@ -20,6 +21,9 @@ class BaseController extends Controller
 {
     use Helpers, ValidatesRequests;
 
+    /**
+     * @return User|bool
+     */
     protected function get_user()
     {
         try {

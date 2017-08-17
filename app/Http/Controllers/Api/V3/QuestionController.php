@@ -23,7 +23,7 @@ class QuestionController extends BaseController
     {
         $question = Question::query()->where('state', 1);
 
-        $question->select(['id', 'user_id', 'title', 'pics', 'created_at', 'view_count','source','source_id']);
+        $question->select(['id', 'user_id', 'title', 'pics', 'created_at', 'view_count', 'source', 'source_id']);
 
         $question->orderBy('created_at', 'desc');
 
@@ -47,7 +47,7 @@ class QuestionController extends BaseController
         $id = $request->input("id");
         $page = $request->input("page", 1);
 
-        $v = Question::query()->find($id, ['id', 'user_id', 'title', 'desc', 'pics', 'created_at', 'view_count','source','source_id']);
+        $v = Question::query()->find($id, ['id', 'user_id', 'title', 'desc', 'pics', 'created_at', 'view_count', 'source', 'source_id']);
         $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
 
         $v->created = Carbon::parse($v->created_at)->diffForHumans();
@@ -57,7 +57,7 @@ class QuestionController extends BaseController
 
         $reply = QuestionReply::query()->where('question_id', $v->id)->where('state', 1);
 
-        $reply->orderBy('created_at','desc');
+        $reply->orderBy('created_at', 'desc');
 
         $list = $reply->paginate(10);
         foreach ($list as $item) {
@@ -128,6 +128,16 @@ class QuestionController extends BaseController
         ]);
 
         return $this->api_return(200, '回答成功', $reply->id);
+    }
+
+    public function question_like(Request $request)
+    {
+        $user = $this->get_user();
+        $id = $request->input("id");
+        $question = Question::query()->find($id);
+        $res = $user->like($question);
+
+        return $this->api_return(200, 'success', $res);
     }
 
     public function upload_img(Request $request)
