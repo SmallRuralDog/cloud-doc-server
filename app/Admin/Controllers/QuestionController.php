@@ -73,8 +73,8 @@ class QuestionController extends Controller
     {
         return Admin::grid(Question::class, function (Grid $grid) {
             $grid->model()->orderBy("created_at","desc");
-            $grid->id('ID')->sortable();
-            $grid->user()->avatar()->image(null,40,40)->style("width:50px;");;
+            $grid->id('ID')->sortable()->style("width:50px;");
+            $grid->user()->avatar()->image(null,40,40)->style("width:50px;");
             $grid->user()->name()->style("width:150px;");;
             $grid->column('title')->limit(50);
             $grid->column('source');
