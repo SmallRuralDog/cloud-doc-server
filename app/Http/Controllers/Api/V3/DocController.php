@@ -146,10 +146,10 @@ class DocController extends BaseController
 
         $son_ids = DocPage::query()->where('doc_id', $doc_id)->where('state', 1)->get(['id'])->pluck('id');
 
-        $question = Question::query()->where('state',1)->where(function ($query) use ($doc_id) {
-            $query->where('source', 'doc')->where('source_id', $doc_id);
+        $question = Question::query()->where(function ($query) use ($doc_id) {
+            $query->where('source', 'doc')->where('source_id', $doc_id)->where('state',1);
         })->orWhere(function ($query) use ($son_ids) {
-            $query->where('source', 'doc-page')->whereIn('source_id', $son_ids);
+            $query->where('source', 'doc-page')->whereIn('source_id', $son_ids)->where('state',1);
         });
 
         $question->orderBy('created_at', 'desc');
