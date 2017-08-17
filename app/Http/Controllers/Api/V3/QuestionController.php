@@ -59,7 +59,7 @@ class QuestionController extends BaseController
             $v->is_like = false;
         }
 
-        $v->like_count = $v->likers;
+        $v->like_count = $v->likers()->count();
 
         $v->user = $v->user()->first(['id', 'name', 'title', 'avatar']);
 
