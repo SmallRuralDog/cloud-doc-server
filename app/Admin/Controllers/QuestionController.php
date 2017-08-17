@@ -74,7 +74,7 @@ class QuestionController extends Controller
         return Admin::grid(Question::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-            $grid->column('title');
+            $grid->column('title')->limit(50);
             $grid->column('source');
             $grid->column('state')->switch();
             $grid->created_at();
