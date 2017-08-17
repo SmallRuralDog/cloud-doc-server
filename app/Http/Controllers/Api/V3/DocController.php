@@ -147,6 +147,8 @@ class DocController extends BaseController
             $query->where('source', 'doc-page')->whereIn('source_id', $son_ids);
         });
 
+        $question->orderBy('created_at', 'desc');
+
         $question_page = $question->paginate(15, Question::list_filed);
 
         foreach ($question_page as $v) {
