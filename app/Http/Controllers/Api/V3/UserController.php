@@ -188,7 +188,7 @@ class UserController extends BaseController
 
             $token = JWTAuth::fromUser($user);
 
-            $wxuser = $user->wx_user()->first(['user_id', 'nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
+            $wxuser = $user->wx_user()->first(['nick_name', 'avatar_url', 'city', 'country', 'gender', 'language', 'province']);
 
             $wxuser['token'] = $token;
             $wxuser['ttl'] = config('jwt.ttl');
