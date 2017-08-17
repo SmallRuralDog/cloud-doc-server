@@ -74,9 +74,10 @@ class QuestionController extends Controller
         return Admin::grid(Question::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
-
+            $grid->column('title');
+            $grid->column('source');
+            $grid->column('state')->switch();
             $grid->created_at();
-            $grid->updated_at();
         });
     }
 
@@ -89,10 +90,10 @@ class QuestionController extends Controller
     {
         return Admin::form(Question::class, function (Form $form) {
 
-            $form->display('id', 'ID');
+            $form->text('title');
+            $form->textarea('desc');
+            $form->switch('state');
 
-            $form->display('created_at', 'Created At');
-            $form->display('updated_at', 'Updated At');
         });
     }
 }
