@@ -37,7 +37,7 @@ class User extends Authenticatable
     public function getTitleAttribute($key)
     {
         if(empty($key)){
-            return "知识达人";
+            return "云档小白";
         }else{
             return $key;
         }
