@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Extend\Thumb;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Overtrue\LaravelFollow\Traits\CanBeLiked;
 
 class Doc extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes,CanBeLiked;
 
     protected $table = 'doc';
 
