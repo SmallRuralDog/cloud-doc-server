@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Extend\Thumb;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelFollow\Traits\CanBeLiked;
 
 class Question extends Model
 {
+    use CanBeLiked;
+
     protected $table = 'question';
 
     protected $guarded = [];
