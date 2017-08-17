@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Extend\WxApp\WXBizDataCrypt;
 use App\Http\Controllers\Api\BaseController;
+use App\Models\Question;
 use App\Models\ScanCode;
 use App\Models\UserFollow;
 use App\Models\WxUser;
@@ -42,6 +43,20 @@ class UserController extends BaseController
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
+    }
+
+    public function user_like(Request $request)
+    {
+        $user = $this->get_user();
+        $data_id = $request->input("key");
+        $type = $request->input("type");
+        $res = [];
+        switch ($type) {
+            case 'wenda':
+                $question = Question::query()->find($data_id);
+                $res = $user->like($question);
+        }
+        return $this->api_return(200, 'success', $res);
     }
 
     public function user_follow_cancel(Request $request)
