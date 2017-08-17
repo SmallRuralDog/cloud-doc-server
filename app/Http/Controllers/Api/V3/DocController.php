@@ -118,7 +118,7 @@ class DocController extends BaseController
     public function info_2(Request $request)
     {
         $doc_id = $request->input("doc_id");
-        $page = $request->input("page",1);
+        $page = $request->input("page", 1);
         $doc = Doc::query()->find($doc_id);
         $doc->doc_class;
 
@@ -134,10 +134,15 @@ class DocController extends BaseController
             ])->first();
 
             $doc->is_follow = empty($ck) ? false : true;
+            $doc->is_like = $user->hasLiked($doc);
 
         } else {
             $doc->is_follow = false;
+            $doc->is_like = false;
+
         }
+        $doc->like_count = $doc->likes()->count();
+        $doc->likes = $doc->likes()->get(['id', 'name', 'avatar']);
 
         $son_ids = DocPage::query()->where('doc_id', $doc_id)->where('state', 1)->get(['id'])->pluck('id');
 

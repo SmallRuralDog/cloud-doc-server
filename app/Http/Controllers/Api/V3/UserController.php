@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Api\V3;
 
 use App\Extend\WxApp\WXBizDataCrypt;
 use App\Http\Controllers\Api\BaseController;
+use App\Models\Doc;
 use App\Models\Question;
 use App\Models\QuestionReply;
 use App\Models\ScanCode;
@@ -51,7 +52,7 @@ class UserController extends BaseController
         $user = $this->get_user();
         $data_id = $request->input("key");
         $type = $request->input("type");
-        if ($data_id <= 0 || !in_array($type, ['wenda', 'wenda-page'])) {
+        if ($data_id <= 0 || !in_array($type, ['wenda', 'wenda-page','doc'])) {
             return $this->api_return(0, '操作失败');
         }
         $res = [];
@@ -63,6 +64,10 @@ class UserController extends BaseController
             case 'wenda-page':
                 $question_page = QuestionReply::query()->find($data_id);
                 $res = $user->like($question_page);
+                break;
+            case 'doc':
+                $tag = Doc::query()->find($data_id);
+                $res = $user->like($tag);
                 break;
         }
         return $this->api_return(200, 'success', $res);
