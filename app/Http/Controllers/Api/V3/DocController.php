@@ -180,4 +180,21 @@ class DocController extends BaseController
 
         return response()->json($question_page);
     }
+
+    public function doc_page(Request $request)
+    {
+        $doc_id = $request->input("doc_id");
+        $page_id = $request->input("page_id",0);
+        $page = DocPage::query()->where("doc_id", $doc_id)
+            ->where("parent_id", 0)
+            ->orderBy("order", "desc")
+            ->select([
+                'id',
+                'title',
+                'menu_title',
+                'order',
+                'parent_id'
+            ])->get();
+        return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
+    }
 }

@@ -44,7 +44,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->any('login', 'UserController@login');
         $api->any('scan-login', 'UserController@scan_login');
 
-
+        $api->get("doc-page", "DocController@doc_page");
         $api->get('wenda-index','QuestionController@index');
         $api->get('wenda-page','QuestionController@page');
 
