@@ -39,7 +39,7 @@ class User extends Authenticatable
         if(empty($key)){
             return "云档小白";
         }else{
-            return str_limit($key,15);
+            return str_limit($key,30);
         }
     }
 
