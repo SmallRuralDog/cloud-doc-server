@@ -57,8 +57,15 @@ class DocController extends BaseController
         $class_id = $request->input("class_id");
         $doc = Doc::query();
         $doc->where("state", "=", 1);
-        $doc->orderBy("order", "desc")->orderBy("id", "desc");
-        $doc->where("doc_class_id", $class_id);
+
+
+        if($class_id>1){
+            $doc->where("doc_class_id", $class_id);
+            $doc->orderBy("order", "desc")->orderBy("id", "desc");
+        }elseif ($class_id == -1){
+            $doc->orderBy('id','desc')->limit(30);
+        }
+
         $doc_list = $doc->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
         foreach ($doc_list as $k => $v) {
