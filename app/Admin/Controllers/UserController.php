@@ -75,8 +75,14 @@ class UserController extends Controller
             $grid->model()->orderBy("id",'desc');
 
             $grid->column('id','ID')->sortable()->style("width:50px;");
-            $grid->wx_user()->avatar_url("头像")->image('',30,30)->style("width:50px;");
-            $grid->wx_user()->nick_name("昵称");
+            $grid->avatar("头像")->image('',30,30)->style("width:50px;");
+            $grid->column("name","昵称")->display(function ($name){
+                if($this->is_robot == 1){
+                    return $name.' <lable class="label label-info">机器人</lable>';
+                }else{
+                    return $name;
+                }
+            });
             $grid->wx_user()->city("城市")->style("width:150px;");
 
             $grid->created_at('创建时间')->style("width:150px;");
