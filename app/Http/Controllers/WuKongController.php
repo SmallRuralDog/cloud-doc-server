@@ -38,7 +38,7 @@ class WuKongController extends Controller
                     $pics[] = "https://p3.pstatp.com/list/640x360/" . $item['web_uri'];
                 }
             }
-            $wenda = Question::query()->updateOrCreate(['collect_id' => $question['qid']], [
+            $wenda = Question::query()->firstOrCreate(['collect_id' => $question['qid']], [
                 'user_id' => $user->id,
                 'parent_id' => 0,
                 'res_id' => 0,
@@ -47,7 +47,7 @@ class WuKongController extends Controller
                 'source' => $source,
                 'source_id' => $source_id,
                 'pics' => json_encode($pics),
-                'state' => 0,
+                'state' => 1,
                 'is_collect' => 1,
                 'collect_name' => 'wokong',
                 'collect_id' => $question['qid'],
