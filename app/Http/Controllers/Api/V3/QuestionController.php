@@ -79,6 +79,8 @@ class QuestionController extends BaseController
             $item->created = Carbon::parse($item->created_at)->diffForHumans();
 
             $item->like_count = $item->likers()->count();
+
+            $item->content = strip_tags($item->content);
         }
 
         if ($page == 1) {

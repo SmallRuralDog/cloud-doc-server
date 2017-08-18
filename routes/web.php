@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::any("/collect/jike", "JiKeController@content");
 Route::any("/collect/sc", "ShouCeController@collect");
 Route::any("/collect/ky", "KanYunController@collect");
+Route::any("/collect/wk", "WuKongController@collect");
 
 
 //w3c
