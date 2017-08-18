@@ -83,7 +83,7 @@ class UserController extends Controller
                     return $name;
                 }
             });
-            $grid->column("title","头衔")->limit(150)->style("width:150px;");
+            $grid->column("title","头衔")->limit(150);
             $grid->wx_user()->city("城市")->style("width:150px;");
 
             $grid->created_at('创建时间')->style("width:150px;");
