@@ -26,7 +26,7 @@ class WuKongController extends Controller
         $user_data = $question['user'];
 
         if(empty($question) || empty($user_data)){
-            return false;
+            return 0;
         }
 
         $user = $this->add_user($user_data);
