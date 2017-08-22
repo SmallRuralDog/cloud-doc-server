@@ -3,12 +3,14 @@
         margin: 0;
         border: none;
     }
-    .save_btn{
+
+    .save_btn {
         background: #f60;
         color: #ffffff;
     }
-    #save_msg{
-        display:inline;
+
+    #save_msg {
+        display: inline;
         position: fixed;
         top: 0;
         right: 0;
@@ -23,7 +25,7 @@
 </div>
 <div id="save_msg">保存中..</div>
 <script>
-    var testEditor, w = $("#doc-page").width(), h = $("#doc-page").height(),edit_id = "{{$id}}";
+    var testEditor, w = $("#doc-page").width(), h = $("#doc-page").height(), edit_id = "{{$id}}";
     testEditor = editormd("content", {
         width: '100%',
         height: '100%',
@@ -37,19 +39,23 @@
                 "list-ul", "list-ol", "hr", "|",
                 "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
                 "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
-                "collect_ky","save"
+                "open_collect", "collect_ky", "save"
             ]
         },
         toolbarIconTexts: {
             save: "保存",
-            collect_ky:"采集看云"
+            collect_ky: "采集看云",
+            open_collect: "查看来源"
         },
         toolbarHandlers: {
             save: function () {
                 page_save();
             },
-            collect_ky:function(){
+            collect_ky: function () {
                 collect("{{$id}}")
+            },
+            open_collect: function () {
+                window.open("{{$collect_url}}");
             }
         }
     });
