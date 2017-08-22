@@ -95,7 +95,7 @@ class ArticleController extends Controller
             $tags = json_decode($tags, true);
             if (is_array($tags)) {
                 foreach ($tags as $v) {
-                    $tag = Tag::query()->firstOrCreate(['name' => $v], ['name' => $v]);
+                    $tag = Tag::query()->updateOrCreate(['name' => $v], ['name' => $v]);
                     $ck = ArticleTag::query()->where('article_id', $article->id)->where('tag_id', $tag->id)->first();
                     if (empty($ck)) {
                         ArticleTag::query()->insert([
