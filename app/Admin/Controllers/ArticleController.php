@@ -73,7 +73,7 @@ class ArticleController extends Controller
     {
         return Admin::grid(Article::class, function (Grid $grid) {
 
-            $grid->model()->orderBy("id","desc");
+            $grid->model()->orderBy("source_time","desc")->orderBy("id","desc");
 
             $grid->id('ID')->sortable();
             $grid->column('title', '文章标题');
