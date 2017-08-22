@@ -22,6 +22,7 @@ Route::any("/sc_t", "ShouCeController@collect");
 Route::any("/ky", "KanYunController@index");
 Route::any("/w3c", "W3cSchoolController@index");
 Route::any("/w3c_c", "W3cSchoolController@collect");
+Route::any("/git_book", "GitBookController@index");
 
 
 //Auth::routes();

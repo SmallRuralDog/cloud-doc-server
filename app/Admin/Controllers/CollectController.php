@@ -18,6 +18,121 @@ use QL\QueryList;
 class CollectController extends Controller
 {
 
+    public function git_book(Request $request)
+    {
+        error_reporting(0);
+        $url = $request->input("url");
+        $doc_id = $request->input("doc_id", 0);
+        if ($doc_id <= 0) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
+        $client = new \GuzzleHttp\Client();
+
+        $html = $client->get($url)->getBody();
+
+        $rules = array(
+            'title' => array('>a', 'text'),
+            'href' => array('', 'data-path'),
+            'list' => array('>.articles', 'html')
+        );
+        $data = QueryList::Query($html, $rules, ".summary>.chapter")->getData(function ($item) use ($url) {
+            $item['title'] = $this->set_title($item['title']);
+            $item['href'] = $this->set_href($url, $item['href']);
+            $item['list'] = QueryList::Query($item['list'], array(
+                'title' => array('>a', 'text'),
+                'href' => array('', 'data-path'),
+                'list' => array('>.articles', 'html')
+            ), '>.chapter ')->getData(function ($item2) use ($url) {
+                $item2['title'] = $this->set_title($item2['title']);
+                $item2['href'] = $this->set_href($url, $item2['href']);
+                $item2['list'] = QueryList::Query($item2['list'], array(
+                    'title' => array('>a', 'text'),
+                    'href' => array('', 'data-path'),
+                    'list' => array('>.articles', 'html')
+                ), '>.chapter')->getData(function ($item3) use ($url) {
+                    $item3['title'] = $this->set_title($item3['title']);
+                    $item3['href'] = $this->set_href($url, $item3['href']);
+                    $item3['list'] = QueryList::Query($item3['list'], array(
+                        'title' => array('>a', 'text'),
+                        'href' => array('', 'data-path'),
+                        'list' => array('>.articles', 'html')
+                    ), '>.chapter')->data;
+                    return $item3;
+                });
+                return $item2;
+            });
+
+            return $item;
+        });
+        if (empty($data)) {
+            return response()->json(['status_code' => 0, 'message' => 'error']);
+        }
+
+        foreach ($data as $k => $v) {
+            if ($v['href'] == "#" || empty($v['href'])) {
+                $collect_id = md5($doc_id . $v['title'] . "#");
+                $collect_state = 1;
+            } else {
+                $collect_id = md5($v['href']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => 0,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['href'],
+                'collect_state' => $collect_state
+            ]);
+            if (!empty($v['list']) && $page->id > 0) {
+                $this->gb_children($v['list'], $page->id, $doc_id);
+            }
+        }
+    }
+
+    private function gb_children($data, $parent_id, $doc_id)
+    {
+        foreach ($data as $k => $v) {
+            if ($v['href'] == "#" || empty($v['href'])) {
+                $collect_id = md5($doc_id . $v['title'] . "#");
+                $collect_state = 1;
+            } else {
+                $collect_id = md5($v['href']);
+                $collect_state = 0;
+            }
+            $page = DocPage::query()->firstOrCreate(['collect_id' => $collect_id], [
+                'title' => $v['title'],
+                'parent_id' => $parent_id,
+                'menu_title' => $v['title'],
+                'content' => "#" . $v['title'],
+                'order' => 99999 - $k,
+                'state' => 0,
+                'doc_id' => $doc_id,
+                'menu_id' => 0,
+                'collect_url' => $v['href'],
+                'collect_state' => $collect_state
+            ]);
+            if (!empty($v['list']) && $page->id > 0) {
+                $this->gb_children($v['list'], $page->id, $doc_id);
+            }
+        }
+    }
+
+    private function set_title($title)
+    {
+        return str_replace(["\n", " "], "", trim($title));
+    }
+
+    private function set_href($url, $href)
+    {
+
+        return $url . $href;
+    }
+
     public function w3c(Request $request)
     {
         error_reporting(0);
