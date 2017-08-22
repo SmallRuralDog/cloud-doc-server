@@ -56,7 +56,12 @@ class CollectController extends Controller
                         'title' => array('>a', 'text'),
                         'href' => array('', 'data-path'),
                         'list' => array('>.articles', 'html')
-                    ), '>.chapter')->data;
+                    ), '>.chapter')->getData(function ($item4) use ($url){
+                        $item4['title'] = $this->set_title($item4['title']);
+                        $item4['href'] = $this->set_href($url, $item4['href']);
+
+                        return $item4;
+                    });
                     return $item3;
                 });
                 return $item2;
