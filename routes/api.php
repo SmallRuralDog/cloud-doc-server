@@ -9,6 +9,8 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("info", "DocController@info");
         $api->get("menu", "DocController@menu");
         $api->get("page", "DocController@page");
+
+        $api->any('py_post', "PythonController@collect");
     });
     //V2版本
     $api->group([
@@ -45,19 +47,19 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->any('scan-login', 'UserController@scan_login');
 
         $api->get("doc-page", "DocController@doc_page");
-        $api->get('wenda-index','QuestionController@index');
-        $api->get('wenda-page','QuestionController@page');
+        $api->get('wenda-index', 'QuestionController@index');
+        $api->get('wenda-page', 'QuestionController@page');
 
         $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
-            $api->get('user-index','UserController@index');
-            $api->any('user-follow','UserController@user_follow');
-            $api->any('user-follow-cancel','UserController@user_follow_cancel');
+            $api->get('user-index', 'UserController@index');
+            $api->any('user-follow', 'UserController@user_follow');
+            $api->any('user-follow-cancel', 'UserController@user_follow_cancel');
 
-            $api->any('user-like','UserController@user_like');
+            $api->any('user-like', 'UserController@user_like');
             //问答
-            $api->post('wenda-upload-image','QuestionController@upload_img');
-            $api->post('wenda-post','QuestionController@question_post');
-            $api->post('wenda-reply-post','QuestionController@question_reply');
+            $api->post('wenda-upload-image', 'QuestionController@upload_img');
+            $api->post('wenda-post', 'QuestionController@question_post');
+            $api->post('wenda-reply-post', 'QuestionController@question_reply');
 
         });
     });
