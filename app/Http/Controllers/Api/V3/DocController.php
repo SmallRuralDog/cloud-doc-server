@@ -59,11 +59,11 @@ class DocController extends BaseController
         $doc->where("state", "=", 1);
 
 
-        if($class_id>1){
+        if ($class_id > 1) {
             $doc->where("doc_class_id", $class_id);
             $doc->orderBy("order", "desc")->orderBy("id", "desc");
-        }elseif ($class_id == -1){
-            $doc->orderBy('id','desc')->limit(30);
+        } elseif ($class_id == -1) {
+            $doc->orderBy('id', 'desc')->limit(30);
         }
 
         $doc_list = $doc->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
@@ -149,14 +149,14 @@ class DocController extends BaseController
 
         }
         $doc->like_count = $doc->likers()->count();
-        $doc->likes = $doc->likers()->orderBy("followables.created_at","desc")->limit(30)->get(['id', 'name', 'avatar']);
+        $doc->likes = $doc->likers()->orderBy("followables.created_at", "desc")->limit(30)->get(['id', 'name', 'avatar']);
 
         $son_ids = DocPage::query()->where('doc_id', $doc_id)->where('state', 1)->get(['id'])->pluck('id');
 
         $question = Question::query()->where(function ($query) use ($doc_id) {
-            $query->where('source', 'doc')->where('source_id', $doc_id)->where('state',1);
+            $query->where('source', 'doc')->where('source_id', $doc_id)->where('state', 1);
         })->orWhere(function ($query) use ($son_ids) {
-            $query->where('source', 'doc-page')->whereIn('source_id', $son_ids)->where('state',1);
+            $query->where('source', 'doc-page')->whereIn('source_id', $son_ids)->where('state', 1);
         });
 
         $question->orderBy('created_at', 'desc');
@@ -184,7 +184,7 @@ class DocController extends BaseController
     public function doc_page(Request $request)
     {
         $doc_id = $request->input("doc_id");
-        $page_id = $request->input("page_id",0);
+        $page_id = $request->input("page_id", 0);
         $page = DocPage::query()->where("doc_id", $doc_id)
             ->where("parent_id", 0)
             ->orderBy("order", "desc")
@@ -196,5 +196,115 @@ class DocController extends BaseController
                 'parent_id'
             ])->get();
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
+    }
+
+    public function doc_page_menu(Request $request)
+    {
+        $doc_id = $request->input("doc_id");
+        $menu = DocPage::query()->where("doc_id", $doc_id)
+            ->where("parent_id", 0)
+            ->orderBy("order", "desc")
+            ->select([
+                'id',
+                'title',
+                'menu_title',
+                'order',
+                'parent_id'
+            ])->get()->toArray();
+        $new_menu = [];
+        foreach ($menu as $v) {
+            $new_menu[] = $v['id'];
+            if (!empty($v['children'])) {
+                foreach ($v['children'] as $vv) {
+                    $new_menu[] = $vv['id'];
+                    if (!empty($vv['children'])) {
+                        foreach ($vv['children'] as $vvv) {
+                            $new_menu[] = $vvv['id'];
+                            if (!empty($vvv['children'])) {
+                                foreach ($vvv['children'] as $vvvv) {
+                                    $new_menu[] = $vvvv['id'];
+                                    if (!empty($vvvv['children'])) {
+                                        foreach ($vvvv['children'] as $vvvvv) {
+                                            $new_menu[] = $vvvvv['id'];
+                                            if (!empty($vvvvv['children'])) {
+                                                foreach ($vvvvv['children'] as $vvvvvv) {
+                                                    $new_menu[] = $vvvvvv['id'];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return response()->json(['data' => ['menu' => $menu, 'list_menu' => $new_menu], 'message' => '', 'status_code' => 1]);
+    }
+
+    public function page(Request $request)
+    {
+        $page_id = $request->input("page_id");
+
+        $page = DocPage::query()->find($page_id, ['id', 'doc_id', 'title', 'content', 'updated_at']);
+        $page->doc_title = $page->doc()->first()->title;
+        $page->increment("view_count");
+
+        $menu = DocPage::query()->where("doc_id", $page->doc_id)
+            ->where("parent_id", 0)
+            ->orderBy("order", "desc")
+            ->select([
+                'id',
+                'title',
+                'menu_title',
+                'order',
+                'parent_id'
+            ])->get()->toArray();
+        $new_menu = [];
+        foreach ($menu as $v) {
+            $new_menu[] = $v['id'];
+            if (!empty($v['children'])) {
+                foreach ($v['children'] as $vv) {
+                    $new_menu[] = $vv['id'];
+                    if (!empty($vv['children'])) {
+                        foreach ($vv['children'] as $vvv) {
+                            $new_menu[] = $vvv['id'];
+                            if (!empty($vvv['children'])) {
+                                foreach ($vvv['children'] as $vvvv) {
+                                    $new_menu[] = $vvvv['id'];
+                                    if (!empty($vvvv['children'])) {
+                                        foreach ($vvvv['children'] as $vvvvv) {
+                                            $new_menu[] = $vvvvv['id'];
+                                            if (!empty($vvvvv['children'])) {
+                                                foreach ($vvvvv['children'] as $vvvvvv) {
+                                                    $new_menu[] = $vvvvvv['id'];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $page->menu = $menu;
+        $page->new_menu = $new_menu;
+
+        return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
+    }
+
+    private function _set_menu($menu)
+    {
+        foreach ($menu as $v) {
+            $new_menu[] = $v['id'];
+            if (!empty($v['children'])) {
+                $this->_set_menu($v['children']);
+            }
+        }
     }
 }

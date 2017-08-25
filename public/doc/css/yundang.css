@@ -1,0 +1,462 @@
+@import url('./iconfont/iconfont.css');
+
+html,body{
+	background: #fafafa;
+	font-family: microsoft yahei;
+}
+
+.flex{
+	display: flex;
+}
+.flex-1{
+	flex: 1
+}
+
+.navbar{
+	background: #fff;
+	margin-bottom: 0;
+	border:0;
+}
+
+.gb-page-header .container .avatar {
+    margin-right: 6px;
+    margin-top: -2px;
+    margin-bottom: -2px;
+}
+
+.avatar.avatar-sm {
+    width: 24px;
+    height: 24px;
+}
+.avatar {
+    margin: 0;
+    position: relative;
+    vertical-align: middle;
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+    background: #cccfd6;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: block;
+    border-radius: 4px;
+}
+
+
+
+/*首页*/
+#Homepage .Intro .EditorPreview {
+    width: 106%;
+    margin-bottom: -80px;
+}
+.EditorPreview{
+	box-shadow: 0px 10px 30px #666;
+}
+.Feature i{
+	width: 50px;
+	height: 50px;
+	font-size: 50px;
+	color: #99582F;
+}
+/*登录后首页文档列表*/
+
+.pagehead {
+    zoom: 1;
+    margin: 0 auto;
+    padding: 0;
+    background-color: #fff;
+    box-shadow: 0 3px 2px -2px rgba(200,200,200,.15);
+    margin-bottom: 20px;
+    /*padding: 10px 0 20px;*/
+}
+.pagehead, .pagehead .menu li>a {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.btn.btn-primary, a.btn.btn-primary {
+    background: #3884ff;
+    border-color: #3884ff;
+    color: #fff;
+}
+
+/*.search-bar input {
+    border: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    height: 34px;
+    padding-left: 30px;
+    background: 0 0;
+}
+.form-control {
+    width: 100%;
+    border: 1px solid #e8eaed;
+    background: #fff;
+    outline: 0;
+    color: #333;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 3px;
+}
+.form-control, pre {
+    line-height: 1.42857143;
+}
+
+*/
+
+
+
+
+
+.Books .Book {
+    border-radius: 4px;
+    border: 1px solid #e8eaed;
+    padding: 20px;
+    cursor: pointer;
+    background: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: -ms-flex;
+    display: flex;
+    color: inherit;
+}
+.Books .Book, .SignupCard {
+    box-shadow: 1px 2px 3px 0 rgba(0,0,0,.1);
+}
+
+
+.Books .Book .book-template {
+    -webkit-flex: 0px 0px 42px;
+    -moz-flex: 0 0 42px;
+    -ms-flex: 0px 0px 42px;
+    flex: 0px 0px 42px;
+    height: 42px;
+    width: 50px;
+    margin-right: 15px;
+    opacity: .5;
+    transition: .3s ease;
+
+}
+.book-template .iconfont{
+	font-size: 40px;
+	line-height: 40px;
+	color: #1565C0;
+
+}
+
+
+.Books .Book .book-infos {
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+.Books .Book .book-actions {
+    -webkit-flex: initial;
+    -moz-flex: initial;
+    -ms-flex: initial;
+    flex: initial;
+}
+.Books .Book .book-infos .title {
+    margin: 0;
+    font-size: 20px;
+}
+
+.Books .Book .book-infos p {
+    margin: 5px 0 0;
+}
+
+.Books .Book .book-infos .updated {
+    color: #737373;
+}
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.btn-group>.btn:first-child {
+    margin-left: 0;
+}
+.btn-group>.btn:first-child {
+    margin-left: 0;
+}
+.btn.btn-marketing-primary, a.btn.btn-marketing-primary {
+    color: #3884ff;
+    border-color: #3884ff;
+    background: 0 0;
+}
+.btn-group>.btn {
+    position: relative;
+    float: left;
+}
+.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
+    float: left;
+}
+.btn-group-vertical>.btn, .btn-group>.btn {
+    position: relative;
+    float: left;
+}
+
+
+/*文档欢迎页welcome*/
+.overview {
+    color: #333;
+    padding: 30px 0 15px;
+}
+.overview .overview-title {
+    margin: 0 0 10px;
+    font-weight: 500;
+    font-size: 20px;
+}
+.overview .overview-note {
+    color: #999;
+    margin: 0;
+}
+.overview .overview-title .overview-stepdivider {
+    display: inline-block;
+    padding: 6px;
+    font-weight: 400;
+    color: #b3b3b1;
+}
+.overview .overview-title .overview-steptitle.primary {
+    font-weight: 500;
+}
+.overview .overview-title .overview-steptitle {
+    display: inline-block;
+    padding: 6px;
+    border-radius: 5px;
+    font-weight: 400;
+}
+
+
+.pagehead .menu {
+    list-style: none;
+    zoom: 1;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.pull-left {
+    float: left!important;
+}
+
+.pagehead .menu li, .pagehead .menu li>a {
+    display: inline-block;
+
+}
+.BookPage .pagehead .menu li>a {
+    letter-spacing: .1em;
+}
+.pagehead .menu li.active>a {
+    padding-bottom: 17px;
+    border-width: 3px;
+    color: #4a4e57;
+    border-color: #3884ff;
+    font-weight: 700;
+}
+.gb-markdown dd, .pagehead .menu li:first-child>a {
+    margin-left: 0;
+}
+.pagehead .menu li>a {
+    color: #8c919b;
+    padding: 19px 15px;
+    margin-bottom: -1px;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: .2em;
+}
+.pagehead .menu li, .pagehead .menu li>a {
+    display: inline-block;
+}
+.pagehead, .pagehead .menu li>a {
+    border-bottom: 1px solid #e5e5e5;
+}
+.initialism, .label, .pagehead .menu li>a {
+    text-transform: uppercase;
+}
+
+
+
+.gb-page-body .gb-page-inner {
+    margin: 30px 0;
+}
+
+.panel.panel-default {
+    border-color: #e8eaed;
+}
+
+.panel .panel-body {
+    padding: 15px;
+}
+
+.blankslate.full-width {
+    max-width: 100%;
+    margin: 0;
+    padding: 80px;
+}
+
+.blankslate.full-width {
+    max-width: 100%;
+    margin: 0;
+    padding: 80px;
+}
+.blankslate {
+    width: 100%;
+    max-width: 400px;
+    margin: 80px auto;
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.blankslate .icon {
+    font-size: 54px;
+    line-height: 1.9em;
+    color: #b3b3b1;
+}
+
+
+hr.small {
+    width: 100%;
+    max-width: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.small, small {
+    font-size: 85%;
+}
+
+
+/*个人资料profile*/
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: block;
+    border-radius: 4px;
+}
+.overview .overview-meta {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+/*新建new*/
+#NewBook .AccountStatus {
+    margin: 30px auto 0;
+
+}
+
+.modal-wrapper {
+	/*width: 800px;
+    margin: 30px auto;*/
+
+    border: 1px solid #cccfd6;
+    box-shadow: 0 1px 2px #ddd;
+    border-radius: 4px;
+}
+
+.modal-heading {
+    position: relative;
+    padding: 15px;
+}
+.modal-body {
+    padding: 15px;
+}
+#NewBook .Templates {
+    padding-right: 15px;
+    /*border-right: 2px solid #eee;*/
+}
+#NewBook .Template {
+    cursor: pointer;
+    zoom: 1;
+    margin: 9px 0;
+    padding: 5px;
+    border-radius: 3px;
+}
+#NewBook .Template .TemplateImage {
+    float: left;
+    width: 104px;
+    HEIGHT: 78px;
+    margin-right: 10px;
+}
+#NewBook .Template .TemplateImage img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #fff;
+}
+#NewBook .Template .TemplateInfos {
+    margin-left: 114px;
+}
+
+.modal-footer {
+    border-top: 1px solid #e8eaed;
+    padding: 15px;
+    text-align: right;
+    width: 100%;
+}
+.btn-group.dropdown, .dropdown {
+    position: relative;
+    text-align: left;
+    color: #333;
+}
+.btn-group>.btn:first-child {
+    margin-left: 0;
+}
+.btn>.avatar.avatar-button, a.btn>.avatar.avatar-button {
+    width: 20px;
+    height: 20px;
+    display: block;
+    float: left;
+    margin-right: 6px;
+}
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    content: "";
+    vertical-align: -2px;
+    border: 4px solid #b3b3b1;
+    border-right-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+}
+
+
+
+.form-control {
+    width: 100%;
+    border: 1px solid #e8eaed;
+    background: #fff;
+    outline: 0;
+    color: #333;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+
+
+
+
+/*编辑edit*/
+#edit.navbar{
+	border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 3px 2px -2px rgba(200,200,200,.15);	
+    padding: 10px 0
+}

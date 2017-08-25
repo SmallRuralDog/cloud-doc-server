@@ -1,9 +1,5 @@
 <?php
 
-use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
 
 Route::any("/collect/jike", "JiKeController@content");
 Route::any("/collect/sc", "ShouCeController@collect");
@@ -28,10 +24,14 @@ Route::any("/git_book", "GitBookController@index");
 //Auth::routes();
 Route::group([
     'middleware' => ['web'],
-], function (Router $router) {
-    $router->any('/', 'HomeController@index');
-    $router->any('/login', 'Doc\UserController@login')->name('login');
-    $router->post('logout', 'Auth\LoginController@logout')->name('logout');
-    $router->any('/check_login', 'Doc\UserController@check_login')->name('check_login');
+], function () {
+    Route::any('/', 'Doc\HomeController@index')->name('index');
+    Route::any('/login', 'Doc\UserController@login')->name('login');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+    Route::any('/check_login', 'Doc\UserController@check_login')->name('check_login');
+
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('home','Doc\HomeController@home')->name("home");
+    });
 });
 
