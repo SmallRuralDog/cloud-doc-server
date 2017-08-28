@@ -85,7 +85,7 @@ class DocController extends Controller
         $page->doc_title = $page->doc()->first()->title;
         $page->increment("view_count");
 
-        $page->content = str_replace("\n\n```\n\n","\n```\n\n",$page->content);
+        $page->content = str_replace("\n\n```","\n```",$page->content);
 
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
