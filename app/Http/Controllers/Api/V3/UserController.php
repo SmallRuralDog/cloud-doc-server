@@ -42,7 +42,8 @@ class UserController extends BaseController
             'follow' => 0,
             'fans' => 0,
             'scan_code_title' => '扫一扫，登录网页版创建文档',
-            'doc' => $user_doc
+            'doc' => $user_doc,
+            'doc_page'=>$this->user_doc_page_collect()
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
@@ -127,7 +128,7 @@ class UserController extends BaseController
     }
 
 
-    public function user_doc_page_collect()
+    private function user_doc_page_collect()
     {
         $user = $this->get_user();
         $list = $user->likes(DocPage::class)->orderBy("followables.created_at", "desc")->get(['id','doc_id','title'])->toArray();
