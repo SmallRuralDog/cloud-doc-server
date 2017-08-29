@@ -13,6 +13,7 @@ use App\Models\Ad;
 use App\Models\Article;
 use App\Models\ArticleTag;
 use App\Models\Doc;
+use App\Models\DocBack;
 use App\Models\DocClass;
 use App\Models\DocClassTag;
 use App\Models\DocPage;
@@ -24,6 +25,10 @@ use Illuminate\Http\Request;
 class DocController extends BaseController
 {
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 云档首页接口
+     */
     public function index()
     {
         $swiper = Ad::query()->where('loca_id', 1)
@@ -50,6 +55,11 @@ class DocController extends BaseController
         return response()->json($res);
     }
 
+    /**
+     * 分类列表
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function doc_class_list(Request $request)
     {
         $page = $request->input("page", 1);
@@ -96,6 +106,11 @@ class DocController extends BaseController
         return response()->json($list);
     }
 
+    /**
+     * 文档详情
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function info(Request $request)
     {
         $doc_id = $request->input("doc_id");
@@ -122,6 +137,11 @@ class DocController extends BaseController
         return $this->api_return(200, '', $doc);
     }
 
+    /**
+     * 文档详情新版
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function info_2(Request $request)
     {
         $doc_id = $request->input("doc_id");
@@ -181,6 +201,11 @@ class DocController extends BaseController
         return response()->json($question_page);
     }
 
+    /**
+     * 文档阅读
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function doc_page(Request $request)
     {
         $doc_id = $request->input("doc_id");
@@ -198,6 +223,11 @@ class DocController extends BaseController
         return response()->json(['data' => $page, 'message' => '', 'status_code' => 1]);
     }
 
+    /**
+     * 阅读页目录
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function doc_page_menu(Request $request)
     {
         $doc_id = $request->input("doc_id");
@@ -306,5 +336,25 @@ class DocController extends BaseController
                 $this->_set_menu($v['children']);
             }
         }
+    }
+
+    public function doc_back(Request $request)
+    {
+        $this->validate($request,[
+            'id'=>'required',
+            'type'=>'required',
+            'content'=>'required|max:120'
+        ]);
+        $user = $this->get_user();
+        $page_id = $request->input("id");
+        $type = $request->input("type");
+        $content = $request->input("content");
+        $doc_back = DocBack::query()->create([
+            'user_id' => $user->id,
+            'doc_page_id' => $page_id,
+            'type' => $type,
+            'content' => $content
+        ]);
+        return response()->json(['data' => $doc_back, 'message' => '', 'status_code' => 1]);
     }
 }
