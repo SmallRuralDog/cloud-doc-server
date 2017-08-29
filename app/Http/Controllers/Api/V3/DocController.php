@@ -127,7 +127,7 @@ class DocController extends BaseController
             $doc->orderBy('id', 'desc')->limit(30);
         }
 
-        $doc_list = $doc->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+        $doc_list = $doc->paginate(15,['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
 
         foreach ($doc_list as $k => $v) {
             $doc_list[$k]->view_count = $v->doc_page()->sum("view_count");
