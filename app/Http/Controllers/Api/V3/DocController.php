@@ -114,14 +114,16 @@ class DocController extends BaseController
     public function doc_class_list_2(Request $request)
     {
         $page = $request->input("page", 1);
-
         $class_id = $request->input("class_id");
         $doc = Doc::query();
         $doc->where("state", "=", 1);
-
-
         if ($class_id > 1) {
-            $doc->where("doc_class_id", $class_id);
+            $ids = [intval($class_id)];
+            $s_ids =DocClass::getSubs(DocClass::query()->where('state',1)->get(),$class_id);
+            foreach ($s_ids as $id){
+                $ids[] = $id->id;
+            }
+            $doc->whereIn("doc_class_id", $ids);
             $doc->orderBy("order", "desc")->orderBy("id", "desc");
         } elseif ($class_id == -1) {
             $doc->orderBy('id', 'desc')->limit(30);
