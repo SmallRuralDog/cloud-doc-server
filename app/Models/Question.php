@@ -42,6 +42,7 @@ class Question extends Model
                 $doc_page = DocPage::query()->find($this->source_id);
                 $doc = $doc_page->doc()->first(['id','title','desc','cover','h_cover']);
                 $doc->title = $doc->title.'-'.str_limit($doc_page->title,25);
+                $doc->page_id = $doc_page->id;
                 break;
         }
 
