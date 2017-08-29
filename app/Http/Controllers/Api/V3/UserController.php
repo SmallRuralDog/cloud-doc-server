@@ -43,7 +43,7 @@ class UserController extends BaseController
             'fans' => 0,
             'scan_code_title' => '扫一扫，登录网页版创建文档',
             'doc' => $user_doc,
-            'doc_page'=>$this->user_doc_page_collect()
+            'doc_page' => $this->user_doc_page_collect()
         ];
 
         return $this->response->array(['status_code' => 200, 'message' => '', 'data' => $re]);
@@ -54,6 +54,7 @@ class UserController extends BaseController
         $user = $this->get_user();
         $data_id = $request->input("key");
         $type = $request->input("type");
+        $act = $request->input("act");
         if ($data_id <= 0 || !in_array($type, ['wenda', 'wenda-page', 'doc', 'doc-page'])) {
             return $this->api_return(0, '操作失败');
         }
@@ -73,7 +74,12 @@ class UserController extends BaseController
                 break;
             case 'doc-page':
                 $tag = DocPage::query()->find($data_id);
-                $res = $user->like($tag);
+                if ($act == 'unlike') {
+                    $res = $user->unlike($tag);
+                } else {
+                    $res = $user->like($tag);
+                }
+
                 break;
         }
         return $this->api_return(200, 'success', $res);
@@ -131,10 +137,10 @@ class UserController extends BaseController
     private function user_doc_page_collect()
     {
         $user = $this->get_user();
-        $list = $user->likes(DocPage::class)->orderBy("followables.created_at", "desc")->get(['id','doc_id','title'])->toArray();
-        foreach ($list as $k=>$v){
+        $list = $user->likes(DocPage::class)->orderBy("followables.created_at", "desc")->get(['id', 'doc_id', 'title'])->toArray();
+        foreach ($list as $k => $v) {
             unset($v['children']);
-            $v['doc'] = Doc::query()->find($v['doc_id'],['id','title','desc','cover','h_cover']);
+            $v['doc'] = Doc::query()->find($v['doc_id'], ['id', 'title', 'desc', 'cover', 'h_cover']);
             $list[$k] = $v;
         }
         return $list;
