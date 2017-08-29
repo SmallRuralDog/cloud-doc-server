@@ -38,7 +38,9 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         $api->get("article-index", "ArticleController@index");
         $api->get("article-page", "ArticleController@page");
         $api->post("article-collect", "ArticleController@collect");
+
         $api->get("class-list", "DocController@doc_class_list");
+        $api->get("class-list-2", "DocController@doc_class_list_2");
 
         $api->get("info", "DocController@info");
         $api->get("doc-info-2", "DocController@info_2");

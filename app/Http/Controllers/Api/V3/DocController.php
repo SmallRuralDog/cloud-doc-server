@@ -107,6 +107,36 @@ class DocController extends BaseController
     }
 
     /**
+     * 分类列表-2
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function doc_class_list_2(Request $request)
+    {
+        $page = $request->input("page", 1);
+
+        $class_id = $request->input("class_id");
+        $doc = Doc::query();
+        $doc->where("state", "=", 1);
+
+
+        if ($class_id > 1) {
+            $doc->where("doc_class_id", $class_id);
+            $doc->orderBy("order", "desc")->orderBy("id", "desc");
+        } elseif ($class_id == -1) {
+            $doc->orderBy('id', 'desc')->limit(30);
+        }
+
+        $doc_list = $doc->get(['id', 'title', 'desc', 'cover', 'is_end', 'is_hot', 'doc_class_id']);
+
+        foreach ($doc_list as $k => $v) {
+            $doc_list[$k]->view_count = $v->doc_page()->sum("view_count");
+        }
+
+
+        return response()->json($doc_list);
+    }
+    /**
      * 文档详情
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
