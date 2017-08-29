@@ -355,6 +355,6 @@ class DocController extends BaseController
             'type' => $type,
             'content' => $content
         ]);
-        return response()->json(['data' => $doc_back, 'message' => '', 'status_code' => 1]);
+        return response()->json(['data' => $doc_back, 'message' => '提交成功', 'status_code' => 1]);
     }
 }
