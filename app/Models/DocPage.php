@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Overtrue\LaravelFollow\Traits\CanBeLiked;
 
 class DocPage extends Model
 {
+    use CanBeLiked;
 
     protected $table = 'doc_page';
     protected $guarded = [];

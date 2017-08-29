@@ -126,6 +126,19 @@ class UserController extends BaseController
 
     }
 
+
+    public function user_doc_page_collect()
+    {
+        $user = $this->get_user();
+        $list = $user->likes(DocPage::class)->orderBy("followables.created_at", "desc")->get(['id','doc_id','title'])->toArray();
+        foreach ($list as $k=>$v){
+            unset($v['children']);
+            $v['doc'] = Doc::query()->find($v['doc_id'],['id','title','desc','cover','h_cover']);
+            $list[$k] = $v;
+        }
+        return $list;
+    }
+
     public function scan_login(Request $request)
     {
         $key = $request->input("key");
