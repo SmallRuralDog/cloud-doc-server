@@ -18,7 +18,6 @@ class Question extends Model
     const list_filed = ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count','source','source_id'];
     //protected $appends = ['source_info'];
 
-
     public function getPicsArrAttribute()
     {
         $pics = json_decode($this->pics);
