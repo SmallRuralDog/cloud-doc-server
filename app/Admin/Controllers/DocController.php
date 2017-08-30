@@ -80,9 +80,9 @@ class DocController extends Controller
             $grid->order('排序')->sortable()->editable();
             $grid->column('cover','封面')->image(null,50,75);
             $grid->doc_class()->title("所属分类");
-            $grid->column("title","文档名称");
+            $grid->column("title","文档名称")->editable();
             //$grid->column("desc","文档描述");
-            $grid->column("source","文档来源");
+            $grid->column("source","文档来源")->editable();
             $grid->column("is_end","是否完结")->switch();
             $grid->column("is_hot","是否推荐")->switch();
             $grid->column("state","状态")->switch();
