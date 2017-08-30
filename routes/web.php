@@ -7,6 +7,10 @@ Route::any("/collect/ky", "KanYunController@collect");
 Route::any("/collect/wk", "WuKongController@collect");
 
 
+Route::any("/collect/doc", "DocCollectController@collect_doc");
+
+
+
 //w3c
 Route::any("/w3c-list", "W3cSchoolController@get_list");
 Route::any("/collect/w3c", "W3cSchoolController@collect");

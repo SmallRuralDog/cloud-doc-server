@@ -15,6 +15,8 @@ class Doc extends Model
 
     protected $appends = ['cover_url','h_cover_url'];
 
+    protected $guarded = [];
+
     public function doc_class()
     {
         return $this->belongsTo(DocClass::class);

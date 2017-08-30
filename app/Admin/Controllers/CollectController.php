@@ -357,8 +357,7 @@ class CollectController extends Controller
             return $item;
         });
         $host = "http://www.shouce.ren";
-        $msn = new AliMNS();
-        $msn->create("cloud-doc-collect-sc", "cloud-doc-collect-sc", "https://cloud-doc.leyix.com/collect/sc");
+
         foreach ($data as $k => $v) {
             if ($v['href'] == "#" || empty($v['href'])) {
                 $collect_id = md5($doc_id . $v['title'] . $v['href']);
@@ -381,7 +380,6 @@ class CollectController extends Controller
                 'collect_state' => $collect_state
             ]);
 
-            $msn->send_message("cloud-doc-collect-sc", $page_1->id);
             if (!empty($v['list']) && $page_1->id > 0) {
                 foreach ($v['list'] as $kk => $vv) {
                     if ($vv['href'] == "#" || empty($vv['href'])) {
@@ -404,7 +402,6 @@ class CollectController extends Controller
                         'collect_url' => $vv['href'],
                         'collect_state' => $collect_state
                     ]);
-                    $msn->send_message("cloud-doc-collect-sc", $page_2->id);
                     if (!empty($vv['list']) && $page_2->id > 0) {
                         foreach ($v['list'] as $kkk => $vvv) {
                             if ($vvv['href'] == "#" || empty($vv['href'])) {
@@ -427,7 +424,6 @@ class CollectController extends Controller
                                 'collect_url' => $vvv['href'],
                                 'collect_state' => $collect_state
                             ]);
-                            $msn->send_message("cloud-doc-collect-sc", $page_3->id);
                         }
                     }
                 }
