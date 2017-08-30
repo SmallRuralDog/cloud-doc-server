@@ -15,6 +15,7 @@
         "laravel/tinker": "~1.0",
         "league/html-to-markdown": "^4.4",
         "overtrue/laravel-follow": "^1.1",
+        "overtrue/wechat": "~3.1",
         "simplesoftwareio/simple-qrcode": "~1",
         "tymon/jwt-auth": "0.5.*",
         "zgldh/qiniu-laravel-storage": "^0.6.7"

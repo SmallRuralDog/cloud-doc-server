@@ -37,6 +37,7 @@ class Question extends Model
         switch ($source) {
             case 'doc':
                 $doc = Doc::query()->find($this->source_id,['id','title','desc','cover','h_cover']);
+                $doc->page_id = 0;
                 break;
             case 'doc-page':
                 $doc_page = DocPage::query()->find($this->source_id);
