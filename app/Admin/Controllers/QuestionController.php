@@ -94,6 +94,7 @@ class QuestionController extends Controller
 
             $form->text('title');
             $form->textarea('desc');
+            $form->number('user_id');
             $form->switch('state');
 
         });
