@@ -29,6 +29,13 @@ class Question extends Model
         return $arr;
     }
 
+    public function setPicsAttribute($pictures)
+    {
+        if (is_array($pictures)) {
+            $this->attributes['pics'] = json_encode($pictures);
+        }
+    }
+
     public function getSourceInfoAttribute()
     {
         $source = $this->source;
