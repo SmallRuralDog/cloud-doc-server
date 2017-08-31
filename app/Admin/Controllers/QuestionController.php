@@ -95,6 +95,7 @@ class QuestionController extends Controller
             $form->text('title');
             $form->textarea('desc');
             $form->number('user_id');
+            $form->multipleImage('pics');
             $form->switch('state');
 
         });
