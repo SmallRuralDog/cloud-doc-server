@@ -81,6 +81,7 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
             $api->any("search-tag","WebController@search_tag");
             $api->any("article","ArticleController@index");
             $api->any("article-post","ArticleController@article_post");
+            $api->any("article-edit","ArticleController@article_edit");
         });
     });
 

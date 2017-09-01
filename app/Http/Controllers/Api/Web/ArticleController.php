@@ -22,13 +22,25 @@ class ArticleController extends BaseController
         $page = $request->input("page", 1);
         $tag_id = $request->input("tag_id", 0);
         $article = Article::query();
-        $article->where('user_id',$user->id);
+        $article->where('user_id', $user->id);
         $article->orderBy('created_at', 'desc');
-        $list = $article->paginate(20, ['id', 'title', 'desc', 'cover', 'view_count', 'created_at','check_state','check_info','state']);
+        $list = $article->paginate(20, ['id', 'title', 'desc', 'cover', 'view_count', 'created_at', 'check_state', 'check_info', 'state']);
         foreach ($list as $v) {
             $v->tags = $v->tags()->get(['name']);
         }
         return $this->api_return(200, '', $list);
+    }
+
+    public function article_edit(Request $request)
+    {
+        $user = $this->get_user();
+        $id = $request->input("id");
+
+        $article = Article::query()->where("user_id", $user->id)->findOrFail($id);
+
+        $article->tags;
+
+        return $this->api_return(200, '', $article);
     }
 
 
@@ -40,7 +52,7 @@ class ArticleController extends BaseController
             'data.title' => 'required',
             'data.content' => 'required'
         ]);
-        $id = $request->input("id", 0);
+        $id = $request->input("data.id", 0);
         $title = $request->input("data.title");
         $desc = $request->input("data.desc");
         $content = $request->input("data.content");
@@ -74,6 +86,7 @@ class ArticleController extends BaseController
         }
         if ($article->id > 0) {
             if (is_array($tags)) {
+                ArticleTag::query()->where('article_id', $article->id)->delete();
                 foreach ($tags as $v) {
                     $ck = ArticleTag::query()->where('article_id', $article->id)->where('tag_id', $v)->first();
                     if (empty($ck)) {
@@ -85,7 +98,7 @@ class ArticleController extends BaseController
                 }
             }
         }
-        return $this->api_return(200, '保存成功');
+        return $this->api_return(200, '保存成功',$article->id);
     }
 
 }
