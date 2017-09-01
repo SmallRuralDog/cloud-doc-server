@@ -21,16 +21,17 @@ class HomeController extends Controller
     }
 
 
-    public function home(){
+    public function home()
+    {
 
         $user = auth()->user();
-        $token = Cache::get('token', function () use ($user) {
+        $token = Cache::get('token-' . $user->id, function () use ($user) {
             $token = JWTAuth::fromUser($user);
-            Cache::put('token',$token,86400);
+            Cache::put('token-' . $user->id, $token, 86400);
             return $token;
         });
         $res['token'] = $token;
 
-        return view('Doc.vue-index',$res);
+        return view('Doc.vue-index', $res);
     }
 }
