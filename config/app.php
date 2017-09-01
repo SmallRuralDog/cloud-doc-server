@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://cloud-doc.leyix.com'),
+    'url' => env('APP_URL', 'https://cloud-doc.leyix.com'),
 
     /*
     |--------------------------------------------------------------------------
