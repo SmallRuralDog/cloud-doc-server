@@ -19,7 +19,6 @@ class ArticleController extends BaseController
     public function index(Request $request)
     {
         $user = $this->get_user();
-        return $user;
         $page = $request->input("page", 1);
         $tag_id = $request->input("tag_id", 0);
         $article = Article::query();
