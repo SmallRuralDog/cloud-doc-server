@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Doc;
 
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use JWTAuth;
 
 class HomeController extends Controller
 {
@@ -20,6 +22,15 @@ class HomeController extends Controller
 
 
     public function home(){
-        return view('Doc.home');
+
+        $user = auth()->user();
+        $token = Cache::get('token', function () use ($user) {
+            $token = JWTAuth::fromUser($user);
+            Cache::put('token',$token,86400);
+            return $token;
+        });
+        $res['token'] = $token;
+
+        return view('Doc.vue-index',$res);
     }
 }

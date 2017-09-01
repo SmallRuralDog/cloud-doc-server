@@ -29,13 +29,14 @@ Route::any("/git_book", "GitBookController@index");
 Route::group([
     'middleware' => ['web'],
 ], function () {
-    Route::any('/', 'Doc\HomeController@index')->name('index');
+
     Route::any('/login', 'Doc\UserController@login')->name('login');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
     Route::any('/check_login', 'Doc\UserController@check_login')->name('check_login');
 
     Route::group(['middleware' => ['auth']], function () {
-        Route::get('home','Doc\HomeController@home')->name("home");
+        Route::any('/', 'Doc\HomeController@home')->name('index');
+        //Route::get('home','Doc\HomeController@home')->name("home");
     });
 });
 
