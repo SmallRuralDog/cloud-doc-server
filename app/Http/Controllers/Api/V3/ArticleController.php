@@ -30,6 +30,8 @@ class ArticleController extends Controller
             }
         }
 
+        $article->where('check_state',1)->where('state',1);
+
         $article->orderBy('source_time','desc');
 
 

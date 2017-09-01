@@ -70,4 +70,18 @@ $api->version(['v1', 'v2'], function (Dingo\Api\Routing\Router $api) {
         });
     });
 
+
+    //V3版本
+    $api->group([
+        'namespace' => '\App\Http\Controllers\Api\Web',
+        'middleware' => [],
+        'prefix' => 'web'
+    ], function (Dingo\Api\Routing\Router $api) {
+        $api->group(['middleware' => ['before' => 'jwt.auth']], function (Dingo\Api\Routing\Router $api) {
+            $api->any("search-tag","WebController@search_tag");
+            $api->any("article","ArticleController@index");
+            $api->any("article-post","ArticleController@article_post");
+        });
+    });
+
 });
