@@ -28,7 +28,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
      *
      * @var string
      */
-    const VERSION = '5.4.34';
+    const VERSION = '5.4.36';
 
     /**
      * The base path for the Laravel installation.
@@ -668,7 +668,7 @@ class Application extends Container implements ApplicationContract, HttpKernelIn
      * Register a deferred provider and service.
      *
      * @param  string  $provider
-     * @param  string  $service
+     * @param  string|null  $service
      * @return void
      */
     public function registerDeferredProvider($provider, $service = null)
