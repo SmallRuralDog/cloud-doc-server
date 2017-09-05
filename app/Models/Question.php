@@ -15,16 +15,19 @@ class Question extends Model
 
     protected $guarded = [];
 
-    const list_filed = ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count','source','source_id'];
+    const list_filed = ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count', 'source', 'source_id'];
+
     //protected $appends = ['source_info'];
 
     public function getPicsArrAttribute()
     {
         $pics = json_decode($this->pics);
         $arr = [];
-        foreach ($pics as $k => $path) {
-            $arr[$k]['thumb'] = Thumb::getThumb($path, "200x200");
-            $arr[$k]['path'] = Thumb::getThumb($path);
+        if (is_array($pics) && count($pics) > 0) {
+            foreach ($pics as $k => $path) {
+                $arr[$k]['thumb'] = Thumb::getThumb($path, "200x200");
+                $arr[$k]['path'] = Thumb::getThumb($path);
+            }
         }
         return $arr;
     }
@@ -42,13 +45,13 @@ class Question extends Model
         $doc = [];
         switch ($source) {
             case 'doc':
-                $doc = Doc::query()->find($this->source_id,['id','title','desc','cover','h_cover']);
+                $doc = Doc::query()->find($this->source_id, ['id', 'title', 'desc', 'cover', 'h_cover']);
                 $doc->page_id = 0;
                 break;
             case 'doc-page':
                 $doc_page = DocPage::query()->find($this->source_id);
-                $doc = $doc_page->doc()->first(['id','title','desc','cover','h_cover']);
-                $doc->title = $doc->title.'-'.str_limit($doc_page->title,25);
+                $doc = $doc_page->doc()->first(['id', 'title', 'desc', 'cover', 'h_cover']);
+                $doc->title = $doc->title . '-' . str_limit($doc_page->title, 25);
                 $doc->page_id = $doc_page->id;
                 break;
         }
