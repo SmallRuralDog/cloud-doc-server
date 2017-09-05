@@ -110,7 +110,6 @@ class QuestionController extends BaseController
         if (is_array($pics) && count($pics) > 0) {
             $img = UploadTemp::query()->whereIn('key', $pics)->orderBy('index')->limit(9)->get(['path'])->pluck('path');
         }
-
         $question = Question::query()->create([
             'user_id' => $user->id,
             'parent_id' => $parent_id,
