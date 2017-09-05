@@ -18,10 +18,13 @@ class Question extends Model
     const list_filed = ['id', 'user_id', 'title', 'pics', 'created_at', 'view_count', 'source', 'source_id'];
 
     //protected $appends = ['source_info'];
+    protected $casts = [
+        'pics'=>'array'
+    ];
 
     public function getPicsArrAttribute()
     {
-        $pics = json_decode($this->pics);
+        $pics = $this->pics;
         $arr = [];
         if (is_array($pics) && count($pics) > 0) {
             foreach ($pics as $k => $path) {
@@ -32,12 +35,12 @@ class Question extends Model
         return $arr;
     }
 
-    public function setPicsAttribute($pictures)
+    /*public function setPicsAttribute($pictures)
     {
         if (is_array($pictures)) {
             $this->attributes['pics'] = json_encode($pictures);
         }
-    }
+    }*/
 
     public function getSourceInfoAttribute()
     {

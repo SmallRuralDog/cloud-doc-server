@@ -118,7 +118,7 @@ class QuestionController extends BaseController
             'desc' => $desc,
             'source' => $source,
             'source_id' => $source_id,
-            'pics' => json_encode($img),
+            'pics' => $img,
             'state' => 1
         ]);
         if ($question->id > 0) {
