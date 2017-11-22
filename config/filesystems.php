@@ -70,8 +70,8 @@ return [
                 'https'     => '',         //你的HTTPS域名
                 'custom'    => 'http://cloud-doc-img.leyix.com',                //你的自定义域名
             ],
-            'access_key'=> 'p_WdmX27Az885e58l2JjtxtN5lw0o6GiDh0fRzPy',  //AccessKey
-            'secret_key'=> 'PRZbqLs5YXQ3lt2U4LgleWM3PIOQodVv220RGeFc',  //SecretKey
+            'access_key'=> '',  //AccessKey
+            'secret_key'=> '',  //SecretKey
             'bucket'    => 'cloud-doc',  //Bucket名字
             'notify_url'=> '',  //持久化处理回调地址
             'access'    => 'public'  //空间访问控制 public 或 private
