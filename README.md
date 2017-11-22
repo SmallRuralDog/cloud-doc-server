@@ -74,6 +74,7 @@
 - 代码上传服务器
 - 根目录 storage 目录可写权限
 - 域名解析到 public目录 并配好laravel伪静态
+- 如果能访问后台那么就说明安装成功  默认的账号和密码 都是 `admin`
 ```
 location / {
     try_files $uri $uri/ /index.php?$query_string;
