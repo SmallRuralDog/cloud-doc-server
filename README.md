@@ -1,7 +1,7 @@
 # 云档小程序服务端代码
 ## 运行环境 
-- PHP 7.0 或更高
-- nginx  
+- PHP 7.1 或更高    低版本在小程序登陆的时候报错mcrypt_module_open
+- nginx  
 - mysql 5.6 或更高
 
 
