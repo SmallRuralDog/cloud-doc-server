@@ -43,6 +43,7 @@
     'access'    => 'public'  //空间访问控制 public 或 private
 ]
 ```
+如果用本地存储图片，这里只要配置域名
 - 修改根目录`config`文件夹下面的 `app.php`
 ```
 'url' => env('APP_URL', 'https://cloud-doc.leyix.com'),//改成你的域名
@@ -52,8 +53,8 @@
  'prefix'    => 'admin',//后台地址前缀 这里是什么  后台地址就是 www.xxxxx.com/你设置的后缀
  
  'upload'  => [
-    'disk' => 'qiniu',
-    'directory'  => [
+    'disk' => 'qiniu',//本地换成public
+    'directory'  => [
         'image'  => 'image',
         'file'   => 'file',
     ],
