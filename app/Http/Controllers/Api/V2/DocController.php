@@ -119,8 +119,8 @@ class DocController extends Controller
         $start = ($page - 1) * 20;
 
 
-        $access_key = "GOkscSXVTLkhIenG";
-        $secret = "OnumvS4eeijYaMlEZLok48ISMvStc9";
+        $access_key = "";
+        $secret = "";
         $host = "http://opensearch-cn-hangzhou.aliyuncs.com";//根据自己的应用区域选择API
         $key_type = "aliyun";  //固定值，不必修改
         $opts = array('host' => $host);
